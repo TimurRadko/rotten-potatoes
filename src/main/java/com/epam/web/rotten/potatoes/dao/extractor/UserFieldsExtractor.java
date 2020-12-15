@@ -1,0 +1,33 @@
+package com.epam.web.rotten.potatoes.dao.extractor;
+
+import com.epam.web.rotten.potatoes.model.Rights;
+import com.epam.web.rotten.potatoes.model.User;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class UserFieldsExtractor implements FieldsExtractor<User> {
+    private Map<Integer, Object> fields = new HashMap<>();
+    private static final int ID = 1;
+    private static final int LOGIN = 2;
+    private static final int PASSWORD = 3;
+    private static final int RIGHTS = 4;
+    private static final int RATE = 5;
+
+    @Override
+    public Map<Integer, Object> extract(User user) {
+        int id = user.getId();
+        fields.put(ID, id);
+        String login = user.getLogin();
+        fields.put(LOGIN, login);
+        String password = user.getPassword();
+        fields.put(PASSWORD, password);
+        Rights rights = user.getRights();
+        fields.put(RIGHTS, rights);
+
+        double rate = user.getRate();
+        fields.put(RATE, rate);
+
+        return fields;
+    }
+}
