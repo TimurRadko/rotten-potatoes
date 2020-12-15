@@ -1,0 +1,19 @@
+# Default ignored files
+/workspace.xml
+
+# Java files
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+target/
+test-output/
+
+# Idea
+*.iml
+[Tt]humbs.db
+/.idea/
+.idea/
+/logs/
