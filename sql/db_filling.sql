@@ -56,3 +56,5 @@ SELECT COUNT(*) FROM films;
 SELECT * FROM films WHERE id = 5;
 
 SELECT * FROM films WHERE id=4;
+
+SELECT * FROM user_actions;

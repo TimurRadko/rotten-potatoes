@@ -10,12 +10,15 @@ import java.sql.Connection;
 import java.util.Optional;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
+    private static final UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
+    private static final UserFieldsExtractor USER_FIELDS_EXTRACTOR = new UserFieldsExtractor();
     private static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM users WHERE login = ? AND password = SHA1(?)";
     private static final String TABLE_NAME = "users";
+
     private static final String UPDATE_USER = "";
 
     public UserDaoImpl(Connection connection) {
-        super(connection, new UserRowMapper(), new UserFieldsExtractor(), TABLE_NAME, UPDATE_USER);
+        super(connection, USER_ROW_MAPPER, USER_FIELDS_EXTRACTOR, TABLE_NAME, UPDATE_USER);
     }
 
     @Override

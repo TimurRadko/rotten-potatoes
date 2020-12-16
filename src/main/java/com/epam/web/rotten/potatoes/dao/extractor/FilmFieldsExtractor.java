@@ -5,7 +5,7 @@ import com.epam.web.rotten.potatoes.model.Film;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FilmsFieldsExtractor implements FieldsExtractor<Film> {
+public class FilmFieldsExtractor implements FieldsExtractor<Film> {
     private Map<Integer, Object> fields = new HashMap<>();
     private static final int ID = 1;
     private static final int TITLE = 2;

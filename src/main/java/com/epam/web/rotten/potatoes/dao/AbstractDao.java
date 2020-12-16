@@ -5,10 +5,7 @@ import com.epam.web.rotten.potatoes.exceptions.DaoException;
 import com.epam.web.rotten.potatoes.dao.mapper.RowMapper;
 import com.epam.web.rotten.potatoes.model.Entity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +16,11 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     private final RowMapper<T> mapper;
     private final FieldsExtractor<T> fieldsExtractor;
     private final String tableName;
-    private static final String ID = "id";
     private String query;
+
+    private static final String GET_BY_ID = "SELECT * FROM %s WHERE id = ?";
+    private static final String GET_ALL = "SELECT * FROM %s";
+    private static final String REMOVE_BY_ID = "DELETE * FROM %s WHERE id = ?";
 
     protected AbstractDao(Connection connection, RowMapper<T> mapper, FieldsExtractor<T> fieldsExtractor, String tableName, String query) {
         this.connection = connection;
@@ -54,21 +54,26 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
     @Override
     public Optional<T> getById(Integer id) throws DaoException {
-        return executeForSingleResult("SELECT * FROM " + tableName + " WHERE id=?", id);
+        String query = String.format(GET_BY_ID, tableName);
+        return executeForSingleResult(query, id);
     }
 
     @Override
     public List<T> getAll() throws DaoException {
-        return executeQuery("SELECT * FROM " + tableName);
+        String query = String.format(GET_ALL, tableName);
+        return executeQuery(query);
     }
 
     @Override
     public void remove(int id) throws DaoException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException(e.getMessage(), e);
-        }
+        String query = String.format(REMOVE_BY_ID, tableName);
+        executeForSingleResult(query, id);
+    }
+
+    @Override
+    public int save(T item) throws DaoException {
+        Map<Integer, Object> fields = fieldsExtractor.extract(item);
+        return executeUpdate(query, fields);
     }
 
     protected Optional<T> executeForSingleResult(String query, Object... params) throws DaoException {
@@ -82,22 +87,21 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         }
     }
 
-    @Override
-    public int save(T item) throws DaoException {
-        Map<Integer, Object> fields = fieldsExtractor.extract(item);
-        return execute(query, fields);
-    }
-
-    private int execute(String query, Map<Integer, Object> fields) throws DaoException {
-        int generatedKey;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+    private int executeUpdate(String query, Map<Integer, Object> fields) throws DaoException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             for (Integer key : fields.keySet()) {
                 preparedStatement.setObject(key, fields.get(key));
             }
-            generatedKey = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+
+            ResultSet result = preparedStatement.getGeneratedKeys();
+            if (result.next()) {
+                return result.getInt(1);
+            } else {
+                throw new DaoException("No any auto generated keys");
+            }
         } catch (SQLException e) {
             throw new DaoException(e.getMessage(), e);
         }
-        return generatedKey;
     }
 }

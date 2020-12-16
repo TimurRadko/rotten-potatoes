@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
@@ -17,9 +17,10 @@
     <jsp:include page="parts/leftbar.jsp"/>
 
     <section id="main">
-        <p><fmt:message key="home.user.login"/> <c:out value="${sessionScope.login}" /></p>
-        <p><fmt:message key="home.user.rate"/> <c:out value="${sessionScope.rate}" /></p>
-        <p><fmt:message key="home.user.rights"/> <c:out value="${sessionScope.rights}" /></p>
+        <p align="center"><fmt:message key="home.user.login"/> <c:out value="${sessionScope.login}"/></p>
+        <p align="center"><fmt:message key="home.user.rate"/> <c:out value="${sessionScope.rate}"/> <fmt:message
+                key="home.user.rate.description"/></p>
+        <p align="center"><fmt:message key="home.user.rights"/> <c:out value="${sessionScope.rights}"/></p>
     </section>
 </div>
 <jsp:include page="parts/footer.jsp"/>

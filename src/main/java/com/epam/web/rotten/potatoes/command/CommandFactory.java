@@ -2,6 +2,7 @@ package com.epam.web.rotten.potatoes.command;
 
 import com.epam.web.rotten.potatoes.command.impl.*;
 import com.epam.web.rotten.potatoes.dao.helper.DaoHelperFactory;
+import com.epam.web.rotten.potatoes.service.action.UserActionServiceImpl;
 import com.epam.web.rotten.potatoes.service.film.FilmServiceImpl;
 import com.epam.web.rotten.potatoes.service.user.UserServiceImpl;
 
@@ -34,6 +35,7 @@ public class CommandFactory {
     private static final String SORT_FILMS = "sort-films";
     private static final String FILM_HOME = "film-home";
     private static final String USER_EDIT = "admin-user-edit";
+    private static final String ADD_REVIEW_AND_RATE = "review-rate";
 
     public static Command create(String command) {
         switch(command) {
@@ -51,6 +53,8 @@ public class CommandFactory {
                 return new GoToPage(COMMENT_PAGE);
             case GO_TO_FILM_HOME:
                 return new GoToPage(FILM_HOME_PAGE);
+            case ADD_REVIEW_AND_RATE:
+                return new AddFilmRateAndReview(new UserActionServiceImpl(new DaoHelperFactory()));
             case LOGIN:
                 return new Login(new UserServiceImpl(new DaoHelperFactory()));
             case LOGOUT:

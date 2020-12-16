@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class UserActionFieldsExtractor implements FieldsExtractor<UserAction> {
     private Map<Integer, Object> fields = new HashMap<>();
-    private static final int ID = 1;
+    private static final Integer ID = 1;
     private static final int FILM_RATE = 2;
     private static final int REVIEW = 3;
     private static final int USER_ID = 4;
@@ -15,7 +15,7 @@ public class UserActionFieldsExtractor implements FieldsExtractor<UserAction> {
 
     @Override
     public Map<Integer, Object> extract(UserAction userAction) {
-        int id = userAction.getId();
+        Integer id = userAction.getId();
         fields.put(ID, id);
         double filmRate = userAction.getFilmRate();
         fields.put(FILM_RATE, filmRate);

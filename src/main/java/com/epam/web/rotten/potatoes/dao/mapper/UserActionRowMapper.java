@@ -9,17 +9,16 @@ public class UserActionRowMapper implements RowMapper<UserAction> {
     private static final String ID = "id";
     private static final String FILM_RATE = "films-rate";
     private static final String REVIEW = "review";
+    private static final String USER_ID = "user_id";
+    private static final String FILM_ID = "film_id";
 
     @Override
     public UserAction map(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(ID);
         int rate = resultSet.getInt(FILM_RATE);
         String review = resultSet.getString(REVIEW);
-
-        //TODO: Correct these two statements
-        int userId = resultSet.getInt("user_id");
-        int filmId = resultSet.getInt("film_id");
-
+        int userId = resultSet.getInt(USER_ID);
+        int filmId = resultSet.getInt(FILM_ID);
         return new UserAction(id, rate, review, userId, filmId);
     }
 }

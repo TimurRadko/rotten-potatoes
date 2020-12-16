@@ -13,6 +13,7 @@ import java.util.Optional;
 public class Login implements Command {
     private final UserServiceImpl userServiceImpl;
 
+    private static final String ID_PARAMETER = "user_id";
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
     private static final String RIGHTS_PARAMETER = "rights";
@@ -45,9 +46,11 @@ public class Login implements Command {
     }
 
     private void setSessionUserData(RequestContext requestContext, User sessionUser) {
+        int id = sessionUser.getId();
         String login = sessionUser.getLogin();
         Rights rights = sessionUser.getRights();
         double rate = sessionUser.getRate();
+        requestContext.setSessionAttribute(ID_PARAMETER, id);
         requestContext.setSessionAttribute(LOGIN_PARAMETER, login);
         requestContext.setSessionAttribute(RIGHTS_PARAMETER, rights);
         requestContext.setSessionAttribute(RATE_PARAMETER, rate);

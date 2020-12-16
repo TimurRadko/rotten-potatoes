@@ -15,6 +15,7 @@ public class GetFilmById implements Command {
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
     private static final String MAIN_PAGE = "WEB-INF/views/main.jsp";
 
+    private static final String FILM_ID_PARAMETER = "film_id";
     private static final String TITLE_PARAMETER = "title";
     private static final String DIRECTOR_PARAMETER = "director";
     private static final String POSTER_PARAMETER = "poster";
@@ -33,16 +34,17 @@ public class GetFilmById implements Command {
             setSessionFilmData(requestContext, sessionFilm);
             return CommandResult.forward(FILM_HOME_PAGE);
         } else {
-            //TODO: think about redirecting
             return CommandResult.forward(MAIN_PAGE);
         }
     }
 
     private void setSessionFilmData(RequestContext requestContext, Film sessionFilm) {
+        int id = sessionFilm.getId();
         String title = sessionFilm.getTitle();
         String director = sessionFilm.getDirector();
         String poster = sessionFilm.getPoster();
         double avgRate = sessionFilm.getAvgRate();
+        requestContext.setSessionAttribute(FILM_ID_PARAMETER, id);
         requestContext.setSessionAttribute(TITLE_PARAMETER, title);
         requestContext.setSessionAttribute(DIRECTOR_PARAMETER, director);
         requestContext.setSessionAttribute(POSTER_PARAMETER, poster);

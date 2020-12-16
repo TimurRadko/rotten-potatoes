@@ -1,7 +1,7 @@
 package com.epam.web.rotten.potatoes.model;
 
 public class UserAction implements Entity {
-    private int id;
+    private Integer id;
     private double filmRate;
     private String review;
     private int userId;
@@ -10,7 +10,7 @@ public class UserAction implements Entity {
     public UserAction() {
     }
 
-    public UserAction(int id, double filmRate, String review, int userId, int filmId) {
+    public UserAction(Integer id, double filmRate, String review, int userId, int filmId) {
         this.id = id;
         this.filmRate = filmRate;
         this.review = review;
@@ -18,11 +18,11 @@ public class UserAction implements Entity {
         this.filmId = filmId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
