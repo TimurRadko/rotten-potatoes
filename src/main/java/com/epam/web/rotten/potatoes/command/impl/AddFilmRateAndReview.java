@@ -13,9 +13,11 @@ public class AddFilmRateAndReview implements Command {
     private static final String REVIEW_PARAMETER = "review";
     private static final String USER_ID_PARAMETER = "user_id";
     private static final String FILM_ID_PARAMETER = "film_id";
-    private static final String MAIN_PAGE = "WEB-INF/views/main.jsp";
     private static final String GO_TO_FILM_HOME = "/rotten-potatoes/controller?command=goToFilmHome";
+    private static final String GO_TO_REVIEW = "/rotten-potatoes/controller?command=goToReview";
 
+    private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
+    private static final String ERROR_MESSAGE_VALUE = "error";
 
     public AddFilmRateAndReview(UserActionServiceImpl userActionService) {
         this.userActionService = userActionService;
@@ -25,12 +27,14 @@ public class AddFilmRateAndReview implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         int userId = (Integer) requestContext.getSessionAttribute(USER_ID_PARAMETER);
         int filmId = (Integer) requestContext.getSessionAttribute(FILM_ID_PARAMETER);
+        String rateString = requestContext.getRequestParameter(FILM_RATE_PARAMETER);
+        int rate = Integer.parseInt(rateString);
+        String review = requestContext.getRequestParameter(REVIEW_PARAMETER);
 
-//        String filmRateString = requestContext.getRequestParameter(FILM_RATE_PARAMETER);
-//        int filmRate = Integer.parseInt(filmRateString);
-        int rate = 10;
-        String review = "Hello";
-//        String review = requestContext.getRequestParameter(REVIEW_PARAMETER);
+        if (review.isEmpty()) {
+            requestContext.setSessionAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_MESSAGE_VALUE);
+            return CommandResult.redirect(GO_TO_REVIEW);
+        }
 
         UserAction userAction = new UserAction(null, rate, review,  userId, filmId);
         userActionService.addReviewAndRate(userAction);

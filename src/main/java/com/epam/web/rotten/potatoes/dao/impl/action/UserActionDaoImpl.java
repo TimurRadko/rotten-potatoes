@@ -23,7 +23,7 @@ public class UserActionDaoImpl extends AbstractDao<UserAction> implements UserAc
     }
 
     @Override
-    public List<Film> getCommentsByFilmsId(int id) {
-        return null;
+    public List<UserAction> getReviewsByFilmId(int id) throws DaoException {
+        return executeQuery(GET_COMMENTS_BY_FILMS_ID, id);
     }
 }
