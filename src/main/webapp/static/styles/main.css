@@ -49,6 +49,7 @@ header {
 h1 {
     font-size: 120%;
     color: darkred;
+    text-align: center;
 }
 
 /******************************************************************/
@@ -74,6 +75,7 @@ h1 {
 
 .navbar a.navbar-login {
     float: right;
+    text-align: center;
 }
 
 /* The dropdown container */
@@ -105,7 +107,7 @@ h1 {
     position: absolute;
     background-color: #b5a789;
     min-width: 160px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -157,7 +159,7 @@ hr {
     text-align: center;
 }
 
-button,  section#main button {
+button, section#main button {
     background-color: #675c47;
     color: white;
     padding: 14px 20px;
@@ -170,9 +172,10 @@ button,  section#main button {
 }
 
 div#tableContainer {
-	display: table;
+    display: table;
     border-collapse: collapse;
     margin: 10px;
+    /*width: 98%;*/
 }
 
 body section#user-actions, section#user-actions:hover, section#user-actions.active {
@@ -185,16 +188,20 @@ body section#user-actions, section#user-actions:hover, section#user-actions.acti
 }
 
 body section#main {
-  display: table-cell;
-  background: #efe5d0;
-  font-size: 105%;
-  padding: 15px;
-  vertical-align: top;
+    display: table-cell;
+    background: #efe5d0;
+    font-size: 105%;
+    padding: 15px;
+    vertical-align: top;
 }
 
 .pagination {
     text-decoration: none;
     color: #675c47;
+    text-align: center;
+}
+
+.pagination-text {
     text-align: center;
 }
 
@@ -211,6 +218,7 @@ table tr td a {
     width: 100%;
     text-decoration: none;
     color: black;
+    text-align: center;
 }
 
 th, td {
@@ -222,15 +230,24 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
+.description {
+    text-align: center;
+}
+
+.description a {
+    text-decoration: none;
+    color: black;
+}
+
 /******************************************************************/
 /******************************FOOTER******************************/
 /******************************************************************/
 
 footer {
     background-color: #675c47;
-    color:            #efe5d0;
-    text-align:       center;
-    padding:          15px;
+    color: #efe5d0;
+    text-align: center;
+    padding: 15px;
     margin: 0 10px 10px 10px;
-    font-size:        90%;
+    font-size: 90%;
 }

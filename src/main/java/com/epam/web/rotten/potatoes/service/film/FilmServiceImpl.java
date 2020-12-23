@@ -47,10 +47,21 @@ public class FilmServiceImpl implements FilmService {
         }
     }
 
-    public List<Film> getTopFilms(String rowName) throws ServiceException {
+    @Override
+    public List<Film> sortFilmByParameter(String rowName) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             FilmDao filmDao = daoHelper.createFilmDao();
             return filmDao.sortByRow(rowName);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<Film> getFilmByDirector(String director) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            FilmDao filmDao = daoHelper.createFilmDao();
+            return filmDao.getFilmByDirector(director);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

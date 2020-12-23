@@ -5,19 +5,20 @@ USE `rotten-potatoes`;
 
 CREATE TABLE IF NOT EXISTS `users`
 (
-    `id`      INT                    NOT NULL AUTO_INCREMENT,
-    `login`    VARCHAR(50)            NOT NULL,
-    `password` VARCHAR(100)           NOT NULL,
-    `rights`   ENUM ('blocked', 'user', 'admin') NOT NULL,
-    `rate`   DOUBLE                 NOT NULL,
+    `id`       INT                             NOT NULL AUTO_INCREMENT,
+    `login`    VARCHAR(50)                     NOT NULL,
+    `password` VARCHAR(50)                     NOT NULL,
+    `rights`   ENUM ('user', 'admin', 'guest') NOT NULL,
+    `rate`     INT                             NOT NULL,
+    `blocked`  BOOLEAN                         NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX id_UNIQUE (`id` ASC) VISIBLE,
-    UNIQUE INDEX login_UNIQUE (`login` ASC) VISIBLE
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+    UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE
 );
 
 CREATE TABLE IF NOT EXISTS `films`
 (
-    `id`      INT          NOT NULL AUTO_INCREMENT,
+    `id`       INT          NOT NULL AUTO_INCREMENT,
     `title`    VARCHAR(100) NOT NULL,
     `director` VARCHAR(45)  NOT NULL,
     `poster`   VARCHAR(500) NULL,
@@ -27,9 +28,9 @@ CREATE TABLE IF NOT EXISTS `films`
 
 CREATE TABLE IF NOT EXISTS `user_actions`
 (
-    `id`         INT           NOT NULL AUTO_INCREMENT,
-    `film_rate`  INT           NULL,
-    `review`     VARCHAR(1000) NULL,
+    `id`        INT           NOT NULL AUTO_INCREMENT,
+    `film_rate` INT           NULL,
+    `review`    VARCHAR(1000) NULL,
     `user_id`   INT           NOT NULL,
     `film_id`   INT           NOT NULL,
     PRIMARY KEY (`id`, `user_id`, `film_id`),
@@ -40,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `user_actions`
             REFERENCES `users` (`id`)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
-    CONSTRAINT `fk_user_estimates_films1`
+    CONSTRAINT `fk_user_estimates_films`
         FOREIGN KEY (`film_id`)
             REFERENCES `films` (`id`)
             ON DELETE CASCADE
@@ -49,10 +50,10 @@ CREATE TABLE IF NOT EXISTS `user_actions`
 
 CREATE TABLE IF NOT EXISTS `user_comments`
 (
-    `id`       INT          NOT NULL AUTO_INCREMENT,
+    `id`      INT          NOT NULL AUTO_INCREMENT,
     `comment` VARCHAR(300) NULL,
-    `film_id`  INT          NOT NULL,
-    `user_id`  INT          NOT NULL,
+    `film_id` INT          NOT NULL,
+    `user_id` INT          NOT NULL,
     PRIMARY KEY (`id`, `film_id`, `user_id`),
     UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
     INDEX `fk_user_comments_films_idx` (`film_id` ASC) VISIBLE,

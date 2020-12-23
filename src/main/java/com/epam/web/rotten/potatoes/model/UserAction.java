@@ -1,61 +1,34 @@
 package com.epam.web.rotten.potatoes.model;
 
-public class UserAction implements Entity {
-    private Integer id;
-    private double filmRate;
-    private String review;
-    private int userId;
-    private int filmId;
-
-    public UserAction() {
-    }
+public class UserAction extends Entity {
+    public static final String TABLE = "user_actions";
+    private final double filmRate;
+    private final String review;
+    private final int userId;
+    private final int filmId;
 
     public UserAction(Integer id, double filmRate, String review, int userId, int filmId) {
-        this.id = id;
+        super(id);
         this.filmRate = filmRate;
         this.review = review;
         this.userId = userId;
         this.filmId = filmId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public double getFilmRate() {
         return filmRate;
     }
 
-    public void setFilmRate(double filmRate) {
-        this.filmRate = filmRate;
-    }
-
     public String getReview() {
         return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
     }
 
     public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public int getFilmId() {
         return filmId;
-    }
-
-    public void setFilmId(int filmId) {
-        this.filmId = filmId;
     }
 
     @Override
@@ -66,12 +39,12 @@ public class UserAction implements Entity {
         if (!(o instanceof UserAction)) {
             return false;
         }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         UserAction that = (UserAction) o;
 
-        if (getId() != that.getId()) {
-            return false;
-        }
         if (Double.compare(that.getFilmRate(), getFilmRate()) != 0) {
             return false;
         }
@@ -86,9 +59,8 @@ public class UserAction implements Entity {
 
     @Override
     public int hashCode() {
-        int result;
+        int result = super.hashCode();
         long temp;
-        result = getId();
         temp = Double.doubleToLongBits(getFilmRate());
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (getReview() != null ? getReview().hashCode() : 0);
@@ -100,8 +72,7 @@ public class UserAction implements Entity {
     @Override
     public String toString() {
         return "UserAction{" +
-                "id=" + id +
-                ", filmRate=" + filmRate +
+                "filmRate=" + filmRate +
                 ", review='" + review + '\'' +
                 ", userId=" + userId +
                 ", filmId=" + filmId +

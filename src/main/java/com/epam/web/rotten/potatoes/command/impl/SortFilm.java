@@ -12,7 +12,7 @@ import java.util.List;
 public class SortFilm implements Command {
     private final FilmServiceImpl filmServiceImpl;
     private static final String FILMS = "films";
-    private static final String FILMS_PAGE = "WEB-INF/views/sort-films.jsp";
+    private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
 
     public SortFilm(FilmServiceImpl filmServiceImpl) {
         this.filmServiceImpl = filmServiceImpl;

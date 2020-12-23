@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface UserActionService {
     void addReviewAndRate(UserAction userAction) throws ServiceException;
-    List<UserAction> findAllReviewByFilmId(int filmId) throws ServiceException;
+    List<UserAction> findAllReviewsByFilmId(int filmId) throws ServiceException;
 }

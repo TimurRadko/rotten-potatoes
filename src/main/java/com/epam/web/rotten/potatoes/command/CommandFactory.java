@@ -10,9 +10,6 @@ public class CommandFactory {
     private static final String GO_TO_LOGIN = "goToLogin";
     private static final String LOGIN_PAGE = "WEB-INF/views/login.jsp";
 
-    private static final String GO_TO_MAIN = "goToMain";
-    private static final String MAIN_PAGE = "WEB-INF/views/main.jsp";
-
     private static final String GO_TO_FILMS = "goToFilms";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
 
@@ -37,15 +34,17 @@ public class CommandFactory {
     private static final String USER_EDIT = "admin-user-edit";
     private static final String ADD_REVIEW_AND_RATE = "review-rate";
     private static final String SHOW_REVIEW = "show-review";
+    private static final String DIRECTOR = "director";
 
     public static Command create(String command) {
-        switch(command) {
+        if (command == null) {
+            return new FilmList(new FilmServiceImpl(new DaoHelperFactory()));
+        }
+        switch (command) {
             case GO_TO_HOME:
                 return new GoToPage(HOME_PAGE);
             case GO_TO_LOGIN:
                 return new GoToPage(LOGIN_PAGE);
-            case GO_TO_MAIN:
-                return new GoToPage(MAIN_PAGE);
             case GO_TO_FILMS:
                 return new GoToPage(FILMS_PAGE);
             case GO_TO_REVIEW:
@@ -54,10 +53,12 @@ public class CommandFactory {
                 return new GoToPage(COMMENT_PAGE);
             case GO_TO_FILM_HOME:
                 return new GoToPage(FILM_HOME_PAGE);
+
             case ADD_REVIEW_AND_RATE:
                 return new AddFilmRateAndReview(new UserActionServiceImpl(new DaoHelperFactory()));
             case SHOW_REVIEW:
-                return new ShowFilmReview(new UserActionServiceImpl(new DaoHelperFactory()));
+                return new ShowFilmReview(new UserActionServiceImpl(new DaoHelperFactory()),
+                        new UserServiceImpl(new DaoHelperFactory()));
             case LOGIN:
                 return new Login(new UserServiceImpl(new DaoHelperFactory()));
             case LOGOUT:
@@ -66,6 +67,8 @@ public class CommandFactory {
                 return new GetUserById(new UserServiceImpl(new DaoHelperFactory()));
             case FILM_HOME:
                 return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()));
+            case DIRECTOR:
+                return new GetFilmsByDirector(new FilmServiceImpl(new DaoHelperFactory()));
             case SORT_FILMS:
                 return new SortFilm(new FilmServiceImpl(new DaoHelperFactory()));
             case FILMS:

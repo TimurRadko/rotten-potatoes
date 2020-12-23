@@ -17,7 +17,7 @@
     <jsp:include page="parts/leftbar.jsp"/>
 
     <section id="main">
-        <h1 align="center">${sessionScope.title}</h1>
+        <h1>${sessionScope.title}</h1>
 
         <c:choose>
             <c:when test="${sessionScope.rights != 'BLOCKED' and sessionScope.rights != null}">

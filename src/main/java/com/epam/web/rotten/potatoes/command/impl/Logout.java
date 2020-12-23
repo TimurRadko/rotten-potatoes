@@ -9,7 +9,8 @@ public class Logout implements Command {
     private static final String LOGIN_PARAMETER = "login";
     private static final String RIGHTS_PARAMETERS = "rights";
     private static final String RATE_PARAMETER = "rate";
-    private static final String MAIN_PAGE = "/rotten-potatoes/controller?command=goToMain";
+    private static final String BLOCKED_PARAMETER = "blocked";
+    private static final String FILMS_PAGE = "/rotten-potatoes/controller?command=films";
 
     @Override
     public CommandResult execute(RequestContext requestContext) {
@@ -17,7 +18,8 @@ public class Logout implements Command {
         requestContext.setSessionAttribute(LOGIN_PARAMETER, null);
         requestContext.setSessionAttribute(RIGHTS_PARAMETERS, null);
         requestContext.setSessionAttribute(RATE_PARAMETER, null);
-        return CommandResult.redirect(MAIN_PAGE);
+        requestContext.setSessionAttribute(BLOCKED_PARAMETER, null);
+        return CommandResult.redirect(FILMS_PAGE);
     }
 
 }

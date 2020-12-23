@@ -10,8 +10,8 @@
     <div class="btn-group">
         <c:choose>
             <c:when test="${sessionScope.rights == null or sessionScope.blocked == true}">
-                <a href="<c:url value="/controller?command=users"/>">
-                    <button><fmt:message key="main.left.users"/></button>
+                <a href="<c:url value="/controller?command=films"/>">
+                    <button><fmt:message key="main.left.films"/></button>
                 </a>
             </c:when>
             <c:when test="${sessionScope.login != null}">

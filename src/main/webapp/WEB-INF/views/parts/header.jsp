@@ -8,7 +8,7 @@
 <header>
     <div class="navbar">
 
-        <a class="navbar-main" href="<c:url value="/controller?command=goToMain"/>">Rotten-Potatoes.by</a>
+        <a class="navbar-main" href="<c:url value="/controller?command=films"/>">Rotten-Potatoes.by</a>
 
         <c:choose>
             <c:when test="${sessionScope.login == null}">

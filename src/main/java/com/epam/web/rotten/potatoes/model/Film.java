@@ -1,62 +1,34 @@
 package com.epam.web.rotten.potatoes.model;
 
-public class Film implements Entity {
+public class Film extends Entity {
     public static final String TABLE = "films";
-    private int id;
-    private String title;
-    private String director;
-    private String poster;
-    private double avgRate;
+    private final String title;
+    private final String director;
+    private final String poster;
+    private final double avgRate;
 
-    public Film() {
-    }
-
-    public Film(int id, String title, String director, String poster, double avgRate) {
-        this.id = id;
+    public Film(Integer id, String title, String director, String poster, double avgRate) {
+        super(id);
         this.title = title;
         this.director = director;
         this.poster = poster;
         this.avgRate = avgRate;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDirector() {
         return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
     }
 
     public String getPoster() {
         return poster;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
-    }
-
     public double getAvgRate() {
         return avgRate;
-    }
-
-    public void setAvgRate(double avgRate) {
-        this.avgRate = avgRate;
     }
 
     @Override
@@ -67,12 +39,12 @@ public class Film implements Entity {
         if (!(o instanceof Film)) {
             return false;
         }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         Film film = (Film) o;
 
-        if (getId() != film.getId()) {
-            return false;
-        }
         if (Double.compare(film.getAvgRate(), getAvgRate()) != 0) {
             return false;
         }
@@ -87,9 +59,8 @@ public class Film implements Entity {
 
     @Override
     public int hashCode() {
-        int result;
+        int result = super.hashCode();
         long temp;
-        result = getId();
         result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
         result = 31 * result + (getDirector() != null ? getDirector().hashCode() : 0);
         result = 31 * result + (getPoster() != null ? getPoster().hashCode() : 0);
@@ -101,8 +72,7 @@ public class Film implements Entity {
     @Override
     public String toString() {
         return "Film{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", director='" + director + '\'' +
                 ", poster='" + poster + '\'' +
                 ", avgRate=" + avgRate +

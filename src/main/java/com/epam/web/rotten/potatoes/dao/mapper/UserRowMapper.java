@@ -12,6 +12,7 @@ public class UserRowMapper implements RowMapper<User> {
     private static final String PASSWORD = "password";
     private static final String RIGHTS = "rights";
     private static final String RATE = "rate";
+    private static final String BLOCKED = "blocked";
 
     @Override
     public User map(ResultSet resultSet) throws SQLException {
@@ -23,6 +24,7 @@ public class UserRowMapper implements RowMapper<User> {
         Rights rights = Rights.valueOf(rightsString.toUpperCase());
 
         double rate = resultSet.getDouble(RATE);
-        return new User(id, login, password, rights, rate);
+        boolean blocked = resultSet.getBoolean(BLOCKED);
+        return new User(id, login, password, rights, rate, blocked);
     }
 }

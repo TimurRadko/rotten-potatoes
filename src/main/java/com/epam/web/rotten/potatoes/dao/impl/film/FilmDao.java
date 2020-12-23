@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface FilmDao extends Dao<Film> {
     List<Film> sortByRow(String rowName) throws DaoException;
+    List<Film> getFilmByDirector(String director) throws DaoException;
     List<Film> findFilmsPartList(int startsWith, int endsWith) throws DaoException;
+//    void updateFilm(double avgRate, int id) throws DaoException;
 }

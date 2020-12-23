@@ -1,62 +1,40 @@
 package com.epam.web.rotten.potatoes.model;
 
-public class User implements Entity {
+public class User extends Entity {
     public static final String TABLE = "users";
-    private int id;
-    private String login;
-    private String password;
-    private Rights rights;
-    private double rate;
+    private final String login;
+    private final String password;
+    private final Rights rights;
+    private final double rate;
+    private final boolean blocked;
 
-    public User() {
-    }
-
-    public User(int id, String login, String password, Rights rights, double rate) {
-        this.id = id;
+    public User(Integer id, String login, String password, Rights rights, double rate, boolean blocked) {
+        super(id);
         this.login = login;
         this.password = password;
         this.rights = rights;
         this.rate = rate;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.blocked = blocked;
     }
 
     public String getLogin() {
         return login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Rights getRights() {
         return rights;
     }
 
-    public void setRights(Rights rights) {
-        this.rights = rights;
-    }
-
     public double getRate() {
         return rate;
     }
 
-    public void setRate(double rate) {
-        this.rate = rate;
+    public boolean isBlocked() {
+        return blocked;
     }
 
     @Override
@@ -67,13 +45,16 @@ public class User implements Entity {
         if (!(o instanceof User)) {
             return false;
         }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         User user = (User) o;
 
-        if (getId() != user.getId()) {
+        if (Double.compare(user.getRate(), getRate()) != 0) {
             return false;
         }
-        if (Double.compare(user.getRate(), getRate()) != 0) {
+        if (isBlocked() != user.isBlocked()) {
             return false;
         }
         if (getLogin() != null ? !getLogin().equals(user.getLogin()) : user.getLogin() != null) {
@@ -87,25 +68,25 @@ public class User implements Entity {
 
     @Override
     public int hashCode() {
-        int result;
+        int result = super.hashCode();
         long temp;
-        result = getId();
         result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         result = 31 * result + (getRights() != null ? getRights().hashCode() : 0);
         temp = Double.doubleToLongBits(getRate());
         result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (isBlocked() ? 1 : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
+                "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", rights=" + rights +
                 ", rate=" + rate +
+                ", blocked=" + blocked +
                 '}';
     }
 }

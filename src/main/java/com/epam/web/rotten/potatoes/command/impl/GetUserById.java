@@ -14,7 +14,7 @@ public class GetUserById implements Command {
     private static final String ID_PARAMETER = "id";
     private static final String USER_PARAMETER = "user";
     private static final String USER_EDIT_PAGE = "WEB-INF/views/user-edit.jsp";
-    private static final String MAIN_PAGE = "WEB-INF/views/main.jsp";
+    private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
 
     public GetUserById(UserService userService) {
         this.userService = userService;
@@ -29,8 +29,7 @@ public class GetUserById implements Command {
             requestContext.setSessionAttribute(USER_PARAMETER, sessionUser);
             return CommandResult.forward(USER_EDIT_PAGE);
         } else {
-            //TODO: think about redirecting
-            return CommandResult.forward(MAIN_PAGE);
+            return CommandResult.forward(FILMS_PAGE);
         }
     }
 }

@@ -17,7 +17,7 @@
     <jsp:include page="parts/leftbar.jsp"/>
 
     <section id="main">
-        <h1 align="center"><fmt:message key="films.h1"/></h1>
+        <h1><fmt:message key="films.h1"/></h1>
 
         <div class="table">
             <table>
@@ -31,37 +31,36 @@
                 <c:forEach var="film" items="${requestScope.films}" varStatus="index">
                     <tr>
                         <td>${(5)*(requestScope.currentPage - 1) + index.count}</td>
-                        <td><a href="<c:url value="/controller?command=film-home&id=${film.id}"/>">${film.title}</a></td>
-                        <td><a href="<c:url value="/controller?command=director"/>">${film.director}</a></td>
+                        <td><a href="<c:url value="/controller?command=film-home&id=${film.id}"/>">${film.title}</a>
+                        </td>
+                        <td><a href="<c:url value="/controller?command=director&director=${film.director}"/>">${film.director}</a></td>
                         <td>${film.avgRate}</td>
                     </tr>
                 </c:forEach>
             </table>
+        </div>
+        <div class="pagination-text">
             <c:choose>
                 <c:when test="${(requestScope.currentPage - 1) == 0}">
-                    <a align="center" href="" type="submit" class="pagination"><fmt:message key="films.previous"/></a>
+                    <a href="" type="submit" class="pagination"><fmt:message key="films.previous"/></a>
                 </c:when>
                 <c:otherwise>
-                    <a align="center"
-                       href="${pageContext.request.contextPath}/controller?command=films&currentPage=${requestScope.currentPage-1}"
+                    <a href="${pageContext.request.contextPath}/controller?command=films&currentPage=${requestScope.currentPage-1}"
                        type="submit" class="pagination"><fmt:message key="films.previous"/></a>
                 </c:otherwise>
             </c:choose>
             <div class="pagination">${requestScope.currentPage}</div>
             <c:choose>
                 <c:when test="${requestScope.films.size() != 5}">
-                    <a align="center" href="" type="submit" class="pagination"><fmt:message key="films.next"/></a>
+                    <a href="" type="submit" class="pagination"><fmt:message key="films.next"/></a>
                 </c:when>
                 <c:otherwise>
-                    <a align="center"
-                       href="${pageContext.request.contextPath}/controller?command=films&currentPage=${requestScope.currentPage+1}"
+                    <a href="${pageContext.request.contextPath}/controller?command=films&currentPage=${requestScope.currentPage+1}"
                        type="submit" class="pagination"><fmt:message key="films.next"/></a>
                 </c:otherwise>
             </c:choose>
             </br>
         </div>
-
-
     </section>
 </div>
 <jsp:include page="parts/footer.jsp"/>

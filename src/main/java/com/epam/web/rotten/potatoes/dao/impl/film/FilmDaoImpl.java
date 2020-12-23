@@ -15,17 +15,23 @@ public class FilmDaoImpl extends AbstractDao<Film> implements FilmDao {
     private static final String GET_FILMS_PART = "SELECT * FROM films limit ?, ?";
     private static final String GET_TOP_FILMS = "SELECT * FROM films ORDER BY ?";
     private static final String FILMS_TABLE = "films";
-    private static final String INSERT_FILM = "INSERT INTO films(title, director, poster, avg_rate) VALUES(?,?,?,?)";
+    private static final String SAVE_FILM = "INSERT INTO films(title, director, poster, avg_rate) VALUES(?,?,?,?)";
+    private static final String UPDATE_FILM = "UPDATE films SET title=?, director=?, poster=?, avg_rate=? WHERE id=?";
 
     private static final String GET_FILMS_LIST_BY_DIRECTOR = "SELECT * FROM films WHERE director=?";
 
     public FilmDaoImpl(Connection connection) {
-        super(connection, FILM_ROW_MAPPER, FILM_FIELDS_EXTRACTOR, FILMS_TABLE, INSERT_FILM);
+        super(connection, FILM_ROW_MAPPER, FILM_FIELDS_EXTRACTOR, FILMS_TABLE, SAVE_FILM, UPDATE_FILM);
     }
 
     @Override
     public List<Film> sortByRow(String rowName) throws DaoException {
         return executeQuery(GET_TOP_FILMS, rowName);
+    }
+
+    @Override
+    public List<Film> getFilmByDirector(String director) throws DaoException {
+        return executeQuery(GET_FILMS_LIST_BY_DIRECTOR, director);
     }
 
     @Override

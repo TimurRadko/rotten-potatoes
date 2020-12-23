@@ -13,7 +13,7 @@ public class GetFilmById implements Command {
     private final FilmService filmService;
     private static final String ID_PARAMETER = "id";
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
-    private static final String MAIN_PAGE = "WEB-INF/views/main.jsp";
+    private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
 
     private static final String FILM_ID_PARAMETER = "film_id";
     private static final String TITLE_PARAMETER = "title";
@@ -34,7 +34,7 @@ public class GetFilmById implements Command {
             setSessionFilmData(requestContext, sessionFilm);
             return CommandResult.forward(FILM_HOME_PAGE);
         } else {
-            return CommandResult.forward(MAIN_PAGE);
+            return CommandResult.forward(FILMS_PAGE);
         }
     }
 

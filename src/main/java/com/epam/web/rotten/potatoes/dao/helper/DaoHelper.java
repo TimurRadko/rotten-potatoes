@@ -9,6 +9,7 @@ import com.epam.web.rotten.potatoes.dao.impl.film.FilmDaoImpl;
 import com.epam.web.rotten.potatoes.dao.impl.user.UserDao;
 import com.epam.web.rotten.potatoes.dao.impl.user.UserDaoImpl;
 import com.epam.web.rotten.potatoes.exceptions.DaoException;
+import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 
 import java.sql.SQLException;
 
@@ -35,7 +36,23 @@ public class DaoHelper implements AutoCloseable {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            throw new DaoException(e);
+            throw new DaoException("Transaction error", e);
+        }
+    }
+
+    public void rollback() throws ServiceException {
+        try {
+            connection.rollback();
+        } catch (SQLException stack) {
+            throw new ServiceException("Rollback error", stack);
+        }
+    }
+
+    public void endTransaction() throws DaoException {
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            throw new DaoException("Transaction error", e);
         }
     }
 

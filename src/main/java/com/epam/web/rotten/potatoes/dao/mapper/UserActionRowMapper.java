@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class UserActionRowMapper implements RowMapper<UserAction> {
     private static final String ID = "id";
-    private static final String FILM_RATE = "films-rate";
+    private static final String FILM_RATE = "film_rate";
     private static final String REVIEW = "review";
     private static final String USER_ID = "user_id";
     private static final String FILM_ID = "film_id";

@@ -15,10 +15,11 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM users WHERE login = ? AND password = SHA1(?)";
     private static final String TABLE_NAME = "users";
 
+    private static final String SAVE_USER = "";
     private static final String UPDATE_USER = "";
 
     public UserDaoImpl(Connection connection) {
-        super(connection, USER_ROW_MAPPER, USER_FIELDS_EXTRACTOR, TABLE_NAME, UPDATE_USER);
+        super(connection, USER_ROW_MAPPER, USER_FIELDS_EXTRACTOR, TABLE_NAME, SAVE_USER, UPDATE_USER);
     }
 
     @Override

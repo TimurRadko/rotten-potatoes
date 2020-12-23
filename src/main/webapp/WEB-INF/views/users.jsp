@@ -14,10 +14,10 @@
 <body>
 <jsp:include page="parts/header.jsp"/>
 <div id="tableContainer">
-    <jsp:include page="parts/leftbar.jsp"/>
+    <jsp:include page="parts/leftbar-users.jsp"/>
 
     <section id="main">
-        <h1 align="center"><fmt:message key="users.h1"/></h1>
+        <h1><fmt:message key="users.h1"/></h1>
         <div class="table">
             <br>
             <table>

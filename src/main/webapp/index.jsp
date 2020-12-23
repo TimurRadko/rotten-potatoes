@@ -5,6 +5,6 @@
     <title>Forward Page</title>
 </head>
 <body>
-<jsp:forward page="/controller?command=goToMain"/>
+<jsp:forward page="/controller"/>
 </body>
 </html>

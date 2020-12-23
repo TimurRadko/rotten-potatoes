@@ -13,6 +13,7 @@ public class UserFieldsExtractor implements FieldsExtractor<User> {
     private static final int PASSWORD = 3;
     private static final int RIGHTS = 4;
     private static final int RATE = 5;
+    private static final int BLOCKED = 6;
 
     @Override
     public Map<Integer, Object> extract(User user) {
@@ -24,10 +25,10 @@ public class UserFieldsExtractor implements FieldsExtractor<User> {
         fields.put(PASSWORD, password);
         Rights rights = user.getRights();
         fields.put(RIGHTS, rights);
-
         double rate = user.getRate();
         fields.put(RATE, rate);
-
+        boolean blocked = user.isBlocked();
+        fields.put(BLOCKED, blocked);
         return fields;
     }
 }

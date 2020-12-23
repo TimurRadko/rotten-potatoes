@@ -18,8 +18,9 @@ public class Login implements Command {
     private static final String PASSWORD_PARAMETER = "password";
     private static final String RIGHTS_PARAMETER = "rights";
     private static final String RATE_PARAMETER = "rate";
+    private static final String BLOCKED_PARAMETER = "blocked";
     private static final String LOGIN_PAGE = "WEB-INF/views/login.jsp";
-    private static final String MAIN_PAGE = "/rotten-potatoes/controller?command=goToMain";
+    private static final String FILMS_PAGE = "/rotten-potatoes/controller?command=films";
 
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_MESSAGE_VALUE = "error";
@@ -38,7 +39,7 @@ public class Login implements Command {
         if (user.isPresent()) {
             User sessionUser = user.get();
             setSessionUserData(requestContext, sessionUser);
-            return CommandResult.redirect(MAIN_PAGE);
+            return CommandResult.redirect(FILMS_PAGE);
         } else {
             requestContext.setSessionAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_MESSAGE_VALUE);
             return CommandResult.forward(LOGIN_PAGE);
@@ -50,9 +51,11 @@ public class Login implements Command {
         String login = sessionUser.getLogin();
         Rights rights = sessionUser.getRights();
         double rate = sessionUser.getRate();
+        boolean blocked = sessionUser.isBlocked();
         requestContext.setSessionAttribute(ID_PARAMETER, id);
         requestContext.setSessionAttribute(LOGIN_PARAMETER, login);
         requestContext.setSessionAttribute(RIGHTS_PARAMETER, rights);
         requestContext.setSessionAttribute(RATE_PARAMETER, rate);
+        requestContext.setSessionAttribute(BLOCKED_PARAMETER, blocked);
     }
 }
