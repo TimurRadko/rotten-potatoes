@@ -113,7 +113,6 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     private Optional<Integer> executeUpdate(String query, Map<Integer, Object> fields) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             for (Integer key : fields.keySet()) {
-                System.out.println("key: " + key + " value: " + fields.get(key));
                 preparedStatement.setObject(key, fields.get(key));
             }
             preparedStatement.executeUpdate();
