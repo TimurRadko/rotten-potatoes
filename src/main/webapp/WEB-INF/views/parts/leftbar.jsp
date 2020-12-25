@@ -15,15 +15,10 @@
                 </a>
             </c:when>
             <c:when test="${sessionScope.login != null}">
-
                 <c:choose>
-
                     <c:when test="${sessionScope.rights == 'ADMIN'}">
                         <a href="<c:url value="/controller?command=users"/>">
                             <button><fmt:message key="main.left.editUsers"/></button>
-                        </a>
-                        <a href="<c:url value="/controller?command=films"/>">
-                            <button><fmt:message key="main.left.editFilms"/></button>
                         </a>
                     </c:when>
 
@@ -31,15 +26,9 @@
                         <a href="<c:url value="/controller?command=users"/>">
                             <button><fmt:message key="main.left.users"/></button>
                         </a>
-                        <a href="<c:url value="/controller?command=films"/>">
-                            <button><fmt:message key="main.left.films"/></button>
-                        </a>
                     </c:when>
-
                 </c:choose>
-
             </c:when>
-
         </c:choose>
     </div>
 </section>

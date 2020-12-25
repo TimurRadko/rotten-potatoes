@@ -17,9 +17,8 @@
     <jsp:include page="parts/leftbar-film-home.jsp"/>
 
     <section id="main">
-        <p>
         <h1>${sessionScope.title}</h1>
-        </p>
+
         <div class="description">
             <p><img class="poster" alt="${sessionScope.title}" src="${sessionScope.poster}"/></p>
             <p><fmt:message key="film.director"/> <a
@@ -47,18 +46,17 @@
                         <th><fmt:message key="film.user.actions.rate"/></th>
                     </tr>
 
-                    <c:forEach items="${requestScope.user_review}" var="entry">
+                    <c:forEach var="userReview" items="${requestScope.user_review}" varStatus="index">
                         <tr>
-                            <td>${entry.key}</td>
-
-                            <td>${entry.value.review}</td>
-                            <td>${entry.value.filmRate}</td>
+                            <td>${userReview.login}</td>
+                            <td>${userReview.review}</td>
+                            <td>${userReview.filmRate}</td>
                         </tr>
                     </c:forEach>
+
                 </table>
             </div>
         </c:if>
-
     </section>
 </div>
 <jsp:include page="parts/footer.jsp"/>

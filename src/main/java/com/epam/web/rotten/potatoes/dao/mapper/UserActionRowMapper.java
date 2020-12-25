@@ -14,7 +14,7 @@ public class UserActionRowMapper implements RowMapper<UserAction> {
 
     @Override
     public UserAction map(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt(ID);
+        Integer id = resultSet.getInt(ID);
         int rate = resultSet.getInt(FILM_RATE);
         String review = resultSet.getString(REVIEW);
         int userId = resultSet.getInt(USER_ID);

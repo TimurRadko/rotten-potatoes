@@ -17,10 +17,14 @@
     <jsp:include page="parts/leftbar.jsp"/>
 
     <section id="main">
-        <p align="center"><fmt:message key="home.user.login"/> <c:out value="${sessionScope.login}"/></p>
-        <p align="center"><fmt:message key="home.user.rate"/> <c:out value="${sessionScope.rate}"/> <fmt:message
-                key="home.user.rate.description"/></p>
-        <p align="center"><fmt:message key="home.user.rights"/> <c:out value="${sessionScope.rights}"/></p>
+
+        <div class="user-description">
+            <p><fmt:message key="home.user.login"/> <c:out value="${sessionScope.login}"/></p>
+            <p><fmt:message key="home.user.rate"/> <c:out value="${sessionScope.rate}"/> <fmt:message
+                    key="home.user.rate.description"/></p>
+            <p><fmt:message key="home.user.rights"/> <c:out value="${sessionScope.rights}"/></p>
+        </div>
+
     </section>
 </div>
 <jsp:include page="parts/footer.jsp"/>

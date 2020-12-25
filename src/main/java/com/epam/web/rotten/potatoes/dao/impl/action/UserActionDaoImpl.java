@@ -15,7 +15,8 @@ public class UserActionDaoImpl extends AbstractDao<UserAction> implements UserAc
     private static final String TABLE_NAME = "user_actions";
     private static final String SAVE_USER_ACTION = "INSERT INTO user_actions(id, film_rate, review, user_id, film_id) VALUES(?,?,?,?,?)";
 
-    private static final String GET_COMMENTS_BY_FILMS_ID = "SELECT * FROM user_actions WHERE film_id=?";
+    private static final String GET_REVIEWS_BY_FILMS_ID = "SELECT * FROM user_actions WHERE film_id=?";
+    private static final String GET_REVIEWS_BY_USER_ID = "SELECT * FROM user_actions WHERE user_id=?";
     private static final String UPDATE_USER_ACTION = "";
 
     public UserActionDaoImpl(Connection connection) {
@@ -24,7 +25,12 @@ public class UserActionDaoImpl extends AbstractDao<UserAction> implements UserAc
     }
 
     @Override
-    public List<UserAction> getReviewsByFilmId(int id) throws DaoException {
-        return executeQuery(GET_COMMENTS_BY_FILMS_ID, id);
+    public List<UserAction> getReviewsByFilmId(Integer id) throws DaoException {
+        return executeQuery(GET_REVIEWS_BY_FILMS_ID, id);
+    }
+
+    @Override
+    public List<UserAction> getReviewsByUserId(Integer id) throws DaoException {
+        return executeQuery(GET_REVIEWS_BY_USER_ID, id);
     }
 }

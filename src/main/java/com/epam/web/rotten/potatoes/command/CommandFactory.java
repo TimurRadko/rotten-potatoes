@@ -27,18 +27,18 @@ public class CommandFactory {
 
     private static final String LOGIN = "login";
     private static final String LOGOUT = "logout";
-    private static final String FILMS = "films";
-    private static final String USERS = "users";
+    private static final String GET_FILMS_LIST = "films";
+    private static final String GET_USER_LIST = "users";
     private static final String SORT_FILMS = "sort-films";
-    private static final String FILM_HOME = "film-home";
+    private static final String GET_FILM_BY_ID = "film-home";
     private static final String USER_EDIT = "admin-user-edit";
     private static final String ADD_REVIEW_AND_RATE = "review-rate";
     private static final String SHOW_REVIEW = "show-review";
-    private static final String DIRECTOR = "director";
+    private static final String GET_FILM_BY_DIRECTOR = "director";
 
     public static Command create(String command) {
         if (command == null) {
-            return new FilmList(new FilmServiceImpl(new DaoHelperFactory()));
+            return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()));
         }
         switch (command) {
             case GO_TO_HOME:
@@ -54,27 +54,31 @@ public class CommandFactory {
             case GO_TO_FILM_HOME:
                 return new GoToPage(FILM_HOME_PAGE);
 
+
+            case LOGIN:
+                return new Login(new UserServiceImpl(new DaoHelperFactory()));
+            case LOGOUT:
+                return new Logout();
+
             case ADD_REVIEW_AND_RATE:
                 return new AddFilmRateAndReview(new UserActionServiceImpl(new DaoHelperFactory()));
             case SHOW_REVIEW:
                 return new ShowFilmReview(new UserActionServiceImpl(new DaoHelperFactory()),
                         new UserServiceImpl(new DaoHelperFactory()));
-            case LOGIN:
-                return new Login(new UserServiceImpl(new DaoHelperFactory()));
-            case LOGOUT:
-                return new Logout();
+            case GET_FILM_BY_ID:
+                return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()));
+            case GET_FILM_BY_DIRECTOR:
+                return new GetFilmsByDirector(new FilmServiceImpl(new DaoHelperFactory()));
+            case GET_FILMS_LIST:
+                return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()));
+            case GET_USER_LIST:
+                return new GetUserList(new UserServiceImpl(new DaoHelperFactory()));
+
             case USER_EDIT:
                 return new GetUserById(new UserServiceImpl(new DaoHelperFactory()));
-            case FILM_HOME:
-                return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()));
-            case DIRECTOR:
-                return new GetFilmsByDirector(new FilmServiceImpl(new DaoHelperFactory()));
+
             case SORT_FILMS:
                 return new SortFilm(new FilmServiceImpl(new DaoHelperFactory()));
-            case FILMS:
-                return new FilmList(new FilmServiceImpl(new DaoHelperFactory()));
-            case USERS:
-                return new TopUsers(new UserServiceImpl(new DaoHelperFactory()));
             default:
                 throw new IllegalArgumentException();
         }

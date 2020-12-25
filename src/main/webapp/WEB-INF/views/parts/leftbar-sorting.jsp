@@ -16,7 +16,7 @@
                     <div class="user-actions-list">
                         <ul>
                             <a href="<c:url value="/controller?command=title"/>"><fmt:message
-                                    key="main.left.editUsers"/></a><br>
+                                    key="main.left.editUsers"/></a>
                             <a href="<c:url value="/controller?command=director"/>"><fmt:message
                                     key="main.left.editFilms"/></a>
                         </ul>
@@ -27,7 +27,7 @@
                     <div class="user-actions-list">
                         <ul>
                             <a href="<c:url value="/controller?command=title"/>"><fmt:message
-                                    key="main.left.editUsers"/></a><br>
+                                    key="main.left.editUsers"/></a>
                             <a href="<c:url value="/controller?command=director"/>"><fmt:message
                                     key="main.left.editFilms"/></a>
                         </ul>

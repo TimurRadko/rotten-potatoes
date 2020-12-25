@@ -22,7 +22,6 @@
             <br>
             <table>
                 <tr>
-                    <th><fmt:message key="users.position"/></th>
                     <th><fmt:message key="users.login"/></th>
                     <th><fmt:message key="users.rate"/></th>
                 </tr>
@@ -39,11 +38,12 @@
                             </tr>
                         </c:when>
                         <c:otherwise>
-                            <tr>
-                                <td>${index.count}</td>
-                                <td>${user.login}</td>
-                                <td>${user.rate}</td>
-                            </tr>
+                            <c:if test="${user.rights != 'ADMIN' or user.blocked == true}">
+                                <tr>
+                                    <td>${user.login}</td>
+                                    <td>${user.rate}</td>
+                                </tr>
+                            </c:if>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>

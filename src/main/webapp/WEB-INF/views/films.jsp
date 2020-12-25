@@ -59,7 +59,7 @@
                        type="submit" class="pagination"><fmt:message key="films.next"/></a>
                 </c:otherwise>
             </c:choose>
-            </br>
+            <br/>
         </div>
     </section>
 </div>

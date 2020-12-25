@@ -7,6 +7,6 @@
 <html lang="${sessionScope.lang}">
 <footer>
     &copy; 2021, Timur Radko
-    </br>
+    <br/>
 </footer>
 </html>

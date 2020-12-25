@@ -6,6 +6,7 @@ import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.User;
 import com.epam.web.rotten.potatoes.model.UserAction;
+import com.epam.web.rotten.potatoes.model.dto.UserReview;
 import com.epam.web.rotten.potatoes.service.action.UserActionService;
 import com.epam.web.rotten.potatoes.service.user.UserService;
 
@@ -27,23 +28,29 @@ public class ShowFilmReview implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         int filmId = (Integer) requestContext.getSessionAttribute(FILM_ID_PARAMETER);
-        List<UserAction> actions = userActionService.findAllReviewsByFilmId(filmId);
-        Map<String, UserAction> usersAndReviews = getUserReviewMap(actions);
+        List<UserAction> actions = userActionService.findReviewsByFilmId(filmId);
+        List<UserReview> usersAndReviews = getAllReviewsAndLogin(actions);
         requestContext.setRequestAttribute(USER_REVIEW, usersAndReviews);
+
         return CommandResult.forward(FILM_HOME);
     }
 
-    private Map<String, UserAction> getUserReviewMap(List<UserAction> actions) throws ServiceException {
-        Map<String, UserAction> usersAndReviews = new HashMap<>();
+    private List<UserReview> getAllReviewsAndLogin(List<UserAction> actions) throws ServiceException {
+        List<UserReview> userReviews = new ArrayList<>();
+
         for (UserAction action : actions) {
             int userId = action.getUserId();
+            Integer actionId = action.getId();
+            String review = action.getReview();
+            double filmRate = action.getFilmRate();
             Optional<User> user = userService.getUserById(userId);
             if (user.isPresent()) {
                 User userSession = user.get();
-                String login = userSession.getLogin();
-                usersAndReviews.put(login, action);
+                String userSessionLogin = userSession.getLogin();
+                UserReview userReview = new UserReview(actionId, userSessionLogin, review, filmRate);
+                userReviews.add(userReview);
             }
         }
-        return usersAndReviews;
+        return userReviews;
     }
 }

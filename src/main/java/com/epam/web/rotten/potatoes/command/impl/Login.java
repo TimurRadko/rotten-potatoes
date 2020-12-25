@@ -23,7 +23,8 @@ public class Login implements Command {
     private static final String FILMS_PAGE = "/rotten-potatoes/controller?command=films";
 
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
-    private static final String ERROR_MESSAGE_VALUE = "error";
+    private static final String ERROR_LOGIN = "errorLogin";
+    private static final String ERROR_USER_BLOCKED = "errorBlocked";
 
     public Login(UserServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
@@ -36,14 +37,19 @@ public class Login implements Command {
 
         Optional<User> user = userServiceImpl.login(login, password);
 
+        User sessionUser;
         if (user.isPresent()) {
-            User sessionUser = user.get();
-            setSessionUserData(requestContext, sessionUser);
-            return CommandResult.redirect(FILMS_PAGE);
+            sessionUser = user.get();
         } else {
-            requestContext.setSessionAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_MESSAGE_VALUE);
+            requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_LOGIN);
             return CommandResult.forward(LOGIN_PAGE);
         }
+        if (sessionUser.isBlocked()) {
+            requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_USER_BLOCKED);
+            return CommandResult.forward(LOGIN_PAGE);
+        }
+        setSessionUserData(requestContext, sessionUser);
+        return CommandResult.redirect(FILMS_PAGE);
     }
 
     private void setSessionUserData(RequestContext requestContext, User sessionUser) {

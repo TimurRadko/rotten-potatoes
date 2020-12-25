@@ -25,9 +25,12 @@ public class UserActionServiceImpl implements UserActionService {
         try {
             daoHelper = daoHelperFactory.create();
             daoHelper.startTransaction();
+
             UserActionDao userActionDao = daoHelper.createUserActionDao();
             userActionDao.save(userAction);
+
             saveNewAvgRate(userAction, daoHelper);
+
             daoHelper.endTransaction();
         } catch (DaoException e) {
             daoHelper.rollback();
@@ -68,10 +71,20 @@ public class UserActionServiceImpl implements UserActionService {
 
 
     @Override
-    public List<UserAction> findAllReviewsByFilmId(int filmId) throws ServiceException {
+    public List<UserAction> findReviewsByFilmId(Integer filmId) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserActionDao userActionDao = daoHelper.createUserActionDao();
             return userActionDao.getReviewsByFilmId(filmId);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<UserAction> findReviewsByUserId(Integer userId) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            UserActionDao userActionDao = daoHelper.createUserActionDao();
+            return userActionDao.getReviewsByUserId(userId);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

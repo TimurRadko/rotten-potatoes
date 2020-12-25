@@ -9,18 +9,18 @@ import com.epam.web.rotten.potatoes.service.user.UserService;
 
 import java.util.List;
 
-public class TopUsers implements Command {
+public class GetUserList implements Command {
     private final UserService userService;
     private static final String USERS = "users";
     private static final String USERS_PAGE = "WEB-INF/views/users.jsp";
 
-    public TopUsers(UserService userService) {
+    public GetUserList(UserService userService) {
         this.userService = userService;
     }
 
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
-        List<User> users = userService.getTopUsers();
+        List<User> users = userService.getAllUsers();
         requestContext.setRequestAttribute(USERS, users);
         return CommandResult.forward(USERS_PAGE);
     }

@@ -96,6 +96,9 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
             newFields.put(newParameterIndex, object);
             newParameterIndex++;
         }
+        for (Map.Entry<Integer, Object> pair : newFields.entrySet()) {
+            System.out.println(pair.getKey() + " " + pair.getValue());
+        }
         return newFields;
     }
 

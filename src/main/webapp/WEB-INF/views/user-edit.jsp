@@ -17,9 +17,9 @@
     <jsp:include page="parts/leftbar.jsp"/>
 
     <section id="main">
-        <p align="center"><fmt:message key="home.user.login"/> <c:out value="${sessionScope.user.login}" /></p>
-        <p align="center"><fmt:message key="home.user.rate"/> <c:out value="${sessionScope.user.rate}" /></p>
-        <p align="center"><fmt:message key="home.user.rights"/> <c:out value="${sessionScope.user.rights}" /></p>
+        <p><fmt:message key="home.user.login"/> <c:out value="${sessionScope.user.login}" /></p>
+        <p><fmt:message key="home.user.rate"/> <c:out value="${sessionScope.user.rate}" /></p>
+        <p><fmt:message key="home.user.rights"/> <c:out value="${sessionScope.user.rights}" /></p>
 
         <a href="<c:url value="/controller?command=users"/>">
             <button><fmt:message key="user.edit.rate"/></button>

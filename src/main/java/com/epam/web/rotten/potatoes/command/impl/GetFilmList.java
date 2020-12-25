@@ -9,7 +9,7 @@ import com.epam.web.rotten.potatoes.command.CommandResult;
 
 import java.util.List;
 
-public class FilmList implements Command {
+public class GetFilmList implements Command {
     private static final String FILMS = "films";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
     private final FilmServiceImpl filmServiceImpl;
@@ -19,7 +19,7 @@ public class FilmList implements Command {
     private static final String CURRENT_PAGE = "currentPage";
 
 
-    public FilmList(FilmServiceImpl filmServiceImpl) {
+    public GetFilmList(FilmServiceImpl filmServiceImpl) {
         this.filmServiceImpl = filmServiceImpl;
     }
 
