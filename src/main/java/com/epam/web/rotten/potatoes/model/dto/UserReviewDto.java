@@ -2,12 +2,12 @@ package com.epam.web.rotten.potatoes.model.dto;
 
 import com.epam.web.rotten.potatoes.model.Entity;
 
-public class UserReview extends Entity {
+public class UserReviewDto extends Entity {
     private final String login;
     private final String review;
     private final double filmRate;
 
-    public UserReview(Integer id, String login, String review, double filmRate) {
+    public UserReviewDto(Integer id, String login, String review, double filmRate) {
         super(id);
         this.login = login;
         this.review = review;
@@ -31,14 +31,14 @@ public class UserReview extends Entity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof UserReview)) {
+        if (!(o instanceof UserReviewDto)) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
 
-        UserReview that = (UserReview) o;
+        UserReviewDto that = (UserReviewDto) o;
 
         if (Double.compare(that.getFilmRate(), getFilmRate()) != 0) {
             return false;

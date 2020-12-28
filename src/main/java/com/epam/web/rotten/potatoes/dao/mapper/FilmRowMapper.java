@@ -14,7 +14,7 @@ public class FilmRowMapper implements RowMapper<Film> {
 
     @Override
     public Film map(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt(ID);
+        Integer id = resultSet.getInt(ID);
         String title = resultSet.getString(TITLE);
         String director = resultSet.getString(DIRECTOR);
         String poster = resultSet.getString(POSTER);

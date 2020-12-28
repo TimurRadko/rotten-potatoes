@@ -35,29 +35,29 @@ public class Login implements Command {
         String login = requestContext.getRequestParameter(LOGIN_PARAMETER);
         String password = requestContext.getRequestParameter(PASSWORD_PARAMETER);
 
-        Optional<User> user = userServiceImpl.login(login, password);
+        Optional<User> optionalUser = userServiceImpl.login(login, password);
 
-        User sessionUser;
-        if (user.isPresent()) {
-            sessionUser = user.get();
+        User user;
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
         } else {
             requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_LOGIN);
             return CommandResult.forward(LOGIN_PAGE);
         }
-        if (sessionUser.isBlocked()) {
+        if (user.isBlocked()) {
             requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_USER_BLOCKED);
             return CommandResult.forward(LOGIN_PAGE);
         }
-        setSessionUserData(requestContext, sessionUser);
+        setSessionUserData(requestContext, user);
         return CommandResult.redirect(FILMS_PAGE);
     }
 
-    private void setSessionUserData(RequestContext requestContext, User sessionUser) {
-        int id = sessionUser.getId();
-        String login = sessionUser.getLogin();
-        Rights rights = sessionUser.getRights();
-        double rate = sessionUser.getRate();
-        boolean blocked = sessionUser.isBlocked();
+    private void setSessionUserData(RequestContext requestContext, User user) {
+        int id = user.getId();
+        String login = user.getLogin();
+        Rights rights = user.getRights();
+        double rate = user.getRate();
+        boolean blocked = user.isBlocked();
         requestContext.setSessionAttribute(ID_PARAMETER, id);
         requestContext.setSessionAttribute(LOGIN_PARAMETER, login);
         requestContext.setSessionAttribute(RIGHTS_PARAMETER, rights);

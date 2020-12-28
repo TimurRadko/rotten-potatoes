@@ -16,7 +16,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String TABLE_NAME = "users";
 
     private static final String SAVE_USER = "";
-    private static final String UPDATE_USER = "";
+    private static final String UPDATE_USER = "UPDATE users SET login=?, password=?, rights=?, rate=?, blocked=? WHERE id=?";
 
     public UserDaoImpl(Connection connection) {
         super(connection, USER_ROW_MAPPER, USER_FIELDS_EXTRACTOR, TABLE_NAME, SAVE_USER, UPDATE_USER);

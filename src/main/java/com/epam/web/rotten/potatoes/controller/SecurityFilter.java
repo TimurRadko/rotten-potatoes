@@ -23,8 +23,7 @@ public class SecurityFilter implements Filter {
         if (command != null && command.contains(ADMIN)) {
             HttpSession session = req.getSession();
             Rights rights = (Rights) session.getAttribute(RIGHTS);
-            String stringRights = rights.toString();
-            if (!ADMIN_RIGHTS.equalsIgnoreCase(stringRights)) {
+            if (!ADMIN_RIGHTS.equalsIgnoreCase(rights.toString())) {
                 resp.sendError(FORBIDDEN);
             }
         }

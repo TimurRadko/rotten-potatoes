@@ -4,6 +4,7 @@ import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.UserAction;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserActionService {
     void addReviewAndRate(UserAction userAction) throws ServiceException;

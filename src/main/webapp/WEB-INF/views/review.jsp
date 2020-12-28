@@ -14,11 +14,10 @@
 <body>
 <jsp:include page="parts/header.jsp"/>
 <div id="tableContainer">
-    <jsp:include page="parts/leftbar.jsp"/>
+    <jsp:include page="parts/leftbar-review.jsp"/>
 
     <section id="main">
-        <h1>${sessionScope.title}</h1>
-
+        <h1>${sessionScope.film.title}</h1>
         <div class="description">
             <c:choose>
                 <c:when test="${sessionScope.blocked == false and sessionScope.rights != null}">
@@ -52,10 +51,10 @@
                     </form>
 
                     <c:choose>
-                        <c:when test="${sessionScope.errorMessage == 'errorEmptyReview'}">
+                        <c:when test="${requestScope.errorMessage == 'errorEmptyReview'}">
                             <fmt:message key="review.errorMessageEmpty"/>
                         </c:when>
-                        <c:when test="${sessionScope.errorMessage == 'errorRepeatedReview'}">
+                        <c:when test="${requestScope.errorMessage == 'errorRepeatedReview'}">
                             <fmt:message key="review.errorMessageRepeated"/>
                         </c:when>
                     </c:choose>

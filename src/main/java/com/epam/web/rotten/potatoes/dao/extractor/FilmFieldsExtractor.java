@@ -15,7 +15,7 @@ public class FilmFieldsExtractor implements FieldsExtractor<Film> {
 
     @Override
     public Map<Integer, Object> extract(Film film) {
-        int id = film.getId();
+        Integer id = film.getId();
         fields.put(ID, id);
         String title = film.getTitle();
         fields.put(TITLE, title);

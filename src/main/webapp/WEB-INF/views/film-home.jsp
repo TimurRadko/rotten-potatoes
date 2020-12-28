@@ -8,7 +8,7 @@
 <html lang="${sessionScope.lang}">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-    <title>${sessionScope.title}</title>
+    <title>${sessionScope.film.title}</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/styles/main.css">
 </head>
 <body>
@@ -17,45 +17,65 @@
     <jsp:include page="parts/leftbar-film-home.jsp"/>
 
     <section id="main">
-        <h1>${sessionScope.title}</h1>
+        <h1>${sessionScope.film.title}</h1>
 
         <div class="description">
-            <p><img class="poster" alt="${sessionScope.title}" src="${sessionScope.poster}"/></p>
+            <p><img class="poster" alt="${sessionScope.film.title}" src="${sessionScope.film.poster}"/></p>
             <p><fmt:message key="film.director"/> <a
-                    href="<c:url value="/controller?command=director&director=${sessionScope.director}"/>">${sessionScope.director}</a>
+                    href="<c:url value="/controller?command=director&director=${sessionScope.film.director}"/>">${sessionScope.film.director}</a>
             </p>
-            <p><fmt:message key="film.avgRate"/> ${sessionScope.avgRate}</p>
+            <p><fmt:message key="film.avgRate"/> ${sessionScope.film.avgRate}</p>
         </div>
 
         <c:if test="${sessionScope.rights != 'BLOCKED' and sessionScope.rights != null}">
+
             <a href="<c:url value="/controller?command=goToReview"/>">
                 <button><fmt:message key="film.addRate"/></button>
             </a>
 
+            <c:if test="${requestScope.user_reviews != null or requestScope.user_reviews.size > 0}">
+                <div class="table">
+                    <table>
+                        <tr>
+                            <th><fmt:message key="film.user.actions.userLogin"/></th>
+                            <th><fmt:message key="film.user.actions.review"/></th>
+                            <th><fmt:message key="film.user.actions.rate"/></th>
+                        </tr>
+
+                        <c:forEach var="userReviewDto" items="${requestScope.user_reviews}" varStatus="index">
+                            <tr>
+                                <td>${userReviewDto.login}</td>
+                                <td>${userReviewDto.review}</td>
+                                <td>${userReviewDto.filmRate}</td>
+                            </tr>
+                        </c:forEach>
+
+                    </table>
+                </div>
+            </c:if>
+
             <a href="<c:url value="/controller?command=goToComment"/>">
                 <button><fmt:message key="film.addComment"/></button>
             </a>
-        </c:if>
 
-        <c:if test="${requestScope.user_review != null}">
-            <div class="table">
-                <table>
-                    <tr>
-                        <th><fmt:message key="film.user.actions.userLogin"/></th>
-                        <th><fmt:message key="film.user.actions.review"/></th>
-                        <th><fmt:message key="film.user.actions.rate"/></th>
-                    </tr>
-
-                    <c:forEach var="userReview" items="${requestScope.user_review}" varStatus="index">
+            <c:if test="${requestScope.user_comments != null or requestScope.user_comments.size > 0}">
+                <div class="table">
+                    <table>
                         <tr>
-                            <td>${userReview.login}</td>
-                            <td>${userReview.review}</td>
-                            <td>${userReview.filmRate}</td>
+                            <th><fmt:message key="film.user.actions.userLogin"/></th>
+                            <th><fmt:message key="film.user.actions.comment"/></th>
                         </tr>
-                    </c:forEach>
 
-                </table>
-            </div>
+                        <c:forEach var="userCommentDto" items="${requestScope.user_comments}" varStatus="index">
+                            <tr>
+                                <td>${userCommentDto.login}</td>
+                                <td>${userCommentDto.comment}</td>
+                            </tr>
+                        </c:forEach>
+
+                    </table>
+                </div>
+            </c:if>
         </c:if>
     </section>
 </div>

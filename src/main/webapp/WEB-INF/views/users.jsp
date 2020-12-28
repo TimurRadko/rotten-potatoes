@@ -30,7 +30,6 @@
                     <c:choose>
                         <c:when test="${sessionScope.rights == 'ADMIN'}">
                             <tr>
-                                <td>${index.count}</td>
                                 <td>
                                     <a href="<c:url value="/controller?command=admin-user-edit&id=${user.id}"/>">${user.login}</a>
                                 </td>

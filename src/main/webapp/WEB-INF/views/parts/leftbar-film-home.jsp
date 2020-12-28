@@ -15,7 +15,7 @@
             </a>
             </c:when>
             <c:otherwise>
-                <a href="<c:url value="/controller?command=show-review"/>">
+                <a href="<c:url value="/controller?command=show-reviews"/>">
                     <button><fmt:message key="main.left.showReview"/></button>
                 </a>
                 <a href="<c:url value="/controller?command=show-comments"/>">

@@ -22,11 +22,12 @@ public class GetUserById implements Command {
 
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
-        int id = Integer.parseInt(requestContext.getRequestParameter(ID_PARAMETER));
-        Optional<User> user = userService.getUserById(id);
-        if (user.isPresent()) {
-            User sessionUser = user.get();
-            requestContext.setSessionAttribute(USER_PARAMETER, sessionUser);
+        String stringUserId = requestContext.getRequestParameter(ID_PARAMETER);
+        int userId = Integer.parseInt(stringUserId);
+        Optional<User> optionalUser = userService.getUserById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            requestContext.setRequestAttribute(USER_PARAMETER, user);
             return CommandResult.forward(USER_EDIT_PAGE);
         } else {
             return CommandResult.forward(FILMS_PAGE);

@@ -16,14 +16,12 @@ public class UserRowMapper implements RowMapper<User> {
 
     @Override
     public User map(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt(ID);
+        Integer id = resultSet.getInt(ID);
         String login = resultSet.getString(LOGIN);
         String password = resultSet.getString(PASSWORD);
-
-        String rightsString = resultSet.getString(RIGHTS);
-        Rights rights = Rights.valueOf(rightsString.toUpperCase());
-
-        double rate = resultSet.getDouble(RATE);
+        String stringRights = resultSet.getString(RIGHTS);
+        Rights rights = Rights.valueOf(stringRights);
+        int rate = resultSet.getInt(RATE);
         boolean blocked = resultSet.getBoolean(BLOCKED);
         return new User(id, login, password, rights, rate, blocked);
     }

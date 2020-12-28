@@ -8,9 +8,9 @@ CREATE TABLE IF NOT EXISTS `users`
     `id`       INT                             NOT NULL AUTO_INCREMENT,
     `login`    VARCHAR(50)                     NOT NULL,
     `password` VARCHAR(50)                     NOT NULL,
-    `rights`   ENUM ('user', 'admin', 'guest') NOT NULL,
+    `rights`   ENUM ('USER', 'ADMIN')          CHARACTER SET 'utf8' NOT NULL DEFAULT 'USER',
     `rate`     INT                             NOT NULL,
-    `blocked`  BOOLEAN                         NULL,
+    `blocked`  BOOLEAN                         NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
     UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE

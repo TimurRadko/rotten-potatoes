@@ -46,4 +46,14 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    @Override
+    public Optional<Integer> blockUnblockUser(User user) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            UserDao userDao = daoHelper.createUserDao();
+            return userDao.save(user);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

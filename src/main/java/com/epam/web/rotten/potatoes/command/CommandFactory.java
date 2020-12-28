@@ -3,6 +3,7 @@ package com.epam.web.rotten.potatoes.command;
 import com.epam.web.rotten.potatoes.command.impl.*;
 import com.epam.web.rotten.potatoes.dao.helper.DaoHelperFactory;
 import com.epam.web.rotten.potatoes.service.action.UserActionServiceImpl;
+import com.epam.web.rotten.potatoes.service.comment.UserCommentServiceImpl;
 import com.epam.web.rotten.potatoes.service.film.FilmServiceImpl;
 import com.epam.web.rotten.potatoes.service.user.UserServiceImpl;
 
@@ -31,14 +32,19 @@ public class CommandFactory {
     private static final String GET_USER_LIST = "users";
     private static final String SORT_FILMS = "sort-films";
     private static final String GET_FILM_BY_ID = "film-home";
-    private static final String USER_EDIT = "admin-user-edit";
     private static final String ADD_REVIEW_AND_RATE = "review-rate";
-    private static final String SHOW_REVIEW = "show-review";
+    private static final String SHOW_REVIEWS = "show-reviews";
+    private static final String SHOW_COMMENTS = "show-comments";
     private static final String GET_FILM_BY_DIRECTOR = "director";
+    private static final String ADD_COMMENT = "comment";
+
+    private static final String ADMIN_USER_EDIT = "admin-user-edit";
+    private static final String ADMIN_BLOCK_UNBLOCK_USER = "admin-block-unblock";
 
     public static Command create(String command) {
         if (command == null) {
-            return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()));
+            return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()),
+                    new UserActionServiceImpl(new DaoHelperFactory()));
         }
         switch (command) {
             case GO_TO_HOME:
@@ -54,7 +60,6 @@ public class CommandFactory {
             case GO_TO_FILM_HOME:
                 return new GoToPage(FILM_HOME_PAGE);
 
-
             case LOGIN:
                 return new Login(new UserServiceImpl(new DaoHelperFactory()));
             case LOGOUT:
@@ -62,21 +67,28 @@ public class CommandFactory {
 
             case ADD_REVIEW_AND_RATE:
                 return new AddFilmRateAndReview(new UserActionServiceImpl(new DaoHelperFactory()));
-            case SHOW_REVIEW:
+            case SHOW_REVIEWS:
                 return new ShowFilmReview(new UserActionServiceImpl(new DaoHelperFactory()),
                         new UserServiceImpl(new DaoHelperFactory()));
             case GET_FILM_BY_ID:
-                return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()));
+                return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()),
+                        new UserActionServiceImpl(new DaoHelperFactory()));
             case GET_FILM_BY_DIRECTOR:
                 return new GetFilmsByDirector(new FilmServiceImpl(new DaoHelperFactory()));
             case GET_FILMS_LIST:
-                return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()));
+                return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()),
+                        new UserActionServiceImpl(new DaoHelperFactory()));
             case GET_USER_LIST:
                 return new GetUserList(new UserServiceImpl(new DaoHelperFactory()));
-
-            case USER_EDIT:
+            case ADD_COMMENT:
+                return new AddFilmComment(new UserCommentServiceImpl(new DaoHelperFactory()));
+            case SHOW_COMMENTS:
+                return new ShowFilmComment(new UserCommentServiceImpl(new DaoHelperFactory()),
+                        new UserServiceImpl(new DaoHelperFactory()));
+            case ADMIN_USER_EDIT:
                 return new GetUserById(new UserServiceImpl(new DaoHelperFactory()));
-
+            case ADMIN_BLOCK_UNBLOCK_USER:
+                return new BlockUnblockUser(new UserServiceImpl(new DaoHelperFactory()));
             case SORT_FILMS:
                 return new SortFilm(new FilmServiceImpl(new DaoHelperFactory()));
             default:

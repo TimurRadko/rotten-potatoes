@@ -17,7 +17,7 @@ public class UserFieldsExtractor implements FieldsExtractor<User> {
 
     @Override
     public Map<Integer, Object> extract(User user) {
-        int id = user.getId();
+        Integer id = user.getId();
         fields.put(ID, id);
         String login = user.getLogin();
         fields.put(LOGIN, login);
@@ -25,7 +25,7 @@ public class UserFieldsExtractor implements FieldsExtractor<User> {
         fields.put(PASSWORD, password);
         Rights rights = user.getRights();
         fields.put(RIGHTS, rights);
-        double rate = user.getRate();
+        int rate = user.getRate();
         fields.put(RATE, rate);
         boolean blocked = user.isBlocked();
         fields.put(BLOCKED, blocked);

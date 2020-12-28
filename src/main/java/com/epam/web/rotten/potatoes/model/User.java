@@ -5,10 +5,10 @@ public class User extends Entity {
     private final String login;
     private final String password;
     private final Rights rights;
-    private final double rate;
+    private final Integer rate;
     private final boolean blocked;
 
-    public User(Integer id, String login, String password, Rights rights, double rate, boolean blocked) {
+    public User(Integer id, String login, String password, Rights rights, Integer rate, boolean blocked) {
         super(id);
         this.login = login;
         this.password = password;
@@ -29,7 +29,7 @@ public class User extends Entity {
         return rights;
     }
 
-    public double getRate() {
+    public Integer getRate() {
         return rate;
     }
 
@@ -51,9 +51,6 @@ public class User extends Entity {
 
         User user = (User) o;
 
-        if (Double.compare(user.getRate(), getRate()) != 0) {
-            return false;
-        }
         if (isBlocked() != user.isBlocked()) {
             return false;
         }
@@ -63,18 +60,17 @@ public class User extends Entity {
         if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null) {
             return false;
         }
-        return getRights() == user.getRights();
+        if (getRights() != user.getRights()) return false;
+        return getRate() != null ? getRate().equals(user.getRate()) : user.getRate() == null;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        long temp;
         result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         result = 31 * result + (getRights() != null ? getRights().hashCode() : 0);
-        temp = Double.doubleToLongBits(getRate());
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (getRate() != null ? getRate().hashCode() : 0);
         result = 31 * result + (isBlocked() ? 1 : 0);
         return result;
     }

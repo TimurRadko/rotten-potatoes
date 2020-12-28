@@ -73,34 +73,32 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     @Override
     public Optional<Integer> save(T item) throws DaoException {
         Map<Integer, Object> fields = fieldsExtractor.extract(item);
-
         Integer id = item.getId();
         String query;
         if (id == null) {
             query = saveQuery;
         } else {
             query = updateQuery;
-            Integer updateId = fields.size() + 1;
-            fields.put(updateId, id);
-            fields = changeParameterIndex(fields);
+
+//            Integer updateId = fields.size() + 1;
+//            fields.put(updateId, id);
+//            fields = changeParameterIndex(fields);
         }
         return executeUpdate(query, fields);
     }
 
-    private Map<Integer, Object> changeParameterIndex(Map<Integer, Object> fields) {
-        fields.remove(1);
-        Map<Integer, Object> newFields = new HashMap<>();
-        int newParameterIndex = 1;
-        for (Integer key : fields.keySet()) {
-            Object object = fields.get(key);
-            newFields.put(newParameterIndex, object);
-            newParameterIndex++;
-        }
-        for (Map.Entry<Integer, Object> pair : newFields.entrySet()) {
-            System.out.println(pair.getKey() + " " + pair.getValue());
-        }
-        return newFields;
-    }
+//    private Map<Integer, Object> changeParameterIndex(Map<Integer, Object> fields) {
+//        fields.remove(1);
+//        Map<Integer, Object> newFields = new HashMap<>();
+//        for (Map.Entry<Integer, Object> pair : fields.entrySet()) {
+//            Integer key = pair.getKey();
+//            Object object = pair.getKey();
+//            newFields.put(key - 1, object);
+//        }
+////        int size = newFields.size();
+////        newFields.remove(7);
+//        return newFields;
+//    }
 
     protected Optional<T> executeForSingleResult(String query, Object... params) throws DaoException {
         List<T> items = executeQuery(query, params);
