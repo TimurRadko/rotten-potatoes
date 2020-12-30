@@ -1,6 +1,5 @@
 package com.epam.web.rotten.potatoes.dao.mapper;
 
-import com.epam.web.rotten.potatoes.model.Rights;
 import com.epam.web.rotten.potatoes.model.User;
 
 import java.sql.ResultSet;
@@ -19,8 +18,7 @@ public class UserRowMapper implements RowMapper<User> {
         Integer id = resultSet.getInt(ID);
         String login = resultSet.getString(LOGIN);
         String password = resultSet.getString(PASSWORD);
-        String stringRights = resultSet.getString(RIGHTS);
-        Rights rights = Rights.valueOf(stringRights);
+        String rights = resultSet.getString(RIGHTS);
         int rate = resultSet.getInt(RATE);
         boolean blocked = resultSet.getBoolean(BLOCKED);
         return new User(id, login, password, rights, rate, blocked);

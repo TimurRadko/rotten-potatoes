@@ -18,13 +18,13 @@
 
                 <c:choose>
 
-                    <c:when test="${sessionScope.rights == 'ADMIN'}">
+                    <c:when test="${sessionScope.rights == 'admin'}">
                         <a href="<c:url value="/controller?command=films"/>">
                             <button><fmt:message key="main.left.editFilms"/></button>
                         </a>
                     </c:when>
 
-                    <c:when test="${sessionScope.rights == 'USER'}">
+                    <c:when test="${sessionScope.rights == 'user'}">
                         <a href="<c:url value="/controller?command=films"/>">
                             <button><fmt:message key="main.left.films"/></button>
                         </a>

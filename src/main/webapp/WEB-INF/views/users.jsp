@@ -24,20 +24,33 @@
                 <tr>
                     <th><fmt:message key="users.login"/></th>
                     <th><fmt:message key="users.rate"/></th>
+                    <c:if test="${sessionScope.rights == 'admin'}">
+                        <th><fmt:message key="users.blocked"/></th>
+                    </c:if>
                 </tr>
 
                 <c:forEach var="user" items="${requestScope.users}" varStatus="index">
                     <c:choose>
-                        <c:when test="${sessionScope.rights == 'ADMIN'}">
+                        <c:when test="${sessionScope.rights == 'admin'}">
                             <tr>
                                 <td>
                                     <a href="<c:url value="/controller?command=admin-user-edit&id=${user.id}"/>">${user.login}</a>
                                 </td>
                                 <td>${user.rate}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${user.blocked == true}">
+                                            <fmt:message key="users.blocked.answer.yes"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <fmt:message key="users.blocked.answer.no"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
                             </tr>
                         </c:when>
                         <c:otherwise>
-                            <c:if test="${user.rights != 'ADMIN' or user.blocked == true}">
+                            <c:if test="${user.rights != 'admin' or user.blocked == true}">
                                 <tr>
                                     <td>${user.login}</td>
                                     <td>${user.rate}</td>
@@ -47,7 +60,7 @@
                     </c:choose>
                 </c:forEach>
             </table>
-            </br>
+            <br/>
         </div>
     </section>
 </div>

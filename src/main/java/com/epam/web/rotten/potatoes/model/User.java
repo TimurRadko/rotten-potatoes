@@ -1,20 +1,26 @@
 package com.epam.web.rotten.potatoes.model;
 
-public class User extends Entity {
+public class User implements Entity {
     public static final String TABLE = "users";
+    private final Integer id;
     private final String login;
     private final String password;
-    private final Rights rights;
+    private final String rights;
     private final Integer rate;
     private final boolean blocked;
 
-    public User(Integer id, String login, String password, Rights rights, Integer rate, boolean blocked) {
-        super(id);
+    public User(Integer id, String login, String password, String rights, Integer rate, boolean blocked) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.rights = rights;
         this.rate = rate;
         this.blocked = blocked;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     public String getLogin() {
@@ -25,7 +31,7 @@ public class User extends Entity {
         return password;
     }
 
-    public Rights getRights() {
+    public String getRights() {
         return rights;
     }
 
@@ -45,13 +51,13 @@ public class User extends Entity {
         if (!(o instanceof User)) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
 
         User user = (User) o;
 
         if (isBlocked() != user.isBlocked()) {
+            return false;
+        }
+        if (getId() != null ? !getId().equals(user.getId()) : user.getId() != null) {
             return false;
         }
         if (getLogin() != null ? !getLogin().equals(user.getLogin()) : user.getLogin() != null) {
@@ -60,13 +66,15 @@ public class User extends Entity {
         if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null) {
             return false;
         }
-        if (getRights() != user.getRights()) return false;
+        if (getRights() != null ? !getRights().equals(user.getRights()) : user.getRights() != null) {
+            return false;
+        }
         return getRate() != null ? getRate().equals(user.getRate()) : user.getRate() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         result = 31 * result + (getRights() != null ? getRights().hashCode() : 0);
@@ -78,9 +86,10 @@ public class User extends Entity {
     @Override
     public String toString() {
         return "User{" +
-                "login='" + login + '\'' +
+                "id=" + id +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", rights=" + rights +
+                ", rights='" + rights + '\'' +
                 ", rate=" + rate +
                 ", blocked=" + blocked +
                 '}';

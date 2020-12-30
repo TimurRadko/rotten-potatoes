@@ -1,18 +1,24 @@
 package com.epam.web.rotten.potatoes.model;
 
-public class UserAction extends Entity {
+public class UserAction implements Entity {
     public static final String TABLE = "user_actions";
+    private final Integer id;
     private final int filmRate;
     private final String review;
     private final int userId;
     private final int filmId;
 
     public UserAction(Integer id, int filmRate, String review, int userId, int filmId) {
-        super(id);
+        this.id = id;
         this.filmRate = filmRate;
         this.review = review;
         this.userId = userId;
         this.filmId = filmId;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     public int getFilmRate() {
@@ -39,27 +45,27 @@ public class UserAction extends Entity {
         if (!(o instanceof UserAction)) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
 
-        UserAction that = (UserAction) o;
+        UserAction action = (UserAction) o;
 
-        if (getFilmRate() != that.getFilmRate()) {
+        if (getFilmRate() != action.getFilmRate()) {
             return false;
         }
-        if (getUserId() != that.getUserId()) {
+        if (getUserId() != action.getUserId()) {
             return false;
         }
-        if (getFilmId() != that.getFilmId()) {
+        if (getFilmId() != action.getFilmId()) {
             return false;
         }
-        return getReview() != null ? getReview().equals(that.getReview()) : that.getReview() == null;
+        if (getId() != null ? !getId().equals(action.getId()) : action.getId() != null) {
+            return false;
+        }
+        return getReview() != null ? getReview().equals(action.getReview()) : action.getReview() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + getFilmRate();
         result = 31 * result + (getReview() != null ? getReview().hashCode() : 0);
         result = 31 * result + getUserId();
@@ -70,7 +76,8 @@ public class UserAction extends Entity {
     @Override
     public String toString() {
         return "UserAction{" +
-                "filmRate=" + filmRate +
+                "id=" + id +
+                ", filmRate=" + filmRate +
                 ", review='" + review + '\'' +
                 ", userId=" + userId +
                 ", filmId=" + filmId +

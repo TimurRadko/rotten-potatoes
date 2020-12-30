@@ -1,4 +1,4 @@
-package com.epam.web.rotten.potatoes.command.impl;
+package com.epam.web.rotten.potatoes.command.impl.user;
 
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;

@@ -1,6 +1,14 @@
 package com.epam.web.rotten.potatoes.command;
 
 import com.epam.web.rotten.potatoes.command.impl.*;
+import com.epam.web.rotten.potatoes.command.impl.admin.AddFilm;
+import com.epam.web.rotten.potatoes.command.impl.admin.AddUserRate;
+import com.epam.web.rotten.potatoes.command.impl.admin.BlockUnblockUser;
+import com.epam.web.rotten.potatoes.command.impl.admin.ReduceUserRate;
+import com.epam.web.rotten.potatoes.command.impl.user.AddFilmComment;
+import com.epam.web.rotten.potatoes.command.impl.user.AddFilmRateAndReview;
+import com.epam.web.rotten.potatoes.command.impl.user.ShowFilmComment;
+import com.epam.web.rotten.potatoes.command.impl.user.ShowFilmReview;
 import com.epam.web.rotten.potatoes.dao.helper.DaoHelperFactory;
 import com.epam.web.rotten.potatoes.service.action.UserActionServiceImpl;
 import com.epam.web.rotten.potatoes.service.comment.UserCommentServiceImpl;
@@ -30,7 +38,6 @@ public class CommandFactory {
     private static final String LOGOUT = "logout";
     private static final String GET_FILMS_LIST = "films";
     private static final String GET_USER_LIST = "users";
-    private static final String SORT_FILMS = "sort-films";
     private static final String GET_FILM_BY_ID = "film-home";
     private static final String ADD_REVIEW_AND_RATE = "review-rate";
     private static final String SHOW_REVIEWS = "show-reviews";
@@ -38,14 +45,16 @@ public class CommandFactory {
     private static final String GET_FILM_BY_DIRECTOR = "director";
     private static final String ADD_COMMENT = "comment";
 
+    private static final String ADMIN_GO_TO_SAVE_FILM = "admin-goToEditFilm";
+    private static final String FILM_SAVE_PAGE = "WEB-INF/views/film-save.jsp";
+
     private static final String ADMIN_USER_EDIT = "admin-user-edit";
     private static final String ADMIN_BLOCK_UNBLOCK_USER = "admin-block-unblock";
+    private static final String ADMIN_ADD_USER_RATE = "admin-add-user-rate";
+    private static final String ADMIN_REDUCE_USER_RATE = "admin-reduce-user-rate";
+    private static final String ADMIN_ADD_FILM = "admin-add-film";
 
     public static Command create(String command) {
-        if (command == null) {
-            return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()),
-                    new UserActionServiceImpl(new DaoHelperFactory()));
-        }
         switch (command) {
             case GO_TO_HOME:
                 return new GoToPage(HOME_PAGE);
@@ -59,6 +68,8 @@ public class CommandFactory {
                 return new GoToPage(COMMENT_PAGE);
             case GO_TO_FILM_HOME:
                 return new GoToPage(FILM_HOME_PAGE);
+            case ADMIN_GO_TO_SAVE_FILM:
+                return new GoToPage(FILM_SAVE_PAGE);
 
             case LOGIN:
                 return new Login(new UserServiceImpl(new DaoHelperFactory()));
@@ -85,12 +96,17 @@ public class CommandFactory {
             case SHOW_COMMENTS:
                 return new ShowFilmComment(new UserCommentServiceImpl(new DaoHelperFactory()),
                         new UserServiceImpl(new DaoHelperFactory()));
+
             case ADMIN_USER_EDIT:
                 return new GetUserById(new UserServiceImpl(new DaoHelperFactory()));
             case ADMIN_BLOCK_UNBLOCK_USER:
                 return new BlockUnblockUser(new UserServiceImpl(new DaoHelperFactory()));
-            case SORT_FILMS:
-                return new SortFilm(new FilmServiceImpl(new DaoHelperFactory()));
+            case ADMIN_ADD_USER_RATE:
+                return new AddUserRate(new UserServiceImpl(new DaoHelperFactory()));
+            case ADMIN_REDUCE_USER_RATE:
+                return new ReduceUserRate(new UserServiceImpl(new DaoHelperFactory()));
+            case ADMIN_ADD_FILM:
+                return new AddFilm(new FilmServiceImpl(new DaoHelperFactory()));
             default:
                 throw new IllegalArgumentException();
         }

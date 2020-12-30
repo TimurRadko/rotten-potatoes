@@ -1,6 +1,5 @@
 package com.epam.web.rotten.potatoes.dao.extractor;
 
-import com.epam.web.rotten.potatoes.model.Rights;
 import com.epam.web.rotten.potatoes.model.User;
 
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class UserFieldsExtractor implements FieldsExtractor<User> {
         fields.put(LOGIN, login);
         String password = user.getPassword();
         fields.put(PASSWORD, password);
-        Rights rights = user.getRights();
+        String rights = user.getRights();
         fields.put(RIGHTS, rights);
         int rate = user.getRate();
         fields.put(RATE, rate);

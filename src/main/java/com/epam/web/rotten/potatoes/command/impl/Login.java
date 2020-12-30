@@ -2,7 +2,6 @@ package com.epam.web.rotten.potatoes.command.impl;
 
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
-import com.epam.web.rotten.potatoes.model.Rights;
 import com.epam.web.rotten.potatoes.model.User;
 import com.epam.web.rotten.potatoes.service.user.UserServiceImpl;
 import com.epam.web.rotten.potatoes.command.Command;
@@ -55,7 +54,7 @@ public class Login implements Command {
     private void setSessionUserData(RequestContext requestContext, User user) {
         int id = user.getId();
         String login = user.getLogin();
-        Rights rights = user.getRights();
+        String rights = user.getRights();
         double rate = user.getRate();
         boolean blocked = user.isBlocked();
         requestContext.setSessionAttribute(ID_PARAMETER, id);

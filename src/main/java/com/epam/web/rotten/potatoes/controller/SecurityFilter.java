@@ -1,7 +1,5 @@
 package com.epam.web.rotten.potatoes.controller;
 
-import com.epam.web.rotten.potatoes.model.Rights;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +10,7 @@ public class SecurityFilter implements Filter {
     private static final String COMMAND_PARAMETER = "command";
     private static final String ADMIN = "admin";
     private static final String RIGHTS = "rights";
-    private static final String ADMIN_RIGHTS = "ADMIN";
+    private static final String ADMIN_RIGHTS = "admin";
     private static final int FORBIDDEN = 403;
 
     @Override
@@ -22,8 +20,8 @@ public class SecurityFilter implements Filter {
         String command = req.getParameter(COMMAND_PARAMETER);
         if (command != null && command.contains(ADMIN)) {
             HttpSession session = req.getSession();
-            Rights rights = (Rights) session.getAttribute(RIGHTS);
-            if (!ADMIN_RIGHTS.equalsIgnoreCase(rights.toString())) {
+            String rights = (String) session.getAttribute(RIGHTS);
+            if (!ADMIN_RIGHTS.equalsIgnoreCase(rights)) {
                 resp.sendError(FORBIDDEN);
             }
         }

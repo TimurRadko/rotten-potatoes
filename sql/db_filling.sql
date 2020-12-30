@@ -43,12 +43,12 @@ FROM users;
 ##INSERT users into DB
 
 INSERT INTO `users`(login, password, rights, rate, blocked) VALUES
-('Admin', sha1('Admin'), 'ADMIN', 100, false),
-('Tom', sha1('Tom'), 'USER', 50, false),
-('Jerry', sha1('Jerry'), 'USER', 10, false),
-('Spike', sha1('Spike'), 'USER', 33, false),
-('Casper', sha1('Casper'), 'USER', 0, true),
-('Alladin', sha1('Alladin'), 'USER', 0, true);
+('Admin', sha1('Admin'), 'admin', 100, false),
+('Tom', sha1('Tom'), 'user', 50, false),
+('Jerry', sha1('Jerry'), 'user', 10, false),
+('Spike', sha1('Spike'), 'user', 33, false),
+('Casper', sha1('Casper'), 'user', 0, true),
+('Alladin', sha1('Alladin'), 'user', 0, true);
 
 SELECT COUNT(*)
 FROM films;
@@ -75,5 +75,7 @@ where user_id = 2;
 SELECT * FROM user_actions WHERE film_id=1;
 
 SELECT * FROM users;
+
+SELECT * FROM users WHERE rights=1;
 
 UPDATE users SET rights='USER', blocked=false WHERE id=5;

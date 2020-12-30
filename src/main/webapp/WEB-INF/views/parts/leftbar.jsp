@@ -16,13 +16,16 @@
             </c:when>
             <c:when test="${sessionScope.login != null}">
                 <c:choose>
-                    <c:when test="${sessionScope.rights == 'ADMIN'}">
+                    <c:when test="${sessionScope.rights == 'admin'}">
                         <a href="<c:url value="/controller?command=users"/>">
                             <button><fmt:message key="main.left.editUsers"/></button>
                         </a>
+                        <a href="<c:url value="/controller?command=admin-goToEditFilm"/>">
+                            <button><fmt:message key="main.left.addFilm"/></button>
+                        </a>
                     </c:when>
 
-                    <c:when test="${sessionScope.rights == 'USER'}">
+                    <c:when test="${sessionScope.rights == 'user'}">
                         <a href="<c:url value="/controller?command=users"/>">
                             <button><fmt:message key="main.left.users"/></button>
                         </a>

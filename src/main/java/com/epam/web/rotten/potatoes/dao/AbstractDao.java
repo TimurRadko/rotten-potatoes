@@ -79,26 +79,24 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
             query = saveQuery;
         } else {
             query = updateQuery;
-
-//            Integer updateId = fields.size() + 1;
-//            fields.put(updateId, id);
-//            fields = changeParameterIndex(fields);
+            fields = changeParameterOrder(fields);
         }
         return executeUpdate(query, fields);
     }
 
-//    private Map<Integer, Object> changeParameterIndex(Map<Integer, Object> fields) {
-//        fields.remove(1);
-//        Map<Integer, Object> newFields = new HashMap<>();
-//        for (Map.Entry<Integer, Object> pair : fields.entrySet()) {
-//            Integer key = pair.getKey();
-//            Object object = pair.getKey();
-//            newFields.put(key - 1, object);
-//        }
-////        int size = newFields.size();
-////        newFields.remove(7);
-//        return newFields;
-//    }
+    private Map<Integer, Object> changeParameterOrder(Map<Integer, Object> fields) {
+        Map<Integer, Object> newFields = new HashMap<>();
+        int size = fields.size();
+        Object idField = fields.get(1);
+        fields.remove(1);
+        newFields.put(size, idField);
+        for (Map.Entry<Integer, Object> pair : fields.entrySet()) {
+            Integer key = pair.getKey();
+            Object object = pair.getValue();
+            newFields.put(key - 1, object);
+        }
+        return newFields;
+    }
 
     protected Optional<T> executeForSingleResult(String query, Object... params) throws DaoException {
         List<T> items = executeQuery(query, params);

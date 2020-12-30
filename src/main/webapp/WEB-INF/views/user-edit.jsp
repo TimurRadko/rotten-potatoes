@@ -37,10 +37,15 @@
             </c:otherwise>
         </c:choose>
 
+        <a href="<c:url value="/controller?command=admin-add-user-rate&id=${requestScope.user.id}"/>">
+            <button><fmt:message key="user.edit.addRate"/></button>
+        </a>
+
+        <a href="<c:url value="/controller?command=admin-reduce-user-rate&id=${requestScope.user.id}"/>">
+            <button><fmt:message key="user.edit.reduceRate"/></button>
+        </a>
+
     </section>
-
-
 </div>
 <jsp:include page="parts/footer.jsp"/>
 </body>
-

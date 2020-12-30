@@ -27,7 +27,7 @@
             <p><fmt:message key="film.avgRate"/> ${sessionScope.film.avgRate}</p>
         </div>
 
-        <c:if test="${sessionScope.rights != 'BLOCKED' and sessionScope.rights != null}">
+        <c:if test="${sessionScope.rights != null and sessionScope.blocked == false}">
 
             <a href="<c:url value="/controller?command=goToReview"/>">
                 <button><fmt:message key="film.addRate"/></button>

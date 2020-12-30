@@ -1,4 +1,4 @@
-package com.epam.web.rotten.potatoes.command.impl;
+package com.epam.web.rotten.potatoes.command.impl.user;
 
 import com.epam.web.rotten.potatoes.command.Command;
 import com.epam.web.rotten.potatoes.command.CommandResult;

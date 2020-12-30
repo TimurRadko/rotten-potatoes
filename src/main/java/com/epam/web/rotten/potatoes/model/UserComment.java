@@ -1,16 +1,22 @@
 package com.epam.web.rotten.potatoes.model;
 
-public class UserComment extends Entity {
+public class UserComment implements Entity {
     public static final String TABLE = "user_comments";
+    private final Integer id;
     private final String comment;
     private final int userId;
     private final int filmId;
 
     public UserComment(Integer id, String comment, int userId, int filmId) {
-        super(id);
+        this.id = id;
         this.comment = comment;
         this.userId = userId;
         this.filmId = filmId;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     public String getComment() {
@@ -33,9 +39,6 @@ public class UserComment extends Entity {
         if (!(o instanceof UserComment)) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
 
         UserComment that = (UserComment) o;
 
@@ -45,12 +48,15 @@ public class UserComment extends Entity {
         if (getFilmId() != that.getFilmId()) {
             return false;
         }
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) {
+            return false;
+        }
         return getComment() != null ? getComment().equals(that.getComment()) : that.getComment() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
         result = 31 * result + getUserId();
         result = 31 * result + getFilmId();
@@ -60,7 +66,8 @@ public class UserComment extends Entity {
     @Override
     public String toString() {
         return "UserComment{" +
-                "comment='" + comment + '\'' +
+                "id=" + id +
+                ", comment='" + comment + '\'' +
                 ", userId=" + userId +
                 ", filmId=" + filmId +
                 '}';

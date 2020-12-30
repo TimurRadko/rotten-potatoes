@@ -2,14 +2,20 @@ package com.epam.web.rotten.potatoes.model.dto;
 
 import com.epam.web.rotten.potatoes.model.Entity;
 
-public class UserCommentDto extends Entity {
+public class UserCommentDto implements Entity {
+    private final Integer id;
     private final String login;
     private final String comment;
 
     public UserCommentDto(Integer id, String login, String comment) {
-        super(id);
+        this.id = id;
         this.login = login;
         this.comment = comment;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     public String getLogin() {
@@ -28,19 +34,21 @@ public class UserCommentDto extends Entity {
         if (!(o instanceof UserCommentDto)) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
 
         UserCommentDto that = (UserCommentDto) o;
 
-        if (getLogin() != null ? !getLogin().equals(that.getLogin()) : that.getLogin() != null) return false;
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) {
+            return false;
+        }
+        if (getLogin() != null ? !getLogin().equals(that.getLogin()) : that.getLogin() != null) {
+            return false;
+        }
         return getComment() != null ? getComment().equals(that.getComment()) : that.getComment() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
         result = 31 * result + (getComment() != null ? getComment().hashCode() : 0);
         return result;
@@ -48,8 +56,9 @@ public class UserCommentDto extends Entity {
 
     @Override
     public String toString() {
-        return "UserComment{" +
-                "login='" + login + '\'' +
+        return "UserCommentDto{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
                 ", comment='" + comment + '\'' +
                 '}';
     }

@@ -1,18 +1,24 @@
 package com.epam.web.rotten.potatoes.model;
 
-public class Film extends Entity {
+public class Film implements Entity {
     public static final String TABLE = "films";
+    private final Integer id;
     private final String title;
     private final String director;
     private final String poster;
     private final double avgRate;
 
     public Film(Integer id, String title, String director, String poster, double avgRate) {
-        super(id);
+        this.id = id;
         this.title = title;
         this.director = director;
         this.poster = poster;
         this.avgRate = avgRate;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -39,13 +45,13 @@ public class Film extends Entity {
         if (!(o instanceof Film)) {
             return false;
         }
-        if (!super.equals(o)) {
-            return false;
-        }
 
         Film film = (Film) o;
 
         if (Double.compare(film.getAvgRate(), getAvgRate()) != 0) {
+            return false;
+        }
+        if (getId() != null ? !getId().equals(film.getId()) : film.getId() != null) {
             return false;
         }
         if (getTitle() != null ? !getTitle().equals(film.getTitle()) : film.getTitle() != null) {
@@ -59,8 +65,9 @@ public class Film extends Entity {
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
+        int result;
         long temp;
+        result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
         result = 31 * result + (getDirector() != null ? getDirector().hashCode() : 0);
         result = 31 * result + (getPoster() != null ? getPoster().hashCode() : 0);
@@ -72,7 +79,8 @@ public class Film extends Entity {
     @Override
     public String toString() {
         return "Film{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", director='" + director + '\'' +
                 ", poster='" + poster + '\'' +
                 ", avgRate=" + avgRate +

@@ -10,5 +10,5 @@ public interface UserService {
     Optional<User> login(String login, String password) throws ServiceException;
     List<User> getAllUsers() throws ServiceException;
     Optional<User> getUserById(Integer id) throws ServiceException;
-    Optional<Integer> blockUnblockUser(User user) throws ServiceException;
+    void changeUserData(User user) throws ServiceException;
 }

@@ -1,16 +1,24 @@
 package com.epam.web.rotten.potatoes.controller.context;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public class RequestContext {
     private final Map<String, Object> requestAttributes;
     private final Map<String, String> requestParameters;
     private final Map<String, Object> sessionAttributes;
+    private final HttpServletRequest req;
 
-    /*package-private*/ RequestContext(Map<String, Object> requestAttributes, Map<String, String> requestParameters, Map<String, Object> sessionAttributes) {
+    /*package-private*/ RequestContext(Map<String, Object> requestAttributes, Map<String, String> requestParameters,
+                                       Map<String, Object> sessionAttributes, HttpServletRequest req) {
         this.requestAttributes = requestAttributes;
         this.requestParameters = requestParameters;
         this.sessionAttributes = sessionAttributes;
+        this.req = req;
+    }
+
+    public HttpServletRequest getReq() {
+        return req;
     }
 
     public String getRequestParameter(String key) {

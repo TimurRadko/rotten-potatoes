@@ -11,11 +11,18 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Paths;
 
+@MultipartConfig
 public class FilmController extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(FilmController.class);
     private static final String COMMAND_PARAMETER = "command";
@@ -61,8 +68,12 @@ public class FilmController extends HttpServlet {
 
     @Override
     public void destroy() {
-        ConnectionPool instance = ConnectionPool.getInstance();
-        instance.closeConnections();
+        try {
+            ConnectionPool instance = ConnectionPool.getInstance();
+            instance.closeConnections();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
         super.destroy();
     }
 }

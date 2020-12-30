@@ -20,10 +20,9 @@ public class RequestContextHelper {
         Enumeration<String> sessionAttributesName = session.getAttributeNames();
         Map<String, Object> sessionAttributes = putSessionAttributes(sessionAttributesName, session);
 
-        return new RequestContext(requestAttributes, requestParameters, sessionAttributes);
+        return new RequestContext(requestAttributes, requestParameters, sessionAttributes, req);
     }
 
-    //TODO: Think about duplicate code
     private Map<String, Object> putAttributes(Enumeration<String> attributesName, HttpServletRequest req) {
         Map<String, Object> requestAttributes = new HashMap<>();
         while (attributesName.hasMoreElements()) {
@@ -68,6 +67,7 @@ public class RequestContextHelper {
             req.setAttribute(key, value);
         }
     }
+
     private void updateSessionAttributes(Map<String, Object> sessionAttributes, HttpServletRequest req) {
         HttpSession session = req.getSession();
         if (sessionAttributes.isEmpty()) {

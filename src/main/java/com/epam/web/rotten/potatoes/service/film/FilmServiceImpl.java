@@ -48,20 +48,20 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Film> sortFilmByParameter(String rowName) throws ServiceException {
+    public List<Film> getFilmByDirector(String director) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             FilmDao filmDao = daoHelper.createFilmDao();
-            return filmDao.sortByRow(rowName);
+            return filmDao.getFilmByDirector(director);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Film> getFilmByDirector(String director) throws ServiceException {
+    public Optional<Integer> saveFilm(Film film) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             FilmDao filmDao = daoHelper.createFilmDao();
-            return filmDao.getFilmByDirector(director);
+            return filmDao.save(film);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
