@@ -29,17 +29,23 @@
 
         <c:if test="${sessionScope.rights != null and sessionScope.blocked == false}">
 
-            <a href="<c:url value="/controller?command=goToReview"/>">
-                <button><fmt:message key="film.addRate"/></button>
-            </a>
+            <c:if test="${sessionScope.rights == 'user'}">
+                <a href="<c:url value="/controller?command=goToReview"/>">
+                    <button><fmt:message key="film.addRate"/></button>
+                </a>
+            </c:if>
 
-            <c:if test="${requestScope.user_reviews != null or requestScope.user_reviews.size > 0}">
+
+            <c:if test="${requestScope.user_reviews != null}">
                 <div class="table">
                     <table>
                         <tr>
                             <th><fmt:message key="film.user.actions.userLogin"/></th>
                             <th><fmt:message key="film.user.actions.review"/></th>
                             <th><fmt:message key="film.user.actions.rate"/></th>
+                            <th><c:if test="${sessionScope.rights == 'admin'}">
+                                <fmt:message key="film.admin.action"/>
+                            </c:if></th>
                         </tr>
 
                         <c:forEach var="userReviewDto" items="${requestScope.user_reviews}" varStatus="index">
@@ -47,6 +53,13 @@
                                 <td>${userReviewDto.login}</td>
                                 <td>${userReviewDto.review}</td>
                                 <td>${userReviewDto.filmRate}</td>
+                                <td>
+                                    <c:if test="${sessionScope.rights == 'admin'}">
+                                        <a href="<c:url value="/controller?command=admin-delete-review&id=${userReviewDto.id}"/>">
+                                            <button><fmt:message key="film.admin.action.deleteReview"/></button>
+                                        </a>
+                                    </c:if>
+                                </td>
                             </tr>
                         </c:forEach>
 
@@ -54,22 +67,34 @@
                 </div>
             </c:if>
 
-            <a href="<c:url value="/controller?command=goToComment"/>">
-                <button><fmt:message key="film.addComment"/></button>
-            </a>
+            <c:if test="${sessionScope.rights == 'user'}">
+                <a href="<c:url value="/controller?command=goToComment"/>">
+                    <button><fmt:message key="film.addComment"/></button>
+                </a>
+            </c:if>
 
-            <c:if test="${requestScope.user_comments != null or requestScope.user_comments.size > 0}">
+            <c:if test="${requestScope.user_comments != null}">
                 <div class="table">
                     <table>
                         <tr>
                             <th><fmt:message key="film.user.actions.userLogin"/></th>
                             <th><fmt:message key="film.user.actions.comment"/></th>
+                            <th><c:if test="${sessionScope.rights == 'admin'}">
+                                <fmt:message key="film.admin.action"/>
+                            </c:if></th>
                         </tr>
 
                         <c:forEach var="userCommentDto" items="${requestScope.user_comments}" varStatus="index">
                             <tr>
                                 <td>${userCommentDto.login}</td>
                                 <td>${userCommentDto.comment}</td>
+                                <td>
+                                    <c:if test="${sessionScope.rights == 'admin'}">
+                                        <a href="<c:url value="/controller?command=admin-delete-comment&id=${userCommentDto.id}"/>">
+                                            <button><fmt:message key="film.admin.action.deleteComment"/></button>
+                                        </a>
+                                    </c:if>
+                                </td>
                             </tr>
                         </c:forEach>
 

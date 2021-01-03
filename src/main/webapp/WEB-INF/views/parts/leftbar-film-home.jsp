@@ -14,7 +14,7 @@
                 <button><fmt:message key="main.left.return"/></button>
             </a>
             </c:when>
-            <c:otherwise>
+            <c:when test="${sessionScope.rights == 'user'}">
                 <a href="<c:url value="/controller?command=show-reviews"/>">
                     <button><fmt:message key="main.left.showReview"/></button>
                 </a>
@@ -24,7 +24,21 @@
                 <a href="<c:url value="/controller?command=films"/>">
                     <button><fmt:message key="main.left.return"/></button>
                 </a>
-            </c:otherwise>
+            </c:when>
+            <c:when test="${sessionScope.rights == 'admin'}">
+                <a href="<c:url value="/controller?command=show-reviews"/>">
+                    <button><fmt:message key="main.left.showReview"/></button>
+                </a>
+                <a href="<c:url value="/controller?command=show-comments"/>">
+                    <button><fmt:message key="main.left.showComments"/></button>
+                </a>
+                <a href="<c:url value="/controller?command=films"/>">
+                    <button><fmt:message key="main.left.return"/></button>
+                </a>
+                <a href="<c:url value="/controller?command=admin-delete-film&id=${requestScope.film.id}"/>">
+                    <button><fmt:message key="main.left.deleteFilm"/></button>
+                </a>
+            </c:when>
         </c:choose>
     </div>
 </section>

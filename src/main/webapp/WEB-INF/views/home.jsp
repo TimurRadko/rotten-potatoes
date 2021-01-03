@@ -14,7 +14,7 @@
 <body>
 <jsp:include page="parts/header.jsp"/>
 <div id="tableContainer">
-    <jsp:include page="parts/leftbar-review.jsp"/>
+    <jsp:include page="parts/leftbar-home.jsp"/>
 
     <section id="main">
 

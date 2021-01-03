@@ -22,19 +22,19 @@ public class GetUserList implements Command {
 
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
-        List<User> users = userService.getAllUsers();
-        List<User> withoutAdmin = getUserWithoutAdmin(users);
-        requestContext.setRequestAttribute(USERS, withoutAdmin);
+        List<User> users = userService.getTopUsers();
+        List<User> appropriateUsers = getAppropriateUser(users);
+        requestContext.setRequestAttribute(USERS, appropriateUsers);
         return CommandResult.forward(USERS_PAGE);
     }
 
-    private List<User> getUserWithoutAdmin(List<User> users) {
-        List<User> withoutAdmin = new ArrayList<>();
+    private List<User> getAppropriateUser(List<User> users) {
+        List<User> userList = new ArrayList<>();
         for (User user : users) {
             if (USER.equals(user.getRights())) {
-                withoutAdmin.add(user);
+                userList.add(user);
             }
         }
-        return withoutAdmin;
+        return userList;
     }
 }

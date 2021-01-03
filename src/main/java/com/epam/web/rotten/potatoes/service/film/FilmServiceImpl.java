@@ -18,16 +18,6 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Film> getAll() throws ServiceException {
-        try (DaoHelper daoHelper = daoHelperFactory.create()) {
-            FilmDao filmDao = daoHelper.createFilmDao();
-            return filmDao.getAll();
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
-    @Override
     public List<Film> getFilmsPart(int startsWith, int endsWith) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             FilmDao filmDao = daoHelper.createFilmDao();
@@ -62,6 +52,16 @@ public class FilmServiceImpl implements FilmService {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             FilmDao filmDao = daoHelper.createFilmDao();
             return filmDao.save(film);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void remove(int id) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            FilmDao filmDao = daoHelper.createFilmDao();
+            filmDao.remove(id);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

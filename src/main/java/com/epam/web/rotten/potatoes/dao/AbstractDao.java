@@ -18,7 +18,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
     private static final String GET_BY_ID = "SELECT * FROM %s WHERE id = ?";
     private static final String GET_ALL = "SELECT * FROM %s";
-    private static final String REMOVE_BY_ID = "DELETE * FROM %s WHERE id = ?";
+    private static final String REMOVE_BY_ID = "DELETE FROM %s WHERE id = ?";
 
     protected AbstractDao(Connection connection, RowMapper<T> mapper, FieldsExtractor<T> fieldsExtractor,
                           String tableName, String saveQuery, String updateQuery) {
@@ -67,7 +67,9 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     @Override
     public void remove(int id) throws DaoException {
         String query = String.format(REMOVE_BY_ID, tableName);
-        executeForSingleResult(query, id);
+        Map<Integer, Object> fields = new HashMap<>();
+        fields.put(1, id);
+        executeUpdate(query, fields);
     }
 
     @Override

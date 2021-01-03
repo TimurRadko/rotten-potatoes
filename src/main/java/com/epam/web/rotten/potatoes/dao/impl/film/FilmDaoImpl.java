@@ -12,7 +12,6 @@ import java.util.List;
 public class FilmDaoImpl extends AbstractDao<Film> implements FilmDao {
     private static final FilmRowMapper FILM_ROW_MAPPER = new FilmRowMapper();
     private static final FilmFieldsExtractor FILM_FIELDS_EXTRACTOR = new FilmFieldsExtractor();
-    private static final String GET_FILMS_PART = "SELECT * FROM films limit ?, ?";
     private static final String GET_TOP_FILMS = "SELECT * FROM films ORDER BY avg_rate DESC LIMIT ?, ?";
     private static final String FILMS_TABLE = "films";
     private static final String SAVE_FILM = "INSERT INTO films(id, title, director, poster, avg_rate) VALUES(?,?,?,?,?)";

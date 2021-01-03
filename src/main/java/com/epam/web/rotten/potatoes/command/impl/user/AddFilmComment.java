@@ -31,10 +31,9 @@ public class AddFilmComment implements Command {
             return CommandResult.forward(COMMENT_PAGE);
         }
 
-        int userId = (Integer) requestContext.getSessionAttribute(USER_ID_PARAMETER);
         Film film = (Film) requestContext.getSessionAttribute(FILM);
         int filmId = film.getId();
-
+        int userId = (Integer) requestContext.getSessionAttribute(USER_ID_PARAMETER);
         UserComment userComment = new UserComment(null, comment, filmId, userId);
         userCommentService.addComment(userComment);
         return CommandResult.redirect(GO_TO_FILM_HOME);

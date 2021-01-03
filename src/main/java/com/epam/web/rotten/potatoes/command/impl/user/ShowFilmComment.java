@@ -33,8 +33,8 @@ public class ShowFilmComment implements Command {
         Film film = (Film) requestContext.getSessionAttribute(FILM);
         int filmId = film.getId();
         List<UserComment> comments = userCommentService.findCommentsByFilmId(filmId);
-        List<UserCommentDto> usersAndComments = getAllComments(comments);
-        requestContext.setRequestAttribute(USER_COMMENTS, usersAndComments);
+        List<UserCommentDto> usersAndReviews = getAllComments(comments);
+        requestContext.setRequestAttribute(USER_COMMENTS, usersAndReviews);
         return CommandResult.forward(FILM_HOME_PAGE);
     }
 

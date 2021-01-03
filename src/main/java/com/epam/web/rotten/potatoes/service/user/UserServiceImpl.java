@@ -28,16 +28,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() throws ServiceException {
-        try (DaoHelper daoHelper = daoHelperFactory.create()) {
-            UserDao userDao = daoHelper.createUserDao();
-            return userDao.getAll();
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
-    @Override
     public Optional<User> getUserById(Integer id) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserDao userDao = daoHelper.createUserDao();
@@ -52,6 +42,16 @@ public class UserServiceImpl implements UserService {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserDao userDao = daoHelper.createUserDao();
             userDao.save(user);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<User> getTopUsers() throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            UserDao userDao = daoHelper.createUserDao();
+            return userDao.getTopUsers();
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

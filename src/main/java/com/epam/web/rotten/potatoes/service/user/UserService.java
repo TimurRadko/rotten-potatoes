@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface UserService {
     Optional<User> login(String login, String password) throws ServiceException;
-    List<User> getAllUsers() throws ServiceException;
     Optional<User> getUserById(Integer id) throws ServiceException;
     void changeUserData(User user) throws ServiceException;
+    List<User> getTopUsers() throws ServiceException;
 }

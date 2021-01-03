@@ -1,10 +1,7 @@
 package com.epam.web.rotten.potatoes.command;
 
 import com.epam.web.rotten.potatoes.command.impl.*;
-import com.epam.web.rotten.potatoes.command.impl.admin.AddFilm;
-import com.epam.web.rotten.potatoes.command.impl.admin.AddUserRate;
-import com.epam.web.rotten.potatoes.command.impl.admin.BlockUnblockUser;
-import com.epam.web.rotten.potatoes.command.impl.admin.ReduceUserRate;
+import com.epam.web.rotten.potatoes.command.impl.admin.*;
 import com.epam.web.rotten.potatoes.command.impl.user.AddFilmComment;
 import com.epam.web.rotten.potatoes.command.impl.user.AddFilmRateAndReview;
 import com.epam.web.rotten.potatoes.command.impl.user.ShowFilmComment;
@@ -50,9 +47,11 @@ public class CommandFactory {
 
     private static final String ADMIN_USER_EDIT = "admin-user-edit";
     private static final String ADMIN_BLOCK_UNBLOCK_USER = "admin-block-unblock";
-    private static final String ADMIN_ADD_USER_RATE = "admin-add-user-rate";
-    private static final String ADMIN_REDUCE_USER_RATE = "admin-reduce-user-rate";
+    private static final String ADMIN_EDIT_USER_RATE = "admin-edit-user-rate";
     private static final String ADMIN_ADD_FILM = "admin-add-film";
+    private static final String ADMIN_DELETE_FILM = "admin-delete-film";
+    private static final String ADMIN_DELETE_COMMENT = "admin-delete-comment";
+    private static final String ADMIN_DELETE_REVIEW = "admin-delete-review";
 
     public static Command create(String command) {
         switch (command) {
@@ -82,13 +81,11 @@ public class CommandFactory {
                 return new ShowFilmReview(new UserActionServiceImpl(new DaoHelperFactory()),
                         new UserServiceImpl(new DaoHelperFactory()));
             case GET_FILM_BY_ID:
-                return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()),
-                        new UserActionServiceImpl(new DaoHelperFactory()));
+                return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()));
             case GET_FILM_BY_DIRECTOR:
                 return new GetFilmsByDirector(new FilmServiceImpl(new DaoHelperFactory()));
             case GET_FILMS_LIST:
-                return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()),
-                        new UserActionServiceImpl(new DaoHelperFactory()));
+                return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()));
             case GET_USER_LIST:
                 return new GetUserList(new UserServiceImpl(new DaoHelperFactory()));
             case ADD_COMMENT:
@@ -101,12 +98,14 @@ public class CommandFactory {
                 return new GetUserById(new UserServiceImpl(new DaoHelperFactory()));
             case ADMIN_BLOCK_UNBLOCK_USER:
                 return new BlockUnblockUser(new UserServiceImpl(new DaoHelperFactory()));
-            case ADMIN_ADD_USER_RATE:
-                return new AddUserRate(new UserServiceImpl(new DaoHelperFactory()));
-            case ADMIN_REDUCE_USER_RATE:
-                return new ReduceUserRate(new UserServiceImpl(new DaoHelperFactory()));
+            case ADMIN_EDIT_USER_RATE:
+                return new ChangeUserRate(new UserServiceImpl(new DaoHelperFactory()));
             case ADMIN_ADD_FILM:
                 return new AddFilm(new FilmServiceImpl(new DaoHelperFactory()));
+            case ADMIN_DELETE_FILM:
+                return new DeleteFilm(new FilmServiceImpl(new DaoHelperFactory()));
+            case ADMIN_DELETE_COMMENT:
+                return new DeleteComment(new UserCommentServiceImpl(new DaoHelperFactory()));
             default:
                 throw new IllegalArgumentException();
         }

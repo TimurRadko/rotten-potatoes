@@ -15,7 +15,7 @@ public class UserCommentDaoImpl extends AbstractDao<UserComment> implements User
     private static final String TABLE_NAME = "user_comments";
     private static final String SAVE_USER_COMMENT = "INSERT INTO user_comments(id, comment, film_id, user_id) VALUES(?,?,?,?)";
     private static final String UPDATE_USER_COMMENT = "";
-    private static final String GET_COMMENTS_BY_FILMS_ID = "SELECT * FROM user_comments WHERE film_id=?";
+    private static final String GET_COMMENTS_BY_FILM_ID = "SELECT * FROM user_comments WHERE film_id=?";
     private static final String GET_COMMENTS_BY_USER_ID = "SELECT * FROM user_comments WHERE user_id=?";
 
     public UserCommentDaoImpl(Connection connection) {
@@ -25,7 +25,7 @@ public class UserCommentDaoImpl extends AbstractDao<UserComment> implements User
 
     @Override
     public List<UserComment> getCommentsByFilmId(Integer id) throws DaoException {
-        return executeQuery(GET_COMMENTS_BY_FILMS_ID, id);
+        return executeQuery(GET_COMMENTS_BY_FILM_ID, id);
     }
 
     @Override

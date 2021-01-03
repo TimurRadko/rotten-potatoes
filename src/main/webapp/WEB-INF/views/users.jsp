@@ -22,6 +22,7 @@
             <br>
             <table>
                 <tr>
+                    <th><fmt:message key="users.position"/></th>
                     <th><fmt:message key="users.login"/></th>
                     <th><fmt:message key="users.rate"/></th>
                     <c:if test="${sessionScope.rights == 'admin'}">
@@ -33,6 +34,7 @@
                     <c:choose>
                         <c:when test="${sessionScope.rights == 'admin'}">
                             <tr>
+                                <td>${index.count}</td>
                                 <td>
                                     <a href="<c:url value="/controller?command=admin-user-edit&id=${user.id}"/>">${user.login}</a>
                                 </td>
@@ -52,6 +54,7 @@
                         <c:otherwise>
                             <c:if test="${user.rights != 'admin' or user.blocked == true}">
                                 <tr>
+                                    <td>${index.count}</td>
                                     <td>${user.login}</td>
                                     <td>${user.rate}</td>
                                 </tr>

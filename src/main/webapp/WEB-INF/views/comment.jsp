@@ -22,7 +22,7 @@
             <c:choose>
                 <c:when test="${sessionScope.blocked == false and sessionScope.rights != null}">
 
-                    <form name="review" method="POST"
+                    <form name="comment" method="POST"
                           action="${pageContext.request.contextPath}/controller?command=comment">
                         <input type="hidden" name="command" value="comment"/>
 

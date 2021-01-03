@@ -18,33 +18,47 @@
 
     <section id="main">
         <div class="user-description">
-            <p><fmt:message key="home.user.login"/> <c:out value="${requestScope.user.login}"/></p>
-            <p><fmt:message key="home.user.rate"/> <c:out value="${requestScope.user.rate}"/></p>
-            <p><fmt:message key="home.user.rights"/> <c:out value="${requestScope.user.rights}"/></p>
-            <p><fmt:message key="home.user.isBlocked"/> <c:out value="${requestScope.user.blocked}"/></p>
+            <form name="admin-edit-user-rate"
+                  action="${pageContext.request.contextPath}/controller?command=admin-edit-user-rate&id=${requestScope.user.id}"
+                  method="POST">
+                <input type="hidden" name="command" value="admin-edit-user-rate&id=${requestScope.user.id}"/>
+                <p><fmt:message key="home.user.login"/> ${requestScope.user.login}</p>
+                <p>
+                    <fmt:message key="home.user.rate"/>
+                    <input type="text" name="rate" placeholder="${requestScope.user.rate}" maxlength="10">
+                </p>
+                <p><fmt:message key="home.user.rights"/> ${requestScope.user.rights}</p>
+                <p><fmt:message key="home.user.isBlocked"/> ${requestScope.user.blocked}</p>
+
+                <button class="signupbtn" type="submit">
+                    <fmt:message key="user.edit.saveUser"/>
+                </button>
+            </form>
+
+            <c:choose>
+                <c:when test="${requestScope.user.blocked == false}">
+                    <a href="<c:url value="/controller?command=admin-block-unblock&id=${requestScope.user.id}"/>">
+                        <button><fmt:message key="user.edit.block"/></button>
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a href="<c:url value="/controller?command=admin-block-unblock&id=${requestScope.user.id}"/>">
+                        <button><fmt:message key="user.edit.unblock"/></button>
+                    </a>
+                </c:otherwise>
+            </c:choose>
+
+            <div class="error-message">
+                <c:choose>
+                    <c:when test="${requestScope.errorMessage == 'errorRate'}">
+                        <fmt:message key="user.edit.errorRate"/>
+                    </c:when>
+                    <c:when test="${requestScope.errorMessage == 'negativeRate'}">
+                        <fmt:message key="user.edit.negativeRate"/>
+                    </c:when>
+                </c:choose>
+            </div>
         </div>
-
-        <c:choose>
-            <c:when test="${requestScope.user.blocked == false}">
-                <a href="<c:url value="/controller?command=admin-block-unblock&id=${requestScope.user.id}"/>">
-                    <button><fmt:message key="user.edit.block"/></button>
-                </a>
-            </c:when>
-            <c:otherwise>
-                <a href="<c:url value="/controller?command=admin-block-unblock&id=${requestScope.user.id}"/>">
-                    <button><fmt:message key="user.edit.unblock"/></button>
-                </a>
-            </c:otherwise>
-        </c:choose>
-
-        <a href="<c:url value="/controller?command=admin-add-user-rate&id=${requestScope.user.id}"/>">
-            <button><fmt:message key="user.edit.addRate"/></button>
-        </a>
-
-        <a href="<c:url value="/controller?command=admin-reduce-user-rate&id=${requestScope.user.id}"/>">
-            <button><fmt:message key="user.edit.reduceRate"/></button>
-        </a>
-
     </section>
 </div>
 <jsp:include page="parts/footer.jsp"/>

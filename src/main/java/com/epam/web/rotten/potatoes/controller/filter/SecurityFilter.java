@@ -1,4 +1,4 @@
-package com.epam.web.rotten.potatoes.controller;
+package com.epam.web.rotten.potatoes.controller.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

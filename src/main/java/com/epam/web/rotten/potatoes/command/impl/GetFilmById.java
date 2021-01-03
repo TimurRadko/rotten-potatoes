@@ -14,15 +14,13 @@ import java.util.Optional;
 
 public class GetFilmById implements Command {
     private final FilmService filmService;
-    private final UserActionService userActionService;
     private static final String ID_PARAMETER = "id";
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
     private static final String FILM = "film";
 
-    public GetFilmById(FilmService filmService, UserActionService userActionService) {
+    public GetFilmById(FilmService filmService) {
         this.filmService = filmService;
-        this.userActionService = userActionService;
     }
 
     @Override
@@ -32,31 +30,10 @@ public class GetFilmById implements Command {
         Optional<Film> optionalFilm = filmService.getFilmById(filmId);
         if (optionalFilm.isPresent()) {
             Film film = optionalFilm.get();
-            requestContext.setSessionAttribute(FILM, getFilmWithNewRate(film));
+            requestContext.setSessionAttribute(FILM, film);
             return CommandResult.forward(FILM_HOME_PAGE);
         } else {
             return CommandResult.forward(FILMS_PAGE);
-        }
-    }
-
-    /*private-package*/ Film getFilmWithNewRate(Film film) throws ServiceException {
-        int filmId = film.getId();
-        String title = film.getTitle();
-        String director = film.getDirector();
-        String poster = film.getPoster();
-        double currentAvgRate = film.getAvgRate();
-
-        List<UserAction> actions = userActionService.findReviewsByFilmId(filmId);
-        if (actions.size() > 0) {
-            double avgUserActionAvgRate = 0;
-            for (UserAction action : actions) {
-                avgUserActionAvgRate += action.getFilmRate();
-            }
-            avgUserActionAvgRate = avgUserActionAvgRate / actions.size();
-            double resultAvgRate = (currentAvgRate + avgUserActionAvgRate) / 2;
-            return new Film(filmId, title, director, poster, resultAvgRate);
-        } else {
-            return new Film(filmId, title, director, poster, currentAvgRate);
         }
     }
 }

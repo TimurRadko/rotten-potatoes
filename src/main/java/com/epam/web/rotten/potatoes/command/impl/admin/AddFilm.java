@@ -23,7 +23,7 @@ import java.util.UUID;
 public class AddFilm implements Command {
     private final FilmServiceImpl filmService;
     private static final String TITLE_PARAMETER = "title";
-    private static final String POSTER_PATH = "/static/images/";
+    private static final String POSTER_PATH = "static/images/";
     private static final String POSTER_PARAMETER = "poster-path";
     private static final String DIRECTOR_PARAMETER = "director";
     private static final double DEFAULT_AVG_RATE = 0;

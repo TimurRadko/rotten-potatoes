@@ -34,6 +34,9 @@ INSERT INTO films(title, director, poster, avg_rate) VALUES
 ('Seven', 'David Fincher', 'static/images/Seven.jpg', 8.6),
 ('Life Is Beautiful', 'Roberto Benigni', 'static/images/Vitaebella.jpg', 8.6);
 
+INSERT INTO films(title, director, poster, avg_rate)
+VALUES ('Иван васильевич меняет профессию', 'Леонид Гайдай', 'static/images/Ivan.jpg', 8.5);
+
 SELECT *
 FROM films;
 

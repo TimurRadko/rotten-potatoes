@@ -234,6 +234,10 @@ tr:nth-child(even) {
     text-align: center;
 }
 
+.error-message {
+    text-align: center;
+}
+
 .description a {
     text-decoration: none;
     color: black;

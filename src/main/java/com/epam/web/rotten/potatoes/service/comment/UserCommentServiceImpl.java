@@ -8,6 +8,7 @@ import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.UserComment;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserCommentServiceImpl implements UserCommentService {
     private DaoHelperFactory daoHelperFactory;
@@ -40,7 +41,27 @@ public class UserCommentServiceImpl implements UserCommentService {
     public List<UserComment> findCommentsByUserId(Integer userId) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserCommentDao userCommentDao = daoHelper.createUserCommentDao();
-            return userCommentDao.getCommentsByFilmId(userId);
+            return userCommentDao.getCommentsByUserId(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Optional<UserComment> findCommentById(Integer commentId) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            UserCommentDao userCommentDao = daoHelper.createUserCommentDao();
+            return userCommentDao.getById(commentId);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void remove(int id) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            UserCommentDao userCommentDao = daoHelper.createUserCommentDao();
+            userCommentDao.remove(id);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

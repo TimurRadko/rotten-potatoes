@@ -4,14 +4,15 @@ public class UserComment implements Entity {
     public static final String TABLE = "user_comments";
     private final Integer id;
     private final String comment;
-    private final int userId;
     private final int filmId;
+    private final int userId;
 
-    public UserComment(Integer id, String comment, int userId, int filmId) {
+
+    public UserComment(Integer id, String comment, int filmId, int userId) {
         this.id = id;
         this.comment = comment;
-        this.userId = userId;
         this.filmId = filmId;
+        this.userId = userId;
     }
 
     @Override

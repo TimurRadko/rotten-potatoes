@@ -16,16 +16,14 @@ public class GetFilmList implements Command {
     private static final String FILMS = "films";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
     private final FilmServiceImpl filmServiceImpl;
-    private final UserActionServiceImpl userActionService;
 
     private static final int FIRST_PAGE = 1;
     private static final int FILMS_PER_PAGE = 5;
     private static final String CURRENT_PAGE = "currentPage";
 
 
-    public GetFilmList(FilmServiceImpl filmServiceImpl, UserActionServiceImpl userActionService) {
+    public GetFilmList(FilmServiceImpl filmServiceImpl) {
         this.filmServiceImpl = filmServiceImpl;
-        this.userActionService = userActionService;
     }
 
     @Override
@@ -38,19 +36,8 @@ public class GetFilmList implements Command {
             currentPage = Integer.parseInt(stringCurrentPage);
         }
         List<Film> films = filmServiceImpl.getFilmsPart((currentPage - 1) * FILMS_PER_PAGE, FILMS_PER_PAGE);
-        List<Film> newAvgRateFilms = getNewRateFilms(films);
-        requestContext.setRequestAttribute(FILMS, newAvgRateFilms);
+        requestContext.setRequestAttribute(FILMS, films);
         requestContext.setRequestAttribute(CURRENT_PAGE, currentPage);
         return CommandResult.forward(FILMS_PAGE);
-    }
-
-    private List<Film> getNewRateFilms(List<Film> films) throws ServiceException {
-        GetFilmById getFilmById = new GetFilmById(filmServiceImpl, userActionService);
-        List<Film> newAvgRateFilms = new ArrayList<>();
-        for (Film film : films) {
-            Film newRateFilm = getFilmById.getFilmWithNewRate(film);
-            newAvgRateFilms.add(newRateFilm);
-        }
-        return newAvgRateFilms;
     }
 }
