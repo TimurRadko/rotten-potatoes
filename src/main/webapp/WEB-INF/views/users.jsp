@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="custom-tags" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
@@ -25,9 +26,9 @@
                     <th><fmt:message key="users.position"/></th>
                     <th><fmt:message key="users.login"/></th>
                     <th><fmt:message key="users.rate"/></th>
-                    <c:if test="${sessionScope.rights == 'admin'}">
+                    <ctg:access accessName="admin">
                         <th><fmt:message key="users.blocked"/></th>
-                    </c:if>
+                    </ctg:access>
                 </tr>
 
                 <c:forEach var="user" items="${requestScope.users}" varStatus="index">

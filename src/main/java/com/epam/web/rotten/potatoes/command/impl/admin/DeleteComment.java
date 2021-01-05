@@ -4,7 +4,6 @@ import com.epam.web.rotten.potatoes.command.Command;
 import com.epam.web.rotten.potatoes.command.CommandResult;
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
-import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.model.UserComment;
 import com.epam.web.rotten.potatoes.service.comment.UserCommentService;
 

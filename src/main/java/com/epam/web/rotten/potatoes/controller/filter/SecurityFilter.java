@@ -9,8 +9,8 @@ import java.io.IOException;
 public class SecurityFilter implements Filter {
     private static final String COMMAND_PARAMETER = "command";
     private static final String ADMIN = "admin";
+    private static final String USER = "user";
     private static final String RIGHTS = "rights";
-    private static final String ADMIN_RIGHTS = "admin";
     private static final int FORBIDDEN = 403;
 
     @Override
@@ -18,10 +18,10 @@ public class SecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String command = req.getParameter(COMMAND_PARAMETER);
-        if (command != null && command.contains(ADMIN)) {
+        if ((command != null && command.contains(ADMIN))) {
             HttpSession session = req.getSession();
             String rights = (String) session.getAttribute(RIGHTS);
-            if (!ADMIN_RIGHTS.equalsIgnoreCase(rights)) {
+            if (!ADMIN.equalsIgnoreCase(rights)) {
                 resp.sendError(FORBIDDEN);
             }
         }

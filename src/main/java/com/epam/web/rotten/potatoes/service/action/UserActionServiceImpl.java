@@ -129,4 +129,24 @@ public class UserActionServiceImpl implements UserActionService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+
+    @Override
+    public void remove(int id) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            UserActionDao userActionDao = daoHelper.createUserActionDao();
+            userActionDao.remove(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Optional<UserAction> findReviewById(Integer reviewId) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            UserActionDao userActionDao = daoHelper.createUserActionDao();
+            return userActionDao.getById(reviewId);
+        } catch (DaoException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 }

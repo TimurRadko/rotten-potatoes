@@ -19,6 +19,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     private static final String GET_BY_ID = "SELECT * FROM %s WHERE id = ?";
     private static final String GET_ALL = "SELECT * FROM %s";
     private static final String REMOVE_BY_ID = "DELETE FROM %s WHERE id = ?";
+    private static final String GET_ROWS_COUNT = "SELECT COUNT(*) FROM %s";
 
     protected AbstractDao(Connection connection, RowMapper<T> mapper, FieldsExtractor<T> fieldsExtractor,
                           String tableName, String saveQuery, String updateQuery) {
@@ -42,6 +43,23 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         } catch (SQLException e) {
             throw new DaoException(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public int countRows() throws SQLException {
+        String query = String.format(GET_ROWS_COUNT, tableName);
+        PreparedStatement statement = createStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getInt(1);
+    }
+
+    private PreparedStatement createStatement(String query, Object... params) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(query);
+        for (int i = 1; i <= params.length; i++) {
+            statement.setObject(i, params[i - 1]);
+        }
+        return statement;
     }
 
     private PreparedStatement create(String query, Object... params) throws SQLException {

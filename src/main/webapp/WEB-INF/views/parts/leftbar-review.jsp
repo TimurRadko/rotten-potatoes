@@ -13,7 +13,6 @@
                 <button><fmt:message key="review.left.goToFilmHome"/></button>
             </a>
         </c:if>
-
     </div>
 </section>
 </html>

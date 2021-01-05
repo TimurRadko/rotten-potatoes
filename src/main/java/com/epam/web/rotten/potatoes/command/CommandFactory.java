@@ -31,24 +31,33 @@ public class CommandFactory {
     private static final String GO_TO_FILM_HOME = "goToFilmHome";
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
 
+    //Command For Unregistered Users And Others Type of Users
     private static final String LOGIN = "login";
     private static final String LOGOUT = "logout";
     private static final String GET_FILMS_LIST = "films";
     private static final String GET_USER_LIST = "users";
     private static final String GET_FILM_BY_ID = "film-home";
-    private static final String ADD_REVIEW_AND_RATE = "review-rate";
-    private static final String SHOW_REVIEWS = "show-reviews";
-    private static final String SHOW_COMMENTS = "show-comments";
     private static final String GET_FILM_BY_DIRECTOR = "director";
+
+    //For Users Only
+    private static final String ADD_REVIEW_AND_RATE = "review-rate";
     private static final String ADD_COMMENT = "comment";
 
-    private static final String ADMIN_GO_TO_SAVE_FILM = "admin-goToEditFilm";
-    private static final String FILM_SAVE_PAGE = "WEB-INF/views/film-save.jsp";
+    //For Users and Admin
+    private static final String SHOW_REVIEWS = "show-reviews";
+    private static final String SHOW_COMMENTS = "show-comments";
+
+    //For Admin Only
+    private static final String ADMIN_GO_TO_ADD_FILM = "admin-goToAddFilm";
+    private static final String ADMIN_FILM_ADD_PAGE = "WEB-INF/views/film-add.jsp";
+    private static final String ADMIN_GO_TO_EDIT_FILM = "admin-goToEditFilm";
+    private static final String ADMIN_FILM_EDIT_PAGE = "WEB-INF/views/film-edit.jsp";
 
     private static final String ADMIN_USER_EDIT = "admin-user-edit";
     private static final String ADMIN_BLOCK_UNBLOCK_USER = "admin-block-unblock";
     private static final String ADMIN_EDIT_USER_RATE = "admin-edit-user-rate";
     private static final String ADMIN_ADD_FILM = "admin-add-film";
+    private static final String ADMIN_EDIT_FILM = "admin-edit-film";
     private static final String ADMIN_DELETE_FILM = "admin-delete-film";
     private static final String ADMIN_DELETE_COMMENT = "admin-delete-comment";
     private static final String ADMIN_DELETE_REVIEW = "admin-delete-review";
@@ -67,19 +76,15 @@ public class CommandFactory {
                 return new GoToPage(COMMENT_PAGE);
             case GO_TO_FILM_HOME:
                 return new GoToPage(FILM_HOME_PAGE);
-            case ADMIN_GO_TO_SAVE_FILM:
-                return new GoToPage(FILM_SAVE_PAGE);
+            case ADMIN_GO_TO_ADD_FILM:
+                return new GoToPage(ADMIN_FILM_ADD_PAGE);
+            case ADMIN_GO_TO_EDIT_FILM:
+                return new GoToPage(ADMIN_FILM_EDIT_PAGE);
 
             case LOGIN:
                 return new Login(new UserServiceImpl(new DaoHelperFactory()));
             case LOGOUT:
                 return new Logout();
-
-            case ADD_REVIEW_AND_RATE:
-                return new AddFilmRateAndReview(new UserActionServiceImpl(new DaoHelperFactory()));
-            case SHOW_REVIEWS:
-                return new ShowFilmReview(new UserActionServiceImpl(new DaoHelperFactory()),
-                        new UserServiceImpl(new DaoHelperFactory()));
             case GET_FILM_BY_ID:
                 return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()));
             case GET_FILM_BY_DIRECTOR:
@@ -88,8 +93,15 @@ public class CommandFactory {
                 return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()));
             case GET_USER_LIST:
                 return new GetUserList(new UserServiceImpl(new DaoHelperFactory()));
+
+            case ADD_REVIEW_AND_RATE:
+                return new AddFilmRateAndReview(new UserActionServiceImpl(new DaoHelperFactory()));
             case ADD_COMMENT:
                 return new AddFilmComment(new UserCommentServiceImpl(new DaoHelperFactory()));
+
+            case SHOW_REVIEWS:
+                return new ShowFilmReview(new UserActionServiceImpl(new DaoHelperFactory()),
+                        new UserServiceImpl(new DaoHelperFactory()));
             case SHOW_COMMENTS:
                 return new ShowFilmComment(new UserCommentServiceImpl(new DaoHelperFactory()),
                         new UserServiceImpl(new DaoHelperFactory()));
@@ -106,6 +118,10 @@ public class CommandFactory {
                 return new DeleteFilm(new FilmServiceImpl(new DaoHelperFactory()));
             case ADMIN_DELETE_COMMENT:
                 return new DeleteComment(new UserCommentServiceImpl(new DaoHelperFactory()));
+            case ADMIN_EDIT_FILM:
+                return new EditFilm(new FilmServiceImpl(new DaoHelperFactory()));
+            case ADMIN_DELETE_REVIEW:
+                return new DeleteReview(new UserActionServiceImpl(new DaoHelperFactory()));
             default:
                 throw new IllegalArgumentException();
         }

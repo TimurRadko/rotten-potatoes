@@ -18,36 +18,34 @@
 
     <section id="main">
         <div class="description">
-            <form name="admin-add-film" enctype='multipart/form-data'
-                  action="${pageContext.request.contextPath}/controller?command=admin-add-film" method="POST">
-                <input type="hidden" name="command" value="admin-add-film"/>
+            <form name="admin-edit-film" enctype='multipart/form-data'
+                  action="${pageContext.request.contextPath}/controller?command=admin-edit-film"
+                  method="POST">
+                <input type="hidden" name="command" value="admin-edit-film"/>
 
-                <h1><fmt:message key="film.edit.name.title"/></h1>
+                <p><label for="title"><fmt:message key="films.title"/></label>
+                    <input type="text" id="title" name="title" value="${sessionScope.film.title}" maxlength="255"/>
+                </p>
 
-                <label>
-                    <input type="text" name="title" placeholder="<fmt:message key="film.edit.name.title.placeholder"/>"
-                           maxlength="255" required>
-                </label>
-
-                <img src="<c:url value="/static/images/default/noposter.jpg"/>" alt="no poster">
-                <br/>
+                <p><img class="poster" src="${sessionScope.film.poster}" alt="poster"></p>
                 <div>
                     <input class="signupbtn" type="file" name="poster-path" accept="image/jpeg,image/png">
                 </div>
 
-                <br/>
-                <label for="director"><fmt:message key="film.director"/></label>
-                <input type="text" id="director" name="director"
-                       placeholder="<fmt:message key="film.edit.input.director.placeholder"/>" maxlength="45">
+                <p><label for="director"><fmt:message key="film.director"/></label>
+                    <input type="text" id="director" name="director"
+                           value="${sessionScope.film.director}" maxlength="45"/>
+                </p>
+
+                <p><fmt:message key="film.avgRate"/> ${sessionScope.film.avgRate}</p>
 
                 <button class="signupbtn" type="submit">
-                    <fmt:message key="film.edit.saveFilm"/>
+                    <fmt:message key="film.admin.action.saveEditingFilm"/>
                 </button>
 
                 <button class="signupbtn" onclick="history.back();">
-                    <fmt:message key="film.edit.cancelSave"/>
+                    <fmt:message key="film.admin.action.cancelEditingSave"/>
                 </button>
-
             </form>
         </div>
     </section>

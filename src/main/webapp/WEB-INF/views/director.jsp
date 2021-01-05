@@ -8,7 +8,7 @@
 <html lang="${requestScope.lang}">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-    <title>${sessionScope.director}</title>
+    <title>${requestScope.director}</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/styles/main.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
     <jsp:include page="parts/leftbar-users.jsp"/>
 
     <section id="main">
-        <h1>${sessionScope.director}</h1>
+        <h1>${requestScope.director}</h1>
 
         <div class="table">
             <table>

@@ -6,10 +6,10 @@ import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.model.UserComment;
-import com.epam.web.rotten.potatoes.service.comment.UserCommentServiceImpl;
+import com.epam.web.rotten.potatoes.service.comment.UserCommentService;
 
 public class AddFilmComment implements Command {
-    private final UserCommentServiceImpl userCommentService;
+    private final UserCommentService userCommentService;
 
     private static final String COMMENT_PARAMETER = "comment";
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
@@ -19,7 +19,7 @@ public class AddFilmComment implements Command {
     private static final String FILM = "film";
     private static final String GO_TO_FILM_HOME = "/rotten-potatoes/controller?command=goToFilmHome";
 
-    public AddFilmComment(UserCommentServiceImpl userCommentService) {
+    public AddFilmComment(UserCommentService userCommentService) {
         this.userCommentService = userCommentService;
     }
 

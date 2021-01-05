@@ -3,14 +3,14 @@ package com.epam.web.rotten.potatoes.command.impl;
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.User;
-import com.epam.web.rotten.potatoes.service.user.UserServiceImpl;
+import com.epam.web.rotten.potatoes.service.user.UserService;
 import com.epam.web.rotten.potatoes.command.Command;
 import com.epam.web.rotten.potatoes.command.CommandResult;
 
 import java.util.Optional;
 
 public class Login implements Command {
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     private static final String ID_PARAMETER = "user_id";
     private static final String LOGIN_PARAMETER = "login";
@@ -19,14 +19,14 @@ public class Login implements Command {
     private static final String RATE_PARAMETER = "rate";
     private static final String BLOCKED_PARAMETER = "blocked";
     private static final String LOGIN_PAGE = "WEB-INF/views/login.jsp";
-    private static final String FILMS_PAGE = "/rotten-potatoes/controller?command=films";
+    private static final String FILMS_PAGE_COMMAND = "/rotten-potatoes/controller?command=films";
 
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_LOGIN = "errorLogin";
     private static final String ERROR_USER_BLOCKED = "errorBlocked";
 
-    public Login(UserServiceImpl userServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
+    public Login(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class Login implements Command {
         String login = requestContext.getRequestParameter(LOGIN_PARAMETER);
         String password = requestContext.getRequestParameter(PASSWORD_PARAMETER);
 
-        Optional<User> optionalUser = userServiceImpl.login(login, password);
+        Optional<User> optionalUser = userService.login(login, password);
 
         User user;
         if (optionalUser.isPresent()) {
@@ -48,7 +48,7 @@ public class Login implements Command {
             return CommandResult.forward(LOGIN_PAGE);
         }
         setSessionUserData(requestContext, user);
-        return CommandResult.redirect(FILMS_PAGE);
+        return CommandResult.redirect(FILMS_PAGE_COMMAND);
     }
 
     private void setSessionUserData(RequestContext requestContext, User user) {

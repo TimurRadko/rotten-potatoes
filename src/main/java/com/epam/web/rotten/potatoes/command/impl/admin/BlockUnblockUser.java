@@ -12,7 +12,7 @@ import java.util.Optional;
 public class BlockUnblockUser implements Command {
     private final UserService userService;
     private static final String ID_PARAMETER = "id";
-    private static final String USERS_PAGE = "/rotten-potatoes/controller?command=users";
+    private static final String USERS_PAGE_COMMAND = "/rotten-potatoes/controller?command=users";
 
     public BlockUnblockUser(UserService userService) {
         this.userService = userService;
@@ -28,7 +28,7 @@ public class BlockUnblockUser implements Command {
             User newUser = getBlockedUnblockedUser(user);
             userService.changeUserData(newUser);
         }
-        return CommandResult.redirect(USERS_PAGE);
+        return CommandResult.redirect(USERS_PAGE_COMMAND);
     }
 
     private User getBlockedUnblockedUser(User user) {

@@ -20,9 +20,15 @@
 
     <form name="loginForm" method="POST" action="controller">
         <input type="hidden" name="command" value="login"/>
-        <fmt:message key="login.login"/> <input type="text" name="login"/><br/>
+        <fmt:message key="login.login"/>
+        <label>
+            <input type="text" name="login"/>
+        </label><br/>
         <br/>
-        <fmt:message key="login.password"/> <input type="password" name="password"/><br/>
+        <fmt:message key="login.password"/>
+        <label>
+            <input type="password" name="password"/>
+        </label><br/>
         <button type="submit" class="signupbtn"><fmt:message key="login.submit"/></button>
         <br/>
     </form>

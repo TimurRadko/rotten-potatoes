@@ -13,11 +13,12 @@ public class ChangeUserRate implements Command {
     private final UserService userService;
     private static final String ID_PARAMETER = "id";
     private static final String RATE_PARAMETER = "rate";
-    private static final String USERS_PAGE = "/rotten-potatoes/controller?command=users";
+    private static final String USERS_PAGE_COMMAND = "/rotten-potatoes/controller?command=users";
     private static final String USER_EDIT_PAGE = "WEB-INF/views/user-edit.jsp";
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_ENTER_RATE = "errorRate";
     private static final String NEGATIVE_RATE = "negativeRate";
+    private static final String USER_PARAMETER = "user";
 
     public ChangeUserRate(UserService userService) {
         this.userService = userService;
@@ -26,29 +27,31 @@ public class ChangeUserRate implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringUserId = requestContext.getRequestParameter(ID_PARAMETER);
-
+        Integer userId = Integer.parseInt(stringUserId);
         String stringRate = requestContext.getRequestParameter(RATE_PARAMETER);
-        int newRate;
-        try {
-            newRate = Integer.parseInt(stringRate);
-        } catch (NumberFormatException e) {
-            requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_ENTER_RATE);
-            return CommandResult.forward(USER_EDIT_PAGE);
-        }
 
-        if (newRate > 0) {
-            int userId = Integer.parseInt(stringUserId);
-            Optional<User> optionalUser = userService.getUserById(userId);
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
+        Optional<User> optionalUser = userService.getUserById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            int newRate;
+            try {
+                newRate = Integer.parseInt(stringRate);
+            } catch (NumberFormatException e) {
+                requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_ENTER_RATE);
+                requestContext.setRequestAttribute(USER_PARAMETER, user);
+                return CommandResult.forward(USER_EDIT_PAGE);
+            }
+            if (newRate > 0) {
                 user = getNewRateUser(user, newRate);
                 userService.changeUserData(user);
+                return CommandResult.redirect(USERS_PAGE_COMMAND);
+            } else {
+                requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, NEGATIVE_RATE);
+                requestContext.setRequestAttribute(USER_PARAMETER, user);
+                return CommandResult.forward(USER_EDIT_PAGE);
             }
-            return CommandResult.redirect(USERS_PAGE);
-        } else {
-            requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, NEGATIVE_RATE);
-            return CommandResult.forward(USER_EDIT_PAGE);
         }
+        return CommandResult.forward(USER_EDIT_PAGE);
     }
 
     private User getNewRateUser(User user, int newRate) {
@@ -59,4 +62,5 @@ public class ChangeUserRate implements Command {
         boolean isBlocked = user.isBlocked();
         return new User(userId, login, password, rights, newRate, isBlocked);
     }
+
 }

@@ -5,14 +5,14 @@ import com.epam.web.rotten.potatoes.command.CommandResult;
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.Film;
-import com.epam.web.rotten.potatoes.service.film.FilmServiceImpl;
+import com.epam.web.rotten.potatoes.service.film.FilmService;
 
 public class DeleteFilm implements Command {
-    private final FilmServiceImpl filmService;
+    private final FilmService filmService;
     private static final String FILM = "film";
     private static final String INDEX_PAGE = "index.jsp";
 
-    public DeleteFilm(FilmServiceImpl filmService) {
+    public DeleteFilm(FilmService filmService) {
         this.filmService = filmService;
     }
 

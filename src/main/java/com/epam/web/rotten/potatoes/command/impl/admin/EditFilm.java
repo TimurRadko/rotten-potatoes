@@ -17,64 +17,66 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
 import java.util.UUID;
 
-public class AddFilm implements Command {
+public class EditFilm implements Command {
     private final FilmService filmService;
+    private static final String FILM = "film";
     private static final String TITLE_PARAMETER = "title";
     private static final String POSTER_PATH = "static/images/";
-    private static final String POSTER_PARAMETER = "poster-path";
+    private static final String POSTER_PATH_PARAMETER = "poster-path";
     private static final String DIRECTOR_PARAMETER = "director";
     private static final String REQUEST_ATTRIBUTE = "req";
-    private static final double DEFAULT_AVG_RATE = 0;
     private static final String EMPTY_PARAMETER = "";
 
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_EMPTY_DATA = "errorEmptyData";
-    private static final String FILM_ADD_PAGE = "WEB-INF/views/film-add.jsp";
     private static final String FILM_HOME_PAGE_COMMAND = "/controller?command=film-home&id=";
+    private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
 
-    public AddFilm(FilmService filmService) {
+    public EditFilm(FilmService filmService) {
         this.filmService = filmService;
     }
 
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
+        Film film = (Film) requestContext.getSessionAttribute(FILM);
+        int filmId = film.getId();
+        double avgRate = film.getAvgRate();
+        String currentPoster = film.getPoster();
+
         String title = requestContext.getRequestParameter(TITLE_PARAMETER);
         String director = requestContext.getRequestParameter(DIRECTOR_PARAMETER);
         HttpServletRequest req = (HttpServletRequest) requestContext.getRequestAttribute(REQUEST_ATTRIBUTE);
         ServletContext servletContext = req.getServletContext();
         Part newPoster;
         try {
-            newPoster = req.getPart(POSTER_PARAMETER);
+            newPoster = req.getPart(POSTER_PATH_PARAMETER);
         } catch (IOException | ServletException e) {
             throw new ServiceException(e);
         }
-
-        String newPosterName = newPoster.getSubmittedFileName();
-        if (title.equals(EMPTY_PARAMETER) || director.equals(EMPTY_PARAMETER) || newPosterName.equals(EMPTY_PARAMETER)) {
+        if (title.equals(EMPTY_PARAMETER) || director.equals(EMPTY_PARAMETER) || newPoster == null) {
             requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_EMPTY_DATA);
-            return CommandResult.forward(FILM_ADD_PAGE);
+            return CommandResult.forward(FILM_HOME_PAGE_COMMAND + filmId);
         }
-
         if (newPoster.getSize() > 0) {
-            UUID uuid = UUID.randomUUID();
-            String posterPath = POSTER_PATH + uuid;
+            String newPosterName = newPoster.getSubmittedFileName();
+            if (!currentPoster.equals(newPosterName)) {
+                UUID uuid = UUID.randomUUID();
+                currentPoster = POSTER_PATH + uuid;
+            }
+
             String applicationPath = servletContext.getRealPath("");
-            Path path = Paths.get(applicationPath, posterPath);
+            Path path = Paths.get(applicationPath, currentPoster);
+
             try (InputStream inputStream = newPoster.getInputStream()) {
                 Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new ServiceException(e);
             }
-            Film film = new Film(null, title, director, posterPath, DEFAULT_AVG_RATE);
-            Optional<Integer> optionalId = filmService.save(film);
-            if (optionalId.isPresent()) {
-                int id = optionalId.get();
-                return CommandResult.forward(FILM_HOME_PAGE_COMMAND + id);
-            }
         }
-        return CommandResult.forward(FILM_ADD_PAGE);
+        film = new Film(filmId, title, director, currentPoster, avgRate);
+        filmService.save(film);
+        return CommandResult.forward(FILM_HOME_PAGE);
     }
 }

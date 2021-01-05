@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestContextHelper {
+    private static final String INVALIDATE_ATTRIBUTE = "invalidate";
 
     public RequestContext create(HttpServletRequest req) {
         HttpSession session = req.getSession();
@@ -20,7 +21,7 @@ public class RequestContextHelper {
         Enumeration<String> sessionAttributesName = session.getAttributeNames();
         Map<String, Object> sessionAttributes = putSessionAttributes(sessionAttributesName, session);
 
-        return new RequestContext(requestAttributes, requestParameters, sessionAttributes, req);
+        return new RequestContext(requestAttributes, requestParameters, sessionAttributes);
     }
 
     private Map<String, Object> putAttributes(Enumeration<String> attributesName, HttpServletRequest req) {
@@ -30,6 +31,7 @@ public class RequestContextHelper {
             Object attribute = req.getAttribute(name);
             requestAttributes.put(name, attribute);
         }
+        requestAttributes.put("req", req);
         return requestAttributes;
     }
 
@@ -70,13 +72,18 @@ public class RequestContextHelper {
 
     private void updateSessionAttributes(Map<String, Object> sessionAttributes, HttpServletRequest req) {
         HttpSession session = req.getSession();
-        if (sessionAttributes.isEmpty()) {
+        if (isInvalidateSession(sessionAttributes)) {
             session.invalidate();
+        } else {
+            for (Map.Entry<String, Object> attribute : sessionAttributes.entrySet()) {
+                String key = attribute.getKey();
+                Object value = sessionAttributes.get(key);
+                session.setAttribute(key, value);
+            }
         }
-        for (Map.Entry<String, Object> attribute : sessionAttributes.entrySet()) {
-            String key = attribute.getKey();
-            Object value = sessionAttributes.get(key);
-            session.setAttribute(key, value);
-        }
+    }
+
+    private boolean isInvalidateSession(Map<String, Object> sessionAttributes) {
+        return sessionAttributes.get(INVALIDATE_ATTRIBUTE) != null;
     }
 }

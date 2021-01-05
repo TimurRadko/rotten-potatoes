@@ -13,7 +13,6 @@
                 <button><fmt:message key="main.left.return"/></button>
             </a>
         </c:if>
-
     </div>
 </section>
 </html>

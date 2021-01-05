@@ -4,7 +4,7 @@ import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.model.UserAction;
-import com.epam.web.rotten.potatoes.service.action.UserActionServiceImpl;
+import com.epam.web.rotten.potatoes.service.action.UserActionService;
 import com.epam.web.rotten.potatoes.command.Command;
 import com.epam.web.rotten.potatoes.command.CommandResult;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddFilmRateAndReview implements Command {
-    private final UserActionServiceImpl userActionService;
+    private final UserActionService userActionService;
     private static final String FILM = "film";
     private static final String FILM_RATE_PARAMETER = "film_rate";
     private static final String REVIEW_PARAMETER = "review";
@@ -24,7 +24,7 @@ public class AddFilmRateAndReview implements Command {
     private static final String ERROR_EMPTY_REVIEW = "errorEmptyReview";
     private static final String ERROR_REPEATED_REVIEW = "errorRepeatedReview";
 
-    public AddFilmRateAndReview(UserActionServiceImpl userActionService) {
+    public AddFilmRateAndReview(UserActionService userActionService) {
         this.userActionService = userActionService;
     }
 

@@ -18,10 +18,11 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Film> getFilmsPart(int startsWith, int endsWith) throws ServiceException {
+    public List<Film> getPage(int page, int itemsPerPage) throws ServiceException {
+        int firstItemNumber = (page - 1) * itemsPerPage + 1;
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             FilmDao filmDao = daoHelper.createFilmDao();
-            return filmDao.findFilmsPartList(startsWith, endsWith);
+            return filmDao.findFilmsPartList(itemsPerPage, firstItemNumber);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -41,14 +42,14 @@ public class FilmServiceImpl implements FilmService {
     public List<Film> getFilmByDirector(String director) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             FilmDao filmDao = daoHelper.createFilmDao();
-            return filmDao.getFilmByDirector(director);
+            return filmDao.findFilmByDirector(director);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Optional<Integer> saveFilm(Film film) throws ServiceException {
+    public Optional<Integer> save(Film film) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             FilmDao filmDao = daoHelper.createFilmDao();
             return filmDao.save(film);
@@ -64,6 +65,17 @@ public class FilmServiceImpl implements FilmService {
             filmDao.remove(id);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public int getCountRows(int itemsPerPage) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            FilmDao filmDao = daoHelper.createFilmDao();
+            int numberOfItems = filmDao.countRows();
+            return (int) Math.ceil(numberOfItems / (double) itemsPerPage);
+        } catch (Exception e) {
+            throw new ServiceException(e);
         }
     }
 }

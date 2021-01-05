@@ -23,9 +23,10 @@
                   method="POST">
                 <input type="hidden" name="command" value="admin-edit-user-rate&id=${requestScope.user.id}"/>
                 <p><fmt:message key="home.user.login"/> ${requestScope.user.login}</p>
-                <p>
-                    <fmt:message key="home.user.rate"/>
-                    <input type="text" name="rate" placeholder="${requestScope.user.rate}" maxlength="10">
+                <p><fmt:message key="home.user.rate"/>
+                    <label>
+                        <input type="text" name="rate" placeholder="${requestScope.user.rate}" maxlength="10">
+                    </label>
                 </p>
                 <p><fmt:message key="home.user.rights"/> ${requestScope.user.rights}</p>
                 <p><fmt:message key="home.user.isBlocked"/> ${requestScope.user.blocked}</p>

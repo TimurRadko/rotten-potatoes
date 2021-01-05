@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="custom-tags" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
@@ -9,28 +10,24 @@
 <section id="user-actions">
     <div class="btn-group">
         <c:choose>
-            <c:when test="${sessionScope.rights == null or sessionScope.blocked == true}">
+            <c:when test="${sessionScope.login == null or sessionScope.blocked == true}">
                 <a href="<c:url value="/controller?command=films"/>">
                     <button><fmt:message key="main.left.films"/></button>
                 </a>
             </c:when>
-            <c:when test="${sessionScope.login != null}">
+            <c:otherwise>
+                <ctg:access accessName="admin">
+                    <a href="<c:url value="/controller?command=films"/>">
+                        <button><fmt:message key="main.left.editFilms"/></button>
+                    </a>
+                </ctg:access>
 
-                <c:choose>
-
-                    <c:when test="${sessionScope.rights == 'admin'}">
-                        <a href="<c:url value="/controller?command=films"/>">
-                            <button><fmt:message key="main.left.editFilms"/></button>
-                        </a>
-                    </c:when>
-
-                    <c:when test="${sessionScope.rights == 'user'}">
-                        <a href="<c:url value="/controller?command=films"/>">
-                            <button><fmt:message key="main.left.films"/></button>
-                        </a>
-                    </c:when>
-                </c:choose>
-            </c:when>
+                <ctg:access accessName="user">
+                    <a href="<c:url value="/controller?command=films"/>">
+                        <button><fmt:message key="main.left.films"/></button>
+                    </a>
+                </ctg:access>
+            </c:otherwise>
         </c:choose>
     </div>
 </section>

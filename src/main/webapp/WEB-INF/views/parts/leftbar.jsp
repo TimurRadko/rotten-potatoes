@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="custom-tags" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
@@ -15,22 +16,20 @@
                 </a>
             </c:when>
             <c:when test="${sessionScope.login != null}">
-                <c:choose>
-                    <c:when test="${sessionScope.rights == 'admin'}">
-                        <a href="<c:url value="/controller?command=users"/>">
-                            <button><fmt:message key="main.left.editUsers"/></button>
-                        </a>
-                        <a href="<c:url value="/controller?command=admin-goToEditFilm"/>">
-                            <button><fmt:message key="main.left.addFilm"/></button>
-                        </a>
-                    </c:when>
+                <ctg:access accessName="admin">
+                    <a href="<c:url value="/controller?command=users"/>">
+                        <button><fmt:message key="main.left.editUsers"/></button>
+                    </a>
+                    <a href="<c:url value="/controller?command=admin-goToAddFilm"/>">
+                        <button><fmt:message key="main.left.addFilm"/></button>
+                    </a>
+                </ctg:access>
 
-                    <c:when test="${sessionScope.rights == 'user'}">
-                        <a href="<c:url value="/controller?command=users"/>">
-                            <button><fmt:message key="main.left.users"/></button>
-                        </a>
-                    </c:when>
-                </c:choose>
+                <ctg:access accessName="user">
+                    <a href="<c:url value="/controller?command=users"/>">
+                        <button><fmt:message key="main.left.users"/></button>
+                    </a>
+                </ctg:access>
             </c:when>
         </c:choose>
     </div>

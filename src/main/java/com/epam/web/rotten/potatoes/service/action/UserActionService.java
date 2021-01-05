@@ -10,4 +10,6 @@ public interface UserActionService {
     void addReviewAndRate(UserAction userAction) throws ServiceException;
     List<UserAction> findReviewsByFilmId(Integer filmId) throws ServiceException;
     List<UserAction> findReviewsByUserId(Integer userId) throws ServiceException;
+    Optional<UserAction> findReviewById(Integer reviewId) throws ServiceException;
+    void remove(int id) throws ServiceException;
 }

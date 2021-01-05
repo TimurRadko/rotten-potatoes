@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="custom-tags" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="locale"/>
@@ -21,20 +22,25 @@
 
         <div class="description">
             <p><img class="poster" alt="${sessionScope.film.title}" src="${sessionScope.film.poster}"/></p>
-            <p><fmt:message key="film.director"/> <a
-                    href="<c:url value="/controller?command=director&director=${sessionScope.film.director}"/>">${sessionScope.film.director}</a>
+            <p><fmt:message key="film.director"/>
+                <a href="<c:url value="/controller?command=director&director=${sessionScope.film.director}"/>">
+                    ${sessionScope.film.director}</a>
             </p>
             <p><fmt:message key="film.avgRate"/> ${sessionScope.film.avgRate}</p>
+            <br/>
+
+            <c:if test="${requestScope.errorMessage == 'errorEmptyData'}">
+                <fmt:message key="film.home.errorEmptyData"/>
+            </c:if>
         </div>
 
         <c:if test="${sessionScope.rights != null and sessionScope.blocked == false}">
 
-            <c:if test="${sessionScope.rights == 'user'}">
+            <ctg:access accessName="user">
                 <a href="<c:url value="/controller?command=goToReview"/>">
                     <button><fmt:message key="film.addRate"/></button>
                 </a>
-            </c:if>
-
+            </ctg:access>
 
             <c:if test="${requestScope.user_reviews != null}">
                 <div class="table">
@@ -43,9 +49,7 @@
                             <th><fmt:message key="film.user.actions.userLogin"/></th>
                             <th><fmt:message key="film.user.actions.review"/></th>
                             <th><fmt:message key="film.user.actions.rate"/></th>
-                            <th><c:if test="${sessionScope.rights == 'admin'}">
-                                <fmt:message key="film.admin.action"/>
-                            </c:if></th>
+                            <th><ctg:access accessName="admin"><fmt:message key="film.admin.action"/></ctg:access></th>
                         </tr>
 
                         <c:forEach var="userReviewDto" items="${requestScope.user_reviews}" varStatus="index">
@@ -54,11 +58,11 @@
                                 <td>${userReviewDto.review}</td>
                                 <td>${userReviewDto.filmRate}</td>
                                 <td>
-                                    <c:if test="${sessionScope.rights == 'admin'}">
+                                    <ctg:access accessName="admin">
                                         <a href="<c:url value="/controller?command=admin-delete-review&id=${userReviewDto.id}"/>">
                                             <button><fmt:message key="film.admin.action.deleteReview"/></button>
                                         </a>
-                                    </c:if>
+                                    </ctg:access>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -67,11 +71,11 @@
                 </div>
             </c:if>
 
-            <c:if test="${sessionScope.rights == 'user'}">
+            <ctg:access accessName="user">
                 <a href="<c:url value="/controller?command=goToComment"/>">
                     <button><fmt:message key="film.addComment"/></button>
                 </a>
-            </c:if>
+            </ctg:access>
 
             <c:if test="${requestScope.user_comments != null}">
                 <div class="table">
@@ -79,9 +83,7 @@
                         <tr>
                             <th><fmt:message key="film.user.actions.userLogin"/></th>
                             <th><fmt:message key="film.user.actions.comment"/></th>
-                            <th><c:if test="${sessionScope.rights == 'admin'}">
-                                <fmt:message key="film.admin.action"/>
-                            </c:if></th>
+                            <th><ctg:access accessName="admin"><fmt:message key="film.admin.action"/></ctg:access></th>
                         </tr>
 
                         <c:forEach var="userCommentDto" items="${requestScope.user_comments}" varStatus="index">
@@ -89,11 +91,11 @@
                                 <td>${userCommentDto.login}</td>
                                 <td>${userCommentDto.comment}</td>
                                 <td>
-                                    <c:if test="${sessionScope.rights == 'admin'}">
+                                    <ctg:access accessName="admin">
                                         <a href="<c:url value="/controller?command=admin-delete-comment&id=${userCommentDto.id}"/>">
                                             <button><fmt:message key="film.admin.action.deleteComment"/></button>
                                         </a>
-                                    </c:if>
+                                    </ctg:access>
                                 </td>
                             </tr>
                         </c:forEach>
