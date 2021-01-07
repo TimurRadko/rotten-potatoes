@@ -4,15 +4,13 @@ public class User implements Entity {
     public static final String TABLE = "users";
     private final Integer id;
     private final String login;
-    private final String password;
     private final String rights;
     private final Integer rate;
     private final boolean blocked;
 
-    public User(Integer id, String login, String password, String rights, Integer rate, boolean blocked) {
+    public User(Integer id, String login, String rights, Integer rate, boolean blocked) {
         this.id = id;
         this.login = login;
-        this.password = password;
         this.rights = rights;
         this.rate = rate;
         this.blocked = blocked;
@@ -25,10 +23,6 @@ public class User implements Entity {
 
     public String getLogin() {
         return login;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getRights() {
@@ -63,9 +57,6 @@ public class User implements Entity {
         if (getLogin() != null ? !getLogin().equals(user.getLogin()) : user.getLogin() != null) {
             return false;
         }
-        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null) {
-            return false;
-        }
         if (getRights() != null ? !getRights().equals(user.getRights()) : user.getRights() != null) {
             return false;
         }
@@ -76,7 +67,6 @@ public class User implements Entity {
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
-        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         result = 31 * result + (getRights() != null ? getRights().hashCode() : 0);
         result = 31 * result + (getRate() != null ? getRate().hashCode() : 0);
         result = 31 * result + (isBlocked() ? 1 : 0);
@@ -88,7 +78,6 @@ public class User implements Entity {
         return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
                 ", rights='" + rights + '\'' +
                 ", rate=" + rate +
                 ", blocked=" + blocked +

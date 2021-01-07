@@ -26,7 +26,7 @@
                 <a href="<c:url value="/controller?command=director&director=${sessionScope.film.director}"/>">
                     ${sessionScope.film.director}</a>
             </p>
-            <p><fmt:message key="film.avgRate"/> ${sessionScope.film.avgRate}</p>
+            <p><fmt:message key="film.avgRate"/> ${sessionScope.film.defaultRate}</p>
             <br/>
 
             <c:if test="${requestScope.errorMessage == 'errorEmptyData'}">
@@ -34,7 +34,7 @@
             </c:if>
         </div>
 
-        <c:if test="${sessionScope.rights != null and sessionScope.blocked == false}">
+        <c:if test="${sessionScope.user.rights != null and sessionScope.user.blocked == false}">
 
             <ctg:access accessName="user">
                 <a href="<c:url value="/controller?command=goToReview"/>">

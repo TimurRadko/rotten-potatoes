@@ -3,6 +3,7 @@ package com.epam.web.rotten.potatoes.command.impl.user;
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.Film;
+import com.epam.web.rotten.potatoes.model.User;
 import com.epam.web.rotten.potatoes.model.UserAction;
 import com.epam.web.rotten.potatoes.service.action.UserActionService;
 import com.epam.web.rotten.potatoes.command.Command;
@@ -16,7 +17,7 @@ public class AddFilmRateAndReview implements Command {
     private static final String FILM = "film";
     private static final String FILM_RATE_PARAMETER = "film_rate";
     private static final String REVIEW_PARAMETER = "review";
-    private static final String USER_ID_PARAMETER = "user_id";
+    private static final String USER_ATTRIBUTE = "user";
     private static final String GO_TO_FILM_HOME = "/rotten-potatoes/controller?command=goToFilmHome";
     private static final String REVIEW_PAGE = "WEB-INF/views/review.jsp";
 
@@ -36,7 +37,8 @@ public class AddFilmRateAndReview implements Command {
             return CommandResult.forward(REVIEW_PAGE);
         }
 
-        int userId = (Integer) requestContext.getSessionAttribute(USER_ID_PARAMETER);
+        User user = (User) requestContext.getSessionAttribute(USER_ATTRIBUTE);
+        int userId = user.getId();
         Film film = (Film) requestContext.getSessionAttribute(FILM);
         int filmId = film.getId();
 

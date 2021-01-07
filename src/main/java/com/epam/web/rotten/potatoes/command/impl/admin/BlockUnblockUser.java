@@ -26,7 +26,7 @@ public class BlockUnblockUser implements Command {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             User newUser = getBlockedUnblockedUser(user);
-            userService.changeUserData(newUser);
+            userService.blockUnblockUser(newUser);
         }
         return CommandResult.redirect(USERS_PAGE_COMMAND);
     }
@@ -34,10 +34,9 @@ public class BlockUnblockUser implements Command {
     private User getBlockedUnblockedUser(User user) {
         int userId = user.getId();
         String login = user.getLogin();
-        String password = user.getPassword();
         String rights = user.getRights();
         int rate = user.getRate();
         boolean isBlocked = user.isBlocked();
-        return new User(userId, login, password, rights, rate, !isBlocked);
+        return new User(userId, login, rights, rate, !isBlocked);
     }
 }

@@ -6,14 +6,14 @@ public class Film implements Entity {
     private final String title;
     private final String director;
     private final String poster;
-    private final double avgRate;
+    private final double defaultRate;
 
-    public Film(Integer id, String title, String director, String poster, double avgRate) {
+    public Film(Integer id, String title, String director, String poster, double defaultRate) {
         this.id = id;
         this.title = title;
         this.director = director;
         this.poster = poster;
-        this.avgRate = avgRate;
+        this.defaultRate = defaultRate;
     }
 
     @Override
@@ -33,8 +33,8 @@ public class Film implements Entity {
         return poster;
     }
 
-    public double getAvgRate() {
-        return avgRate;
+    public double getDefaultRate() {
+        return defaultRate;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Film implements Entity {
 
         Film film = (Film) o;
 
-        if (Double.compare(film.getAvgRate(), getAvgRate()) != 0) {
+        if (Double.compare(film.getDefaultRate(), getDefaultRate()) != 0) {
             return false;
         }
         if (getId() != null ? !getId().equals(film.getId()) : film.getId() != null) {
@@ -71,7 +71,7 @@ public class Film implements Entity {
         result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
         result = 31 * result + (getDirector() != null ? getDirector().hashCode() : 0);
         result = 31 * result + (getPoster() != null ? getPoster().hashCode() : 0);
-        temp = Double.doubleToLongBits(getAvgRate());
+        temp = Double.doubleToLongBits(getDefaultRate());
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
@@ -83,7 +83,7 @@ public class Film implements Entity {
                 ", title='" + title + '\'' +
                 ", director='" + director + '\'' +
                 ", poster='" + poster + '\'' +
-                ", avgRate=" + avgRate +
+                ", defaultRate=" + defaultRate +
                 '}';
     }
 }

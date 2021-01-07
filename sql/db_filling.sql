@@ -5,7 +5,7 @@ FROM `films`;
 
 ##INSERT films into DB
 
-INSERT INTO films(title, director, poster, avg_rate) VALUES
+INSERT INTO films(title, director, poster, default_rate) VALUES
 ('The Shawshank Redemption', 'Frank Darabont', 'static/images/shawshenk.jpg', 9.3),
 ('The Godfather', 'Francis Ford Coppola', 'static/images/godfather.jpg', 9.2),
 ('The Godfather: Part II', 'Francis Ford Coppola', 'static/images/godfather-2.jpg', 9.0),
@@ -32,10 +32,8 @@ INSERT INTO films(title, director, poster, avg_rate) VALUES
  'static/images/One_Flew_Over_the_Cuckoo''s_Nest_poster.jpg',8.7),
 ('Seven Samurai', 'Akira Kurosawa', 'static/images/SevenSamurai.jpg', 8.6),
 ('Seven', 'David Fincher', 'static/images/Seven.jpg', 8.6),
-('Life Is Beautiful', 'Roberto Benigni', 'static/images/Vitaebella.jpg', 8.6);
-
-INSERT INTO films(title, director, poster, avg_rate)
-VALUES ('Иван васильевич меняет профессию', 'Леонид Гайдай', 'static/images/Ivan.jpg', 8.5);
+('Life Is Beautiful', 'Roberto Benigni', 'static/images/Vitaebella.jpg', 8.6),
+('Иван васильевич меняет профессию', 'Леонид Гайдай', 'static/images/Ivan.jpg', 8.5);
 
 SELECT *
 FROM films;

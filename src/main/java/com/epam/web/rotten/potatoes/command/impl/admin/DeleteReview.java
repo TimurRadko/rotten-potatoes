@@ -21,10 +21,10 @@ public class DeleteReview implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringReviewId = requestContext.getRequestParameter(ID_PARAMETER);
-        int commentId = Integer.parseInt(stringReviewId);
-        Optional<UserAction> optionalUserAction = userActionService.findReviewById(commentId);
+        int reviewId = Integer.parseInt(stringReviewId);
+        Optional<UserAction> optionalUserAction = userActionService.findReviewById(reviewId);
         if (optionalUserAction.isPresent()) {
-            userActionService.remove(commentId);
+            userActionService.remove(reviewId);
         }
         return CommandResult.redirect(INDEX_PAGE);
     }

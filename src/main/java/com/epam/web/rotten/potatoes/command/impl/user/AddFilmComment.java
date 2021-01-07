@@ -5,6 +5,7 @@ import com.epam.web.rotten.potatoes.command.CommandResult;
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.Film;
+import com.epam.web.rotten.potatoes.model.User;
 import com.epam.web.rotten.potatoes.model.UserComment;
 import com.epam.web.rotten.potatoes.service.comment.UserCommentService;
 
@@ -15,7 +16,7 @@ public class AddFilmComment implements Command {
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_EMPTY_COMMENT = "errorEmptyComment";
     private static final String COMMENT_PAGE = "WEB-INF/views/comment.jsp";
-    private static final String USER_ID_PARAMETER = "user_id";
+    private static final String USER_ATTRIBUTE = "user";
     private static final String FILM = "film";
     private static final String GO_TO_FILM_HOME = "/rotten-potatoes/controller?command=goToFilmHome";
 
@@ -33,7 +34,8 @@ public class AddFilmComment implements Command {
 
         Film film = (Film) requestContext.getSessionAttribute(FILM);
         int filmId = film.getId();
-        int userId = (Integer) requestContext.getSessionAttribute(USER_ID_PARAMETER);
+        User user = (User) requestContext.getSessionAttribute(USER_ATTRIBUTE);
+        int userId = user.getId();
         UserComment userComment = new UserComment(null, comment, filmId, userId);
         userCommentService.addComment(userComment);
         return CommandResult.redirect(GO_TO_FILM_HOME);

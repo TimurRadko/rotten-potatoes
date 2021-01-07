@@ -9,18 +9,22 @@ import com.epam.web.rotten.potatoes.service.film.FilmService;
 import com.epam.web.rotten.potatoes.command.Command;
 import com.epam.web.rotten.potatoes.command.CommandResult;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 
 public class GetFilmById implements Command {
     private final FilmService filmService;
+    private final UserActionService userActionService;
     private static final String ID_PARAMETER = "id";
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
     private static final String FILM = "film";
 
-    public GetFilmById(FilmService filmService) {
+    public GetFilmById(FilmService filmService, UserActionService userActionService) {
         this.filmService = filmService;
+        this.userActionService = userActionService;
     }
 
     @Override
@@ -30,10 +34,42 @@ public class GetFilmById implements Command {
         Optional<Film> optionalFilm = filmService.getFilmById(filmId);
         if (optionalFilm.isPresent()) {
             Film film = optionalFilm.get();
-            requestContext.setSessionAttribute(FILM, film);
+            Film newFilm = getFilmWithCurrentAvgRate(film);
+            requestContext.setSessionAttribute(FILM, newFilm);
             return CommandResult.forward(FILM_HOME_PAGE);
         } else {
             return CommandResult.forward(FILMS_PAGE);
+        }
+    }
+
+    /*package-private*/ Film getFilmWithCurrentAvgRate(Film film) throws ServiceException {
+        int id = film.getId();
+        String title = film.getTitle();
+        String director = film.getDirector();
+        String poster = film.getPoster();
+        double defaultAvgRate = film.getDefaultRate();
+        double currentAvgRate = getCurrentAvgRate(id, defaultAvgRate);
+        currentAvgRate = round(currentAvgRate);
+        return new Film(id, title, director, poster, currentAvgRate);
+    }
+
+    private static double round(double value) {
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
+    private double getCurrentAvgRate(int id, double defaultAvgRate) throws ServiceException {
+        List<UserAction> userActions = userActionService.findReviewsByFilmId(id);
+        double sumAvgRate = 0;
+        for (UserAction userAction : userActions) {
+            sumAvgRate += userAction.getFilmRate();
+        }
+        if (sumAvgRate > 0) {
+            double resultAvgRate = sumAvgRate / userActions.size();
+            return (resultAvgRate + defaultAvgRate) / 2;
+        } else {
+            return defaultAvgRate;
         }
     }
 }

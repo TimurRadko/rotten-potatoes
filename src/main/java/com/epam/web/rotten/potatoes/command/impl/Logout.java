@@ -13,5 +13,4 @@ public class Logout implements Command {
         requestContext.setSessionAttribute(INVALIDATE_ATTRIBUTE, true);
         return CommandResult.redirect(FILMS_PAGE_COMMAND);
     }
-
 }

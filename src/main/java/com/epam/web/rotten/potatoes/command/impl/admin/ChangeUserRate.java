@@ -43,7 +43,7 @@ public class ChangeUserRate implements Command {
             }
             if (newRate > 0) {
                 user = getNewRateUser(user, newRate);
-                userService.changeUserData(user);
+                userService.blockUnblockUser(user);
                 return CommandResult.redirect(USERS_PAGE_COMMAND);
             } else {
                 requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, NEGATIVE_RATE);
@@ -57,10 +57,9 @@ public class ChangeUserRate implements Command {
     private User getNewRateUser(User user, int newRate) {
         int userId = user.getId();
         String login = user.getLogin();
-        String password = user.getPassword();
         String rights = user.getRights();
         boolean isBlocked = user.isBlocked();
-        return new User(userId, login, password, rights, newRate, isBlocked);
+        return new User(userId, login, rights, newRate, isBlocked);
     }
 
 }

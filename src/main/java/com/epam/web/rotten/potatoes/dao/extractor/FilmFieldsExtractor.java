@@ -11,7 +11,7 @@ public class FilmFieldsExtractor implements FieldsExtractor<Film> {
     private static final int TITLE = 2;
     private static final int DIRECTOR = 3;
     private static final int POSTER = 4;
-    private static final int AVG_RATE = 5;
+    private static final int DEFAULT_RATE = 5;
 
     @Override
     public Map<Integer, Object> extract(Film film) {
@@ -23,8 +23,8 @@ public class FilmFieldsExtractor implements FieldsExtractor<Film> {
         fields.put(DIRECTOR, director);
         String poster = film.getPoster();
         fields.put(POSTER, poster);
-        double avgRate = film.getAvgRate();
-        fields.put(AVG_RATE, avgRate);
+        double defaultRate = film.getDefaultRate();
+        fields.put(DEFAULT_RATE, defaultRate);
         return fields;
     }
 }

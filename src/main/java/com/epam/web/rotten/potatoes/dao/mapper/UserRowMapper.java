@@ -8,7 +8,6 @@ import java.sql.SQLException;
 public class UserRowMapper implements RowMapper<User> {
     private static final String ID = "id";
     private static final String LOGIN = "login";
-    private static final String PASSWORD = "password";
     private static final String RIGHTS = "rights";
     private static final String RATE = "rate";
     private static final String BLOCKED = "blocked";
@@ -17,10 +16,9 @@ public class UserRowMapper implements RowMapper<User> {
     public User map(ResultSet resultSet) throws SQLException {
         Integer id = resultSet.getInt(ID);
         String login = resultSet.getString(LOGIN);
-        String password = resultSet.getString(PASSWORD);
         String rights = resultSet.getString(RIGHTS);
         int rate = resultSet.getInt(RATE);
         boolean blocked = resultSet.getBoolean(BLOCKED);
-        return new User(id, login, password, rights, rate, blocked);
+        return new User(id, login, rights, rate, blocked);
     }
 }

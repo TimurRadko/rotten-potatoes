@@ -42,8 +42,8 @@ public class EditFilm implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         Film film = (Film) requestContext.getSessionAttribute(FILM);
         int filmId = film.getId();
-        double avgRate = film.getAvgRate();
         String currentPoster = film.getPoster();
+        double defaultAvgRate = film.getDefaultRate();
 
         String title = requestContext.getRequestParameter(TITLE_PARAMETER);
         String director = requestContext.getRequestParameter(DIRECTOR_PARAMETER);
@@ -75,7 +75,7 @@ public class EditFilm implements Command {
                 throw new ServiceException(e);
             }
         }
-        film = new Film(filmId, title, director, currentPoster, avgRate);
+        film = new Film(filmId, title, director, currentPoster, defaultAvgRate);
         filmService.save(film);
         return CommandResult.forward(FILM_HOME_PAGE);
     }

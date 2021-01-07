@@ -9,10 +9,9 @@ public class UserFieldsExtractor implements FieldsExtractor<User> {
     private Map<Integer, Object> fields = new HashMap<>();
     private static final int ID = 1;
     private static final int LOGIN = 2;
-    private static final int PASSWORD = 3;
-    private static final int RIGHTS = 4;
-    private static final int RATE = 5;
-    private static final int BLOCKED = 6;
+    private static final int RIGHTS = 3;
+    private static final int RATE = 4;
+    private static final int BLOCKED = 5;
 
     @Override
     public Map<Integer, Object> extract(User user) {
@@ -20,8 +19,6 @@ public class UserFieldsExtractor implements FieldsExtractor<User> {
         fields.put(ID, id);
         String login = user.getLogin();
         fields.put(LOGIN, login);
-        String password = user.getPassword();
-        fields.put(PASSWORD, password);
         String rights = user.getRights();
         fields.put(RIGHTS, rights);
         int rate = user.getRate();

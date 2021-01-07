@@ -27,7 +27,7 @@ public class AddFilm implements Command {
     private static final String POSTER_PARAMETER = "poster-path";
     private static final String DIRECTOR_PARAMETER = "director";
     private static final String REQUEST_ATTRIBUTE = "req";
-    private static final double DEFAULT_AVG_RATE = 0;
+    private static final double DEFAULT_RATE = 0;
     private static final String EMPTY_PARAMETER = "";
 
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
@@ -68,7 +68,7 @@ public class AddFilm implements Command {
             } catch (IOException e) {
                 throw new ServiceException(e);
             }
-            Film film = new Film(null, title, director, posterPath, DEFAULT_AVG_RATE);
+            Film film = new Film(null, title, director, posterPath, DEFAULT_RATE);
             Optional<Integer> optionalId = filmService.save(film);
             if (optionalId.isPresent()) {
                 int id = optionalId.get();

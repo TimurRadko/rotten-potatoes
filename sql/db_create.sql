@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `films`
     `title`    VARCHAR(100) NOT NULL,
     `director` VARCHAR(45)  NOT NULL,
     `poster`   VARCHAR(500) NULL,
-    `avg_rate` DOUBLE       NULL,
+    `default_rate` DOUBLE NULL,
     PRIMARY KEY (`id`)
 );
 

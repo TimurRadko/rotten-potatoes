@@ -1,8 +1,9 @@
 package com.epam.web.rotten.potatoes.connection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.epam.web.rotten.potatoes.exceptions.ConnectionPoolException;
+import com.epam.web.rotten.potatoes.exceptions.DaoException;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -11,27 +12,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
-    private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
+    private final static int POOL_SIZE = 5;
+    private final static Semaphore SEMAPHORE = new Semaphore(POOL_SIZE, true);
     private static final AtomicBoolean IS_CREATED = new AtomicBoolean(false);
     private static ConnectionPool instance = null;
     private final Queue<ProxyConnection> availableConnections;
     private final Queue<ProxyConnection> usingConnections;
     private static final ReentrantLock CONNECTIONS_LOCKER = new ReentrantLock();
     private static final ReentrantLock INSTANCE_LOCKER = new ReentrantLock();
-    private Semaphore semaphore;
+    private final ConnectionFactory connectionFactory = new ConnectionFactory();
 
     private ConnectionPool() {
         availableConnections = new ArrayDeque<>();
         usingConnections = new ArrayDeque<>();
-        init();
     }
 
     private void init() {
-        ProxyConnectionFactory proxyConnectionFactory = new ProxyConnectionFactory(this);
-        int poolSize = proxyConnectionFactory.getPoolSize();
-        semaphore = new Semaphore(poolSize, true);
-        for (int i = 0; i < poolSize; i++) {
-            ProxyConnection proxyConnection = proxyConnectionFactory.create();
+        for (int i = 0; i < POOL_SIZE; i++) {
+            Connection connection = connectionFactory.create();
+            ProxyConnection proxyConnection = new ProxyConnection(connection, this);
             availableConnections.add(proxyConnection);
         }
     }
@@ -39,9 +38,12 @@ public class ConnectionPool {
     public static ConnectionPool getInstance() {
         if (!IS_CREATED.get()) {
             INSTANCE_LOCKER.lock();
+            ConnectionPool local;
             try {
                 if (!IS_CREATED.get()) {
-                    instance = new ConnectionPool();
+                    local = new ConnectionPool();
+                    local.init();
+                    instance = local;
                     IS_CREATED.set(true);
                 }
             } finally {
@@ -57,36 +59,36 @@ public class ConnectionPool {
             if (usingConnections.contains(proxyConnection)) {
                 availableConnections.offer(proxyConnection);
                 usingConnections.poll();
+                SEMAPHORE.release();
             }
         } finally {
             CONNECTIONS_LOCKER.unlock();
         }
-        semaphore.release();
     }
 
     public ProxyConnection getConnection() {
-        ProxyConnection proxyConnection = null;
         try {
-            semaphore.acquire();
+            SEMAPHORE.acquire();
             CONNECTIONS_LOCKER.lock();
-            proxyConnection = availableConnections.poll();
+            ProxyConnection proxyConnection = availableConnections.poll();
             usingConnections.offer(proxyConnection);
+            return proxyConnection;
         } catch (InterruptedException e) {
-            LOGGER.error(e.getMessage(), e);
+            throw new ConnectionPoolException(e.getMessage(), e);
         } finally {
             CONNECTIONS_LOCKER.unlock();
         }
-        return proxyConnection;
     }
 
-    public void closeConnections() {
-        usingConnections.forEach(this::releaseConnection);
-        for (ProxyConnection proxyConnection : availableConnections) {
-            try {
-                proxyConnection.finalCloseConnection();
-            } catch (SQLException e) {
-                LOGGER.error(e.getMessage(), e);
+    public void closeConnections() throws DaoException {
+        availableConnections.addAll(usingConnections);
+        usingConnections.clear();
+        try {
+            for (ProxyConnection connection : availableConnections) {
+                connection.finalCloseConnection();
             }
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage(), e);
         }
     }
 }

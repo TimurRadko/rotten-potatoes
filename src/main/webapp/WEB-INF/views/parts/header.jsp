@@ -11,11 +11,11 @@
         <a class="navbar-main" href="<c:url value="/controller?command=films"/>">Rotten-Potatoes.by</a>
 
         <c:choose>
-            <c:when test="${sessionScope.login == null}">
+            <c:when test="${sessionScope.user.login == null}">
                 <a class="navbar-login" href="<c:url value="/controller?command=goToLogin"/>"><fmt:message
                         key="label.login"/></a>
             </c:when>
-            <c:when test="${sessionScope.login != null}">
+            <c:when test="${sessionScope.user.login != null}">
                 <a class="navbar-login" href="<c:url value="/controller?command=logout"/>"><fmt:message
                         key="label.logout"/></a>
             </c:when>
@@ -42,9 +42,9 @@
             </div>
         </div>
 
-        <c:if test="${sessionScope.login != null}">
+        <c:if test="${sessionScope.user.login != null}">
             <a class="navbar-username" href="<c:url value="/controller?command=goToHome"/>"><fmt:message
-                    key="label.welcome"/> ${sessionScope.login}</a>
+                    key="label.welcome"/> ${sessionScope.user.login}</a>
         </c:if>
     </div>
 </header>

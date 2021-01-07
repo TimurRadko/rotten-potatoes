@@ -12,12 +12,9 @@ import java.util.Optional;
 public class Login implements Command {
     private final UserService userService;
 
-    private static final String ID_PARAMETER = "user_id";
+    private static final String USER_ATTRIBUTE = "user";
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "password";
-    private static final String RIGHTS_PARAMETER = "rights";
-    private static final String RATE_PARAMETER = "rate";
-    private static final String BLOCKED_PARAMETER = "blocked";
     private static final String LOGIN_PAGE = "WEB-INF/views/login.jsp";
     private static final String FILMS_PAGE_COMMAND = "/rotten-potatoes/controller?command=films";
 
@@ -47,20 +44,7 @@ public class Login implements Command {
             requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_USER_BLOCKED);
             return CommandResult.forward(LOGIN_PAGE);
         }
-        setSessionUserData(requestContext, user);
+        requestContext.setSessionAttribute(USER_ATTRIBUTE, user);
         return CommandResult.redirect(FILMS_PAGE_COMMAND);
-    }
-
-    private void setSessionUserData(RequestContext requestContext, User user) {
-        int id = user.getId();
-        String login = user.getLogin();
-        String rights = user.getRights();
-        double rate = user.getRate();
-        boolean blocked = user.isBlocked();
-        requestContext.setSessionAttribute(ID_PARAMETER, id);
-        requestContext.setSessionAttribute(LOGIN_PARAMETER, login);
-        requestContext.setSessionAttribute(RIGHTS_PARAMETER, rights);
-        requestContext.setSessionAttribute(RATE_PARAMETER, rate);
-        requestContext.setSessionAttribute(BLOCKED_PARAMETER, blocked);
     }
 }

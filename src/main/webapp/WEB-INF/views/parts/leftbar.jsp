@@ -10,12 +10,13 @@
 <section id="user-actions">
     <div class="btn-group">
         <c:choose>
-            <c:when test="${sessionScope.rights == null or sessionScope.blocked == true}">
+            <c:when test="${sessionScope.user.rights == null or sessionScope.user.blocked == true
+            or sessionScope.user.login == null}">
                 <a href="<c:url value="/controller?command=users"/>">
                     <button><fmt:message key="main.left.users"/></button>
                 </a>
             </c:when>
-            <c:when test="${sessionScope.login != null}">
+            <c:otherwise>
                 <ctg:access accessName="admin">
                     <a href="<c:url value="/controller?command=users"/>">
                         <button><fmt:message key="main.left.editUsers"/></button>
@@ -30,7 +31,7 @@
                         <button><fmt:message key="main.left.users"/></button>
                     </a>
                 </ctg:access>
-            </c:when>
+            </c:otherwise>
         </c:choose>
     </div>
 </section>

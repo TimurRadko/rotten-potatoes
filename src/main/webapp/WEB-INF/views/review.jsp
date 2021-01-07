@@ -20,7 +20,7 @@
         <h1>${sessionScope.film.title}</h1>
         <div class="description">
             <c:choose>
-                <c:when test="${sessionScope.blocked == false and sessionScope.rights != null}">
+                <c:when test="${sessionScope.user.blocked == false and sessionScope.user.rights != null}">
 
                     <form name="review" method="POST"
                           action="${pageContext.request.contextPath}/controller?command=review-rate">

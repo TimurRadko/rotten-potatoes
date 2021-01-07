@@ -10,7 +10,7 @@
 <section id="user-actions">
     <div class="btn-group">
         <c:choose>
-            <c:when test="${sessionScope.rights == null or sessionScope.blocked == true}">
+            <c:when test="${sessionScope.user.rights == null or sessionScope.user.blocked == true}">
                 <a href="<c:url value="/controller?command=films"/>">
                     <button><fmt:message key="main.left.return"/></button>
                 </a>

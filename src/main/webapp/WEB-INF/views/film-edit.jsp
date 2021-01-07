@@ -37,7 +37,7 @@
                            value="${sessionScope.film.director}" maxlength="45"/>
                 </p>
 
-                <p><fmt:message key="film.avgRate"/> ${sessionScope.film.avgRate}</p>
+                <p><fmt:message key="film.avgRate"/> ${sessionScope.film.defaultRate}</p>
 
                 <button class="signupbtn" type="submit">
                     <fmt:message key="film.admin.action.saveEditingFilm"/>

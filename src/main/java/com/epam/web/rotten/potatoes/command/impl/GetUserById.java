@@ -23,7 +23,11 @@ public class GetUserById implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringUserId = requestContext.getRequestParameter(ID_PARAMETER);
+        if (stringUserId == null) {
+            throw new ServiceException("Incoming parameters are: null");
+        }
         int userId = Integer.parseInt(stringUserId);
+
         Optional<User> optionalUser = userService.getUserById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();

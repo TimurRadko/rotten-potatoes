@@ -26,14 +26,14 @@
                     <th><fmt:message key="users.position"/></th>
                     <th><fmt:message key="users.login"/></th>
                     <th><fmt:message key="users.rate"/></th>
-                    <ctg:access accessName="admin">
+                    <c:if test="${sessionScope.user.rights == 'admin'}">
                         <th><fmt:message key="users.blocked"/></th>
-                    </ctg:access>
+                    </c:if>
                 </tr>
 
                 <c:forEach var="user" items="${requestScope.users}" varStatus="index">
                     <c:choose>
-                        <c:when test="${sessionScope.rights == 'admin'}">
+                        <c:when test="${sessionScope.user.rights == 'admin'}">
                             <tr>
                                 <td>${index.count}</td>
                                 <td>

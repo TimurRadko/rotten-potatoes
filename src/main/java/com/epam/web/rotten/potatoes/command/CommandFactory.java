@@ -86,11 +86,13 @@ public class CommandFactory {
             case LOGOUT:
                 return new Logout();
             case GET_FILM_BY_ID:
-                return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()));
+                return new GetFilmById(new FilmServiceImpl(new DaoHelperFactory()),
+                        new UserActionServiceImpl(new DaoHelperFactory()));
             case GET_FILM_BY_DIRECTOR:
                 return new GetFilmsByDirector(new FilmServiceImpl(new DaoHelperFactory()));
             case GET_FILMS_LIST:
-                return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()));
+                return new GetFilmList(new FilmServiceImpl(new DaoHelperFactory()),
+                        new UserActionServiceImpl(new DaoHelperFactory()));
             case GET_USER_LIST:
                 return new GetUserList(new UserServiceImpl(new DaoHelperFactory()));
 
