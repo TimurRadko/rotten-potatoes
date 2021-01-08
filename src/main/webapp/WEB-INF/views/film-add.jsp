@@ -52,6 +52,9 @@
                     <c:if test="${requestScope.errorMessage == 'errorEmptyData'}">
                         <fmt:message key="film.edit.errorEmpty"/>
                     </c:if>
+                    <c:if test="${requestScope.errorMessage == 'invalidFilmData'}">
+                        <fmt:message key="film.edit.invalidFilmData"/>
+                    </c:if>
                 </div>
 
             </form>

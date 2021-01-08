@@ -8,12 +8,14 @@ import com.epam.web.rotten.potatoes.model.UserAction;
 import com.epam.web.rotten.potatoes.service.action.UserActionService;
 import com.epam.web.rotten.potatoes.command.Command;
 import com.epam.web.rotten.potatoes.command.CommandResult;
+import com.epam.web.rotten.potatoes.validator.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddFilmRateAndReview implements Command {
     private final UserActionService userActionService;
+    private final Validator<UserAction> userActionValidator;
     private static final String FILM = "film";
     private static final String FILM_RATE_PARAMETER = "film_rate";
     private static final String REVIEW_PARAMETER = "review";
@@ -24,9 +26,11 @@ public class AddFilmRateAndReview implements Command {
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_EMPTY_REVIEW = "errorEmptyReview";
     private static final String ERROR_REPEATED_REVIEW = "errorRepeatedReview";
+    private static final String ERROR_DATA_USER_ACTION = "errorDataUserAction";
 
-    public AddFilmRateAndReview(UserActionService userActionService) {
+    public AddFilmRateAndReview(UserActionService userActionService, Validator<UserAction> userActionValidator) {
         this.userActionService = userActionService;
+        this.userActionValidator = userActionValidator;
     }
 
     @Override
@@ -51,8 +55,13 @@ public class AddFilmRateAndReview implements Command {
         }
 
         UserAction userAction = new UserAction(null, rate, review, userId, filmId);
-        userActionService.addReviewAndRate(userAction);
-        return CommandResult.redirect(GO_TO_FILM_HOME);
+        if (userActionValidator.isValid(userAction)) {
+            userActionService.addReviewAndRate(userAction);
+            return CommandResult.redirect(GO_TO_FILM_HOME);
+        } else {
+            requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_DATA_USER_ACTION);
+            return CommandResult.forward(REVIEW_PAGE);
+        }
     }
 
     private boolean isUserWroteReview(Integer userId, Integer filmId) throws ServiceException {

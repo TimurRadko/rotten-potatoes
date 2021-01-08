@@ -5,6 +5,8 @@ import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.model.UserAction;
 import com.epam.web.rotten.potatoes.service.action.UserActionService;
+import com.epam.web.rotten.potatoes.validator.UserActionValidator;
+import com.epam.web.rotten.potatoes.validator.Validator;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -34,11 +36,12 @@ public class AddFilmRateAndReviewTest {
     @Test
     public void testExecuteShouldPutToContextErrorMessageWhenReviewEmpty() throws ServiceException {
         UserActionService userActionService = Mockito.mock(UserActionService.class);
+        UserActionValidator userActionValidator = Mockito.mock(UserActionValidator.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(REVIEW_PARAMETER, EMPTY_REVIEW_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         when(userActionService.findReviewById(anyInt())).thenReturn(Optional.empty());
-        AddFilmRateAndReview addFilmRateAndReview = new AddFilmRateAndReview(userActionService);
+        AddFilmRateAndReview addFilmRateAndReview = new AddFilmRateAndReview(userActionService, userActionValidator);
 
         addFilmRateAndReview.execute(context);
 

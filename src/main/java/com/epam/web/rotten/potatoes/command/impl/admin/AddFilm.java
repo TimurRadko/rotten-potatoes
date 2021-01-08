@@ -6,6 +6,7 @@ import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.service.film.FilmService;
+import com.epam.web.rotten.potatoes.validator.Validator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -22,6 +23,7 @@ import java.util.UUID;
 
 public class AddFilm implements Command {
     private final FilmService filmService;
+    private final Validator<Film> filmValidator;
     private static final String TITLE_PARAMETER = "title";
     private static final String POSTER_PATH = "static/images/";
     private static final String POSTER_PARAMETER = "poster-path";
@@ -32,11 +34,13 @@ public class AddFilm implements Command {
 
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_EMPTY_DATA = "errorEmptyData";
+    private static final String INVALID_FILM_DATA = "invalidFilmData";
     private static final String FILM_ADD_PAGE = "WEB-INF/views/film-add.jsp";
     private static final String FILM_HOME_PAGE_COMMAND = "/controller?command=film-home&id=";
 
-    public AddFilm(FilmService filmService) {
+    public AddFilm(FilmService filmService, Validator<Film> filmValidator) {
         this.filmService = filmService;
+        this.filmValidator = filmValidator;
     }
 
     @Override
@@ -69,10 +73,15 @@ public class AddFilm implements Command {
                 throw new ServiceException(e);
             }
             Film film = new Film(null, title, director, posterPath, DEFAULT_RATE);
-            Optional<Integer> optionalId = filmService.save(film);
-            if (optionalId.isPresent()) {
-                int id = optionalId.get();
-                return CommandResult.forward(FILM_HOME_PAGE_COMMAND + id);
+            if (filmValidator.isValid(film)) {
+                Optional<Integer> optionalId = filmService.save(film);
+                if (optionalId.isPresent()) {
+                    int id = optionalId.get();
+                    return CommandResult.forward(FILM_HOME_PAGE_COMMAND + id);
+                }
+            } else {
+                requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, INVALID_FILM_DATA);
+                return CommandResult.forward(FILM_ADD_PAGE);
             }
         }
         return CommandResult.forward(FILM_ADD_PAGE);

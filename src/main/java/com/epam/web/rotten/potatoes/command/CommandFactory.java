@@ -11,6 +11,9 @@ import com.epam.web.rotten.potatoes.service.action.UserActionServiceImpl;
 import com.epam.web.rotten.potatoes.service.comment.UserCommentServiceImpl;
 import com.epam.web.rotten.potatoes.service.film.FilmServiceImpl;
 import com.epam.web.rotten.potatoes.service.user.UserServiceImpl;
+import com.epam.web.rotten.potatoes.validator.FilmValidator;
+import com.epam.web.rotten.potatoes.validator.UserActionValidator;
+import com.epam.web.rotten.potatoes.validator.UserCommentValidator;
 
 public class CommandFactory {
     private static final String GO_TO_LOGIN = "goToLogin";
@@ -97,9 +100,11 @@ public class CommandFactory {
                 return new GetUserList(new UserServiceImpl(new DaoHelperFactory()));
 
             case ADD_REVIEW_AND_RATE:
-                return new AddFilmRateAndReview(new UserActionServiceImpl(new DaoHelperFactory()));
+                return new AddFilmRateAndReview(new UserActionServiceImpl(new DaoHelperFactory()),
+                        new UserActionValidator());
             case ADD_COMMENT:
-                return new AddFilmComment(new UserCommentServiceImpl(new DaoHelperFactory()));
+                return new AddFilmComment(new UserCommentServiceImpl(new DaoHelperFactory()) ,
+                        new UserCommentValidator());
 
             case SHOW_REVIEWS:
                 return new ShowFilmReview(new UserActionServiceImpl(new DaoHelperFactory()),
@@ -115,13 +120,13 @@ public class CommandFactory {
             case ADMIN_EDIT_USER_RATE:
                 return new ChangeUserRate(new UserServiceImpl(new DaoHelperFactory()));
             case ADMIN_ADD_FILM:
-                return new AddFilm(new FilmServiceImpl(new DaoHelperFactory()));
+                return new AddFilm(new FilmServiceImpl(new DaoHelperFactory()), new FilmValidator());
             case ADMIN_DELETE_FILM:
                 return new DeleteFilm(new FilmServiceImpl(new DaoHelperFactory()));
             case ADMIN_DELETE_COMMENT:
                 return new DeleteComment(new UserCommentServiceImpl(new DaoHelperFactory()));
             case ADMIN_EDIT_FILM:
-                return new EditFilm(new FilmServiceImpl(new DaoHelperFactory()));
+                return new EditFilm(new FilmServiceImpl(new DaoHelperFactory()), new FilmValidator());
             case ADMIN_DELETE_REVIEW:
                 return new DeleteReview(new UserActionServiceImpl(new DaoHelperFactory()));
             default:

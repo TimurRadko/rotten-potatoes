@@ -57,6 +57,9 @@
                         <c:when test="${requestScope.errorMessage == 'errorRepeatedReview'}">
                             <fmt:message key="review.errorMessageRepeated"/>
                         </c:when>
+                        <c:when test="${requestScope.errorMessage == 'errorDataUserAction'}">
+                            <fmt:message key="review.errorMessageRepeatedOrEmpty"/>
+                        </c:when>
                     </c:choose>
 
                 </c:when>

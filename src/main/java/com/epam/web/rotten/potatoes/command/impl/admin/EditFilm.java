@@ -6,6 +6,7 @@ import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.service.film.FilmService;
+import com.epam.web.rotten.potatoes.validator.Validator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 public class EditFilm implements Command {
     private final FilmService filmService;
+    private final Validator<Film> filmValidator;
     private static final String FILM = "film";
     private static final String TITLE_PARAMETER = "title";
     private static final String POSTER_PATH = "static/images/";
@@ -31,11 +33,14 @@ public class EditFilm implements Command {
 
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_EMPTY_DATA = "errorEmptyData";
+    private static final String INVALID_FILM_DATA = "invalidFilmData";
     private static final String FILM_HOME_PAGE_COMMAND = "/controller?command=film-home&id=";
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
+    private static final String FILM_ADD_PAGE = "WEB-INF/views/film-add.jsp";
 
-    public EditFilm(FilmService filmService) {
+    public EditFilm(FilmService filmService, Validator<Film> filmValidator) {
         this.filmService = filmService;
+        this.filmValidator = filmValidator;
     }
 
     @Override
@@ -76,7 +81,12 @@ public class EditFilm implements Command {
             }
         }
         film = new Film(filmId, title, director, currentPoster, defaultAvgRate);
-        filmService.save(film);
-        return CommandResult.forward(FILM_HOME_PAGE);
+        if (filmValidator.isValid(film)) {
+            filmService.save(film);
+            return CommandResult.forward(FILM_HOME_PAGE);
+        } else {
+            requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, INVALID_FILM_DATA);
+            return CommandResult.forward(FILM_ADD_PAGE);
+        }
     }
 }

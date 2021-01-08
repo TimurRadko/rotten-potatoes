@@ -39,6 +39,9 @@
                         <c:when test="${requestScope.errorMessage == 'errorEmptyComment'}">
                             <fmt:message key="comment.errorMessageEmpty"/>
                         </c:when>
+                        <c:when test="${requestScope.errorMessage == 'errorLongComment'}">
+                            <fmt:message key="comment.errorMessageLong"/>
+                        </c:when>
                     </c:choose>
 
                 </c:when>

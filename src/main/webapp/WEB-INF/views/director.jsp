@@ -32,7 +32,7 @@
                         <td>${index.count}</td>
                         <td><a href="<c:url value="/controller?command=film-home&id=${film.id}"/>">${film.title}</a>
                         </td>
-                        <td>${film.avgRate}</td>
+                        <td>${film.defaultRate}</td>
                     </tr>
                 </c:forEach>
             </table>
