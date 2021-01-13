@@ -8,11 +8,10 @@ import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.model.User;
 import com.epam.web.rotten.potatoes.model.UserComment;
 import com.epam.web.rotten.potatoes.service.comment.UserCommentService;
-import com.epam.web.rotten.potatoes.validator.Validator;
 
-public class AddFilmComment implements Command {
+public class AddFilmCommentCommand implements Command {
     private final UserCommentService userCommentService;
-    private final Validator<UserComment> userCommentValidator;
+    private static final int MAX_COMMENT_LENGTH = 200;
 
     private static final String COMMENT_PARAMETER = "comment";
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
@@ -21,11 +20,10 @@ public class AddFilmComment implements Command {
     private static final String COMMENT_PAGE = "WEB-INF/views/comment.jsp";
     private static final String USER_ATTRIBUTE = "user";
     private static final String FILM = "film";
-    private static final String GO_TO_FILM_HOME = "/rotten-potatoes/controller?command=goToFilmHome";
+    private static final String FILM_HOME_PAGE_COMMAND = "/rotten-potatoes/controller?command=film-home&id=";
 
-    public AddFilmComment(UserCommentService userCommentService, Validator<UserComment> userCommentValidator) {
+    public AddFilmCommentCommand(UserCommentService userCommentService) {
         this.userCommentService = userCommentService;
-        this.userCommentValidator = userCommentValidator;
     }
 
     @Override
@@ -35,18 +33,17 @@ public class AddFilmComment implements Command {
             requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_EMPTY_COMMENT);
             return CommandResult.forward(COMMENT_PAGE);
         }
-
-        Film film = (Film) requestContext.getSessionAttribute(FILM);
-        int filmId = film.getId();
-        User user = (User) requestContext.getSessionAttribute(USER_ATTRIBUTE);
-        int userId = user.getId();
-        UserComment userComment = new UserComment(null, comment, filmId, userId);
-        if (userCommentValidator.isValid(userComment)) {
-            userCommentService.addComment(userComment);
-            return CommandResult.redirect(GO_TO_FILM_HOME);
-        } else {
+        if (comment.length() > MAX_COMMENT_LENGTH) {
             requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_LONG_COMMENT);
             return CommandResult.forward(COMMENT_PAGE);
         }
+
+        Film film = (Film) requestContext.getSessionAttribute(FILM);
+        Integer filmId = film.getId();
+        User user = (User) requestContext.getSessionAttribute(USER_ATTRIBUTE);
+        Integer userId = user.getId();
+        UserComment userComment = new UserComment(null, comment, filmId, userId);
+        userCommentService.addComment(userComment);
+        return CommandResult.redirect(FILM_HOME_PAGE_COMMAND + filmId);
     }
 }

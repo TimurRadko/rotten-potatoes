@@ -9,7 +9,7 @@ import com.epam.web.rotten.potatoes.service.user.UserService;
 
 import java.util.Optional;
 
-public class ChangeUserRate implements Command {
+public class ChangeUserRateCommand implements Command {
     private final UserService userService;
     private static final String ID_PARAMETER = "id";
     private static final String RATE_PARAMETER = "rate";
@@ -20,7 +20,7 @@ public class ChangeUserRate implements Command {
     private static final String NEGATIVE_RATE = "negativeRate";
     private static final String USER_PARAMETER = "user";
 
-    public ChangeUserRate(UserService userService) {
+    public ChangeUserRateCommand(UserService userService) {
         this.userService = userService;
     }
 

@@ -1,4 +1,4 @@
-package com.epam.web.rotten.potatoes.command.impl.user;
+package com.epam.web.rotten.potatoes.command.impl.both;
 
 import com.epam.web.rotten.potatoes.command.Command;
 import com.epam.web.rotten.potatoes.command.CommandResult;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ShowFilmComment implements Command {
+public class ShowFilmCommentCommand implements Command {
     private final UserCommentService userCommentService;
     private final UserService userService;
 
@@ -23,7 +23,7 @@ public class ShowFilmComment implements Command {
     private static final String FILM = "film";
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
 
-    public ShowFilmComment(UserCommentService userCommentService, UserService userService) {
+    public ShowFilmCommentCommand(UserCommentService userCommentService, UserService userService) {
         this.userCommentService = userCommentService;
         this.userService = userService;
     }
@@ -31,7 +31,7 @@ public class ShowFilmComment implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         Film film = (Film) requestContext.getSessionAttribute(FILM);
-        int filmId = film.getId();
+        Integer filmId = film.getId();
         List<UserComment> comments = userCommentService.findCommentsByFilmId(filmId);
         List<UserCommentDto> usersAndReviews = getAllComments(comments);
         requestContext.setRequestAttribute(USER_COMMENTS, usersAndReviews);
@@ -42,7 +42,7 @@ public class ShowFilmComment implements Command {
         List<UserCommentDto> userReviewDtos = new ArrayList<>();
 
         for (UserComment comment : comments) {
-            int userId = comment.getUserId();
+            Integer userId = comment.getUserId();
             Integer commentId = comment.getId();
             String userComment = comment.getComment();
             Optional<User> optionalUser = userService.getUserById(userId);

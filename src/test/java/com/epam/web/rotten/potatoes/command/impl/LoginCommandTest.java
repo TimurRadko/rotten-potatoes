@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-public class LoginTest {
+public class LoginCommandTest {
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final Integer USER_ID = 1;
@@ -38,21 +38,21 @@ public class LoginTest {
         requestParameters.put(LOGIN, EMPTY_PARAMETER);
         requestParameters.put(PASSWORD, EMPTY_PARAMETER);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
-        Login login = new Login(userService);
+        LoginCommand login = new LoginCommand(userService);
         Optional<User> optionalUser = Optional.of(USER);
         when(userService.login(anyString(), anyString())).thenReturn(optionalUser);
 
         CommandResult actual = login.execute(context);
 
         CommandResult expected = CommandResult.redirect(FILMS_PAGE_COMMAND);
-        Assert.assertEquals(actual, expected);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testExecuteShouldReturnForwardToLoginPage() throws ServiceException {
         UserService userService = Mockito.mock(UserService.class);
         RequestContext context = new RequestContext(new HashMap<>(), new HashMap<>(), new HashMap<>());
-        Login login = new Login(userService);
+        LoginCommand login = new LoginCommand(userService);
         Optional<User> optionalUser = Optional.empty();
         when(userService.login(anyString(), anyString())).thenReturn(optionalUser);
 
@@ -60,34 +60,34 @@ public class LoginTest {
 
         CommandResult actual = login.execute(context);
 
-        Assert.assertEquals(actual, expected);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testExecuteShouldPutToContextErrorLoginMessage() throws ServiceException {
         UserService userService = Mockito.mock(UserService.class);
         RequestContext context = new RequestContext(new HashMap<>(), new HashMap<>(), new HashMap<>());
-        Login login = new Login(userService);
+        LoginCommand login = new LoginCommand(userService);
         Optional<User> optionalUser = Optional.empty();
         when(userService.login(anyString(), anyString())).thenReturn(optionalUser);
 
         login.execute(context);
 
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
-        Assert.assertEquals(actualError, ERROR_LOGIN);
+        Assert.assertEquals(ERROR_LOGIN, actualError);
     }
 
     @Test
     public void testExecuteShouldPutToContextErrorRightsMessage() throws ServiceException {
         UserService userService = Mockito.mock(UserService.class);
         RequestContext context = new RequestContext(new HashMap<>(), new HashMap<>(), new HashMap<>());
-        Login login = new Login(userService);
+        LoginCommand login = new LoginCommand(userService);
         Optional<User> optionalUser = Optional.of(USER_BLOCKED);
         when(userService.login(anyString(), anyString())).thenReturn(optionalUser);
 
         login.execute(context);
 
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
-        Assert.assertEquals(actualError, ERROR_USER_BLOCKED);
+        Assert.assertEquals(ERROR_USER_BLOCKED, actualError);
     }
 }

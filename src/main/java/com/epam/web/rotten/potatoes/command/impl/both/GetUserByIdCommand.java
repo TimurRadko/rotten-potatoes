@@ -1,4 +1,4 @@
-package com.epam.web.rotten.potatoes.command.impl;
+package com.epam.web.rotten.potatoes.command.impl.both;
 
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
@@ -9,14 +9,14 @@ import com.epam.web.rotten.potatoes.command.CommandResult;
 
 import java.util.Optional;
 
-public class GetUserById implements Command {
+public class GetUserByIdCommand implements Command {
     private final UserService userService;
     private static final String ID_PARAMETER = "id";
     private static final String USER_PARAMETER = "user";
     private static final String USER_EDIT_PAGE = "WEB-INF/views/user-edit.jsp";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
 
-    public GetUserById(UserService userService) {
+    public GetUserByIdCommand(UserService userService) {
         this.userService = userService;
     }
 

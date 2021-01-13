@@ -48,4 +48,12 @@ public class CommandResult {
         result = 31 * result + (isRedirect() ? 1 : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "CommandResult{" +
+                "command='" + command + '\'' +
+                ", isRedirect=" + isRedirect +
+                '}';
+    }
 }

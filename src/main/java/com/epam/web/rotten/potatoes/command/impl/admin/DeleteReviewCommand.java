@@ -9,12 +9,12 @@ import com.epam.web.rotten.potatoes.service.action.UserActionService;
 
 import java.util.Optional;
 
-public class DeleteReview implements Command {
+public class DeleteReviewCommand implements Command {
     private final UserActionService userActionService;
     private static final String ID_PARAMETER = "id";
     private static final String INDEX_PAGE = "index.jsp";
 
-    public DeleteReview(UserActionService userActionService) {
+    public DeleteReviewCommand(UserActionService userActionService) {
         this.userActionService = userActionService;
     }
 

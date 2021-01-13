@@ -33,33 +33,26 @@
                         <td>${(5)*(requestScope.currentPage - 1) + index.count}</td>
                         <td><a href="<c:url value="/controller?command=film-home&id=${film.id}"/>">${film.title}</a>
                         </td>
-                        <td><a href="<c:url value="/controller?command=director&director=${film.director}"/>">${film.director}</a></td>
+                        <td>
+                            <a href="<c:url value="/controller?command=director&director=${film.director}"/>">${film.director}</a>
+                        </td>
                         <td>${film.defaultRate}</td>
                     </tr>
                 </c:forEach>
             </table>
         </div>
         <div class="pagination-text">
-            <c:choose>
-                <c:when test="${(requestScope.currentPage - 1) == 0}">
-                    <a href="" type="submit" class="pagination"><fmt:message key="films.previous"/></a>
-                </c:when>
-                <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/controller?command=films&currentPage=${requestScope.currentPage-1}"
-                       type="submit" class="pagination"><fmt:message key="films.previous"/></a>
-                </c:otherwise>
-            </c:choose>
-            <div class="pagination">${requestScope.currentPage}</div>
-            <c:choose>
-                <c:when test="${requestScope.films.size() != 5}">
-                    <a href="" type="submit" class="pagination"><fmt:message key="films.next"/></a>
-                </c:when>
-                <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/controller?command=films&currentPage=${requestScope.currentPage+1}"
-                       type="submit" class="pagination"><fmt:message key="films.next"/></a>
-                </c:otherwise>
-            </c:choose>
-            <br/>
+            <c:if test="${(requestScope.currentPage - 1) != 0}">
+                <a class="pagination"
+                   href="${pageContext.request.contextPath}/controller?command=films&currentPage=${requestScope.currentPage-1}"
+                   type="submit">❮❮</a>
+            </c:if>
+            ${requestScope.currentPage}
+            <c:if test="${requestScope.films.size() == 5}">
+                <a class="pagination"
+                   href="${pageContext.request.contextPath}/controller?command=films&currentPage=${requestScope.currentPage+1}"
+                   type="submit">❯❯</a>
+            </c:if>
         </div>
     </section>
 </div>

@@ -14,7 +14,7 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 
-public class GetFilmById implements Command {
+public class GetFilmByIdCommand implements Command {
     private final FilmService filmService;
     private final UserActionService userActionService;
     private static final String ID_PARAMETER = "id";
@@ -22,7 +22,7 @@ public class GetFilmById implements Command {
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
     private static final String FILM = "film";
 
-    public GetFilmById(FilmService filmService, UserActionService userActionService) {
+    public GetFilmByIdCommand(FilmService filmService, UserActionService userActionService) {
         this.filmService = filmService;
         this.userActionService = userActionService;
     }
@@ -54,9 +54,9 @@ public class GetFilmById implements Command {
     }
 
     private static double round(double value) {
-        BigDecimal bd = new BigDecimal(Double.toString(value));
-        bd = bd.setScale(1, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+        BigDecimal bigDecimalNumber = new BigDecimal(Double.toString(value));
+        bigDecimalNumber = bigDecimalNumber.setScale(1, RoundingMode.HALF_UP);
+        return bigDecimalNumber.doubleValue();
     }
 
     private double getCurrentAvgRate(int id, double defaultAvgRate) throws ServiceException {

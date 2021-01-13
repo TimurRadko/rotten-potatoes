@@ -9,7 +9,7 @@ import com.epam.web.rotten.potatoes.command.CommandResult;
 
 import java.util.Optional;
 
-public class Login implements Command {
+public class LoginCommand implements Command {
     private final UserService userService;
 
     private static final String USER_ATTRIBUTE = "user";
@@ -22,7 +22,7 @@ public class Login implements Command {
     private static final String ERROR_LOGIN = "errorLogin";
     private static final String ERROR_USER_BLOCKED = "errorBlocked";
 
-    public Login(UserService userService) {
+    public LoginCommand(UserService userService) {
         this.userService = userService;
     }
 

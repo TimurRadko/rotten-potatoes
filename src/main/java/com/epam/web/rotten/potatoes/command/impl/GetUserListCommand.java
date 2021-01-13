@@ -10,13 +10,13 @@ import com.epam.web.rotten.potatoes.service.user.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetUserList implements Command {
+public class GetUserListCommand implements Command {
     private final UserService userService;
     private static final String USERS = "users";
     private static final String USERS_PAGE = "WEB-INF/views/users.jsp";
     private static final String USER = "user";
 
-    public GetUserList(UserService userService) {
+    public GetUserListCommand(UserService userService) {
         this.userService = userService;
     }
 

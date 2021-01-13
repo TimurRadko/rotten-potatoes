@@ -1,12 +1,10 @@
 package com.epam.web.rotten.potatoes.command.impl;
 
 import com.epam.web.rotten.potatoes.command.CommandResult;
+import com.epam.web.rotten.potatoes.command.impl.both.GetUserByIdCommand;
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
-import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.model.User;
-import com.epam.web.rotten.potatoes.service.action.UserActionService;
-import com.epam.web.rotten.potatoes.service.film.FilmService;
 import com.epam.web.rotten.potatoes.service.user.UserService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,44 +17,43 @@ import java.util.Optional;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
-public class GetFilmByIdTest {
+public class GetUserByIdCommandTest {
+    private static final User USER = new User(1, "login", "user", 50, false);
     private static final String ID_PARAMETER = "id";
     private static final String ID_VALUE = "1";
     private static final String INVALID_ID_VALUE = "2";
-    private static final Film FILM = new Film(1,"A","A", "A", 10);
-    private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
+    private static final String USER_EDIT_PAGE = "WEB-INF/views/user-edit.jsp";
 
     @Test
-    public void testExecuteShouldReturnForwardFilmHomePageWhenFilmFound() throws ServiceException {
-        FilmService filmService = Mockito.mock(FilmService.class);
-        UserActionService userActionService = Mockito.mock(UserActionService.class);
+    public void testExecuteShouldReturnForwardUserEditPageWhenUserFound() throws ServiceException {
+        UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, ID_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
-        GetFilmById getFilmById = new GetFilmById(filmService, userActionService);
-        Optional<Film> optionalFilm = Optional.of(FILM);
-        when(filmService.getFilmById(anyInt())).thenReturn(optionalFilm);
+        GetUserByIdCommand getUserById = new GetUserByIdCommand(userService);
+        Optional<User> optionalUser = Optional.of(USER);
+        when(userService.getUserById(anyInt())).thenReturn(optionalUser);
 
-        CommandResult actual = getFilmById.execute(context);
+        CommandResult actual = getUserById.execute(context);
 
-        CommandResult expected = CommandResult.forward(FILM_HOME_PAGE);
-        Assert.assertEquals(actual, expected);
+        CommandResult expected = CommandResult.forward(USER_EDIT_PAGE);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void testExecuteShouldReturnForwardFilmsPageWhenFilmNotFound() throws ServiceException {
+    public void testExecuteShouldReturnForwardFilmsPageWhenUserNotFound() throws ServiceException {
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, INVALID_ID_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
-        GetUserById getUserById = new GetUserById(userService);
-        Optional<User> userOptional = Optional.empty();
-        when(userService.getUserById(anyInt())).thenReturn(userOptional);
+        GetUserByIdCommand getUserById = new GetUserByIdCommand(userService);
+        Optional<User> optionalUser = Optional.empty();
+        when(userService.getUserById(anyInt())).thenReturn(optionalUser);
 
         CommandResult actual = getUserById.execute(context);
 
         CommandResult expected = CommandResult.forward(FILMS_PAGE);
-        Assert.assertEquals(actual, expected);
+        Assert.assertEquals(expected, actual);
     }
 }

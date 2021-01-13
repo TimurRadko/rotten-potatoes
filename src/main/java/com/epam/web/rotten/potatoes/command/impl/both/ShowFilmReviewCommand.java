@@ -1,4 +1,4 @@
-package com.epam.web.rotten.potatoes.command.impl.user;
+package com.epam.web.rotten.potatoes.command.impl.both;
 
 import com.epam.web.rotten.potatoes.command.Command;
 import com.epam.web.rotten.potatoes.command.CommandResult;
@@ -13,7 +13,7 @@ import com.epam.web.rotten.potatoes.service.user.UserService;
 
 import java.util.*;
 
-public class ShowFilmReview implements Command {
+public class ShowFilmReviewCommand implements Command {
     private final UserActionService userActionService;
     private final UserService userService;
 
@@ -21,7 +21,7 @@ public class ShowFilmReview implements Command {
     private static final String FILM = "film";
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
 
-    public ShowFilmReview(UserActionService userActionService, UserService userService) {
+    public ShowFilmReviewCommand(UserActionService userActionService, UserService userService) {
         this.userActionService = userActionService;
         this.userService = userService;
     }
@@ -29,7 +29,7 @@ public class ShowFilmReview implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         Film film = (Film) requestContext.getSessionAttribute(FILM);
-        int filmId = film.getId();
+        Integer filmId = film.getId();
         List<UserAction> actions = userActionService.findReviewsByFilmId(filmId);
         List<UserReviewDto> usersAndReviews = getAllReviewsAndLogin(actions);
         requestContext.setRequestAttribute(USER_REVIEWS, usersAndReviews);
@@ -40,7 +40,7 @@ public class ShowFilmReview implements Command {
         List<UserReviewDto> userReviewDtos = new ArrayList<>();
 
         for (UserAction action : actions) {
-            int userId = action.getUserId();
+            Integer userId = action.getUserId();
             Integer actionId = action.getId();
             String review = action.getReview();
             double filmRate = action.getFilmRate();

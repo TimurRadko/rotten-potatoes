@@ -9,13 +9,13 @@ import com.epam.web.rotten.potatoes.service.film.FilmService;
 
 import java.util.List;
 
-public class GetFilmsByDirector implements Command {
+public class GetFilmsByDirectorCommand implements Command {
     private final FilmService filmService;
     private static final String DIRECTOR_PARAMETER = "director";
     private static final String FILMS = "films";
     private static final String DIRECTORS_PAGE = "WEB-INF/views/director.jsp";
 
-    public GetFilmsByDirector(FilmService filmServiceImpl) {
+    public GetFilmsByDirectorCommand(FilmService filmServiceImpl) {
         this.filmService = filmServiceImpl;
     }
 

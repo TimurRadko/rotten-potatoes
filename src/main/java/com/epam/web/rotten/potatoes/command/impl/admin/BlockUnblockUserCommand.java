@@ -9,19 +9,19 @@ import com.epam.web.rotten.potatoes.service.user.UserService;
 
 import java.util.Optional;
 
-public class BlockUnblockUser implements Command {
+public class BlockUnblockUserCommand implements Command {
     private final UserService userService;
     private static final String ID_PARAMETER = "id";
     private static final String USERS_PAGE_COMMAND = "/rotten-potatoes/controller?command=users";
 
-    public BlockUnblockUser(UserService userService) {
+    public BlockUnblockUserCommand(UserService userService) {
         this.userService = userService;
     }
 
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringUserId = requestContext.getRequestParameter(ID_PARAMETER);
-        int userId = Integer.parseInt(stringUserId);
+        Integer userId = Integer.parseInt(stringUserId);
         Optional<User> optionalUser = userService.getUserById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();

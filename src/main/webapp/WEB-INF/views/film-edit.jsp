@@ -46,6 +46,15 @@
                 <button class="signupbtn" onclick="history.back();">
                     <fmt:message key="film.admin.action.cancelEditingSave"/>
                 </button>
+
+                <div class="error-message">
+                    <c:if test="${requestScope.errorMessage == 'errorEmptyData'}">
+                        <fmt:message key="film.edit.errorEmpty"/>
+                    </c:if>
+                    <c:if test="${requestScope.errorMessage == 'errorLongData'}">
+                        <fmt:message key="film.edit.errorLongData"/>
+                    </c:if>
+                </div>
             </form>
         </div>
     </section>

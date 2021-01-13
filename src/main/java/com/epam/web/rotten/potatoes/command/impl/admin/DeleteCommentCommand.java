@@ -9,12 +9,12 @@ import com.epam.web.rotten.potatoes.service.comment.UserCommentService;
 
 import java.util.Optional;
 
-public class DeleteComment implements Command {
+public class DeleteCommentCommand implements Command {
     private final UserCommentService userCommentService;
     private static final String ID_PARAMETER = "id";
     private static final String INDEX_PAGE = "index.jsp";
 
-    public DeleteComment(UserCommentService userCommentService) {
+    public DeleteCommentCommand(UserCommentService userCommentService) {
         this.userCommentService = userCommentService;
     }
 
