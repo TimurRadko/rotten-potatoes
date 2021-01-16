@@ -53,7 +53,6 @@ public class AddFilmCommand implements Command {
         } catch (IOException | ServletException e) {
             throw new ServiceException(e);
         }
-
         String newPosterName = newPoster.getSubmittedFileName();
         if (title.equals(EMPTY_PARAMETER) || director.equals(EMPTY_PARAMETER)
                 || newPosterName.equals(EMPTY_PARAMETER) || newPoster.getSize() == 0) {

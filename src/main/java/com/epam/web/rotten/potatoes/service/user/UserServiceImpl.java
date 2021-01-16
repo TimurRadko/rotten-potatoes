@@ -38,10 +38,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void blockUnblockUser(User user) throws ServiceException {
+    public Optional<Integer> save(User user) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserDao userDao = daoHelper.createUserDao();
-            userDao.save(user);
+            return userDao.save(user);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

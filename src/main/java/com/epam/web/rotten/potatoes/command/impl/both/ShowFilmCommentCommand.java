@@ -31,7 +31,10 @@ public class ShowFilmCommentCommand implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         Film film = (Film) requestContext.getSessionAttribute(FILM);
-        Integer filmId = film.getId();
+        if (film == null) {
+            throw new ServiceException("Incoming parameters are: null");
+        }
+        int filmId = film.getId();
         List<UserComment> comments = userCommentService.findCommentsByFilmId(filmId);
         List<UserCommentDto> usersAndReviews = getAllComments(comments);
         requestContext.setRequestAttribute(USER_COMMENTS, usersAndReviews);

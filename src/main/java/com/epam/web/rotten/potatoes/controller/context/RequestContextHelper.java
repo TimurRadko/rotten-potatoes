@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestContextHelper {
-    private static final String INVALIDATE_ATTRIBUTE = "invalidate";
 
     public RequestContext create(HttpServletRequest req) {
         HttpSession session = req.getSession();
@@ -84,6 +83,6 @@ public class RequestContextHelper {
     }
 
     private boolean isInvalidateSession(Map<String, Object> sessionAttributes) {
-        return sessionAttributes.get(INVALIDATE_ATTRIBUTE) != null;
+        return sessionAttributes.get("invalidate") != null;
     }
 }

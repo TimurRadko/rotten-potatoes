@@ -21,6 +21,10 @@ public class DeleteReviewCommand implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringReviewId = requestContext.getRequestParameter(ID_PARAMETER);
+        if (stringReviewId == null) {
+            throw new ServiceException("Incoming parameters are: null");
+        }
+
         int reviewId = Integer.parseInt(stringReviewId);
         Optional<UserAction> optionalUserAction = userActionService.findReviewById(reviewId);
         if (optionalUserAction.isPresent()) {

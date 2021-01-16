@@ -20,14 +20,28 @@ import static org.mockito.Mockito.when;
 
 public class AddFilmCommentCommandTest {
     private static final String COMMENT_PARAMETER = "comment";
-    private static final String COMMENT_VALUE = "Hello";
     private static final String EMPTY_COMMENT_VALUE = "";
     private static final String USER_PARAMETER = "user";
     private static final String FILM_PARAMETER = "film";
-    private static final Film FILM = new Film(1, "A", "A", "A", 5);
-    private static final User USER = new User(1,"A", "user", 10, false);
+
+    private static final int FILM_ID_VALUE = 1;
+    private static final String TITLE_VALUE = "Valid Title";
+    private static final String DIRECTOR_VALUE = "Valid Director";
+    private static final String POSTER_VALUE = "Valid Poster";
+    private static final int DEFAULT_RATE_VALUE = 10;
+    private static final Film FILM = new Film(FILM_ID_VALUE, TITLE_VALUE, DIRECTOR_VALUE, POSTER_VALUE, DEFAULT_RATE_VALUE);
+
+    private static final int USER_ID_VALUE = 1;
+    private static final String LOGIN_VALUE = "Valid Login";
+    private static final String RIGHTS_VALUE = "user";
+    private static final int RATE_VALUE = 10;
+    private static final User USER = new User(USER_ID_VALUE, LOGIN_VALUE, RIGHTS_VALUE, RATE_VALUE, false);
+
+    private static final int USER__COMMENT_ID_VALUE = 1;
+    private static final String COMMENT_VALUE = "Hello";
     private static final UserComment USER_COMMENT =
-            new UserComment(1, COMMENT_VALUE, 1, 1);
+            new UserComment(USER__COMMENT_ID_VALUE, COMMENT_VALUE, FILM_ID_VALUE, USER_ID_VALUE);
+
     private static final String FILM_HOME_PAGE_COMMAND = "/rotten-potatoes/controller?command=film-home&id=1";
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_EMPTY_COMMENT = "errorEmptyComment";

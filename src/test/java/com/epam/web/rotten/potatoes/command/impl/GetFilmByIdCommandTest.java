@@ -24,7 +24,15 @@ public class GetFilmByIdCommandTest {
     private static final String ID_PARAMETER = "id";
     private static final String ID_VALUE = "1";
     private static final String INVALID_ID_VALUE = "2";
-    private static final Film FILM = new Film(1,"A","A", "A", 10);
+
+    private static final int FILM_ID_VALUE = 1;
+    private static final String TITLE_VALUE = "Valid Title";
+    private static final String DIRECTOR_VALUE = "Valid Director";
+    private static final String POSTER_VALUE = "Valid Poster";
+    private static final int DEFAULT_RATE_VALUE = 10;
+    private static final Film FILM = new Film(FILM_ID_VALUE, TITLE_VALUE, DIRECTOR_VALUE,
+            POSTER_VALUE, DEFAULT_RATE_VALUE);
+
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
 
@@ -59,5 +67,16 @@ public class GetFilmByIdCommandTest {
 
         CommandResult expected = CommandResult.forward(FILMS_PAGE);
         Assert.assertEquals(expected, actual);
+    }
+
+    @Test(expected = ServiceException.class)
+    public void testExecuteShouldThrowServiceExceptionWhenFilmParameterEqualsNull() throws ServiceException {
+        FilmService filmService = Mockito.mock(FilmService.class);
+        UserActionService userActionService = Mockito.mock(UserActionService.class);
+        Map<String, String> requestParameters = new HashMap<>();
+        requestParameters.put(ID_PARAMETER, null);
+        RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
+        GetFilmByIdCommand getFilmById = new GetFilmByIdCommand(filmService, userActionService);
+        getFilmById.execute(context);
     }
 }

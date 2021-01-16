@@ -21,10 +21,10 @@ public class SecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String command = req.getParameter(COMMAND_PARAMETER);
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute(USER_PARAMETER);
         if (command != null && !isGuestCommand(command)) {
-            HttpSession session = req.getSession();
-            User user = (User) session.getAttribute(USER_PARAMETER);
-            String rights = user.getRights();
+            String rights = getUserRights(user);
             if (ADMIN_PARAMETER.equalsIgnoreCase(rights) && isAdminCommand(command)) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else if (USER_PARAMETER.equalsIgnoreCase(rights) && isUserCommand(command)) {
@@ -45,6 +45,14 @@ public class SecurityFilter implements Filter {
     @Override
     public void destroy() {
 
+    }
+
+    private String getUserRights(User user) {
+        if (user == null) {
+            return "guest";
+        } else {
+            return user.getRights();
+        }
     }
 
     private boolean isGuestCommand(String command) {

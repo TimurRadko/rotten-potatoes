@@ -24,5 +24,4 @@
             <Appender-ref ref="InConsole" level="debug"/>
         </Root>
     </Loggers>
-
 </Configuration>

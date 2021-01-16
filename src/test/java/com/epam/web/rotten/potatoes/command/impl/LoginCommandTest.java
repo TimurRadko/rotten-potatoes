@@ -17,13 +17,14 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class LoginCommandTest {
-    private static final String LOGIN = "login";
-    private static final String PASSWORD = "password";
-    private static final Integer USER_ID = 1;
-    private static final String RIGHTS = "user";
-    private static final int RATE = 50;
-    private static final User USER = new User(USER_ID, LOGIN, RIGHTS, RATE, false);
-    private static final User USER_BLOCKED = new User(USER_ID, LOGIN, RIGHTS, RATE,true);
+    private static final int USER_ID_VALUE = 1;
+    private static final String LOGIN_VALUE = "login";
+    private static final String RIGHTS_VALUE = "user";
+    private static final int RATE_VALUE = 50;
+    private static final User USER = new User(USER_ID_VALUE, LOGIN_VALUE, RIGHTS_VALUE, RATE_VALUE, false);
+    private static final User USER_BLOCKED = new User(USER_ID_VALUE, LOGIN_VALUE, RIGHTS_VALUE, RATE_VALUE,true);
+
+    private static final String PASSWORD_VALUE = "password";
     private static final String FILMS_PAGE_COMMAND = "/rotten-potatoes/controller?command=films";
     private static final String EMPTY_PARAMETER = "";
     private static final String LOGIN_PAGE = "WEB-INF/views/login.jsp";
@@ -35,8 +36,8 @@ public class LoginCommandTest {
     public void testExecuteShouldReturnRedirectToFilmsHomePage() throws ServiceException {
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
-        requestParameters.put(LOGIN, EMPTY_PARAMETER);
-        requestParameters.put(PASSWORD, EMPTY_PARAMETER);
+        requestParameters.put(LOGIN_VALUE, EMPTY_PARAMETER);
+        requestParameters.put(PASSWORD_VALUE, EMPTY_PARAMETER);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         LoginCommand login = new LoginCommand(userService);
         Optional<User> optionalUser = Optional.of(USER);

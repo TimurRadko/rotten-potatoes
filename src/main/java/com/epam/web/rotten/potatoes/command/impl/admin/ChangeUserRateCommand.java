@@ -17,7 +17,7 @@ public class ChangeUserRateCommand implements Command {
     private static final String USER_EDIT_PAGE = "WEB-INF/views/user-edit.jsp";
     private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
     private static final String ERROR_ENTER_RATE = "errorRate";
-    private static final String NEGATIVE_RATE = "negativeRate";
+    private static final String ERROR_NEGATIVE_RATE = "negativeRate";
     private static final String USER_PARAMETER = "user";
 
     public ChangeUserRateCommand(UserService userService) {
@@ -27,6 +27,10 @@ public class ChangeUserRateCommand implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringUserId = requestContext.getRequestParameter(ID_PARAMETER);
+        if (stringUserId == null) {
+            throw new ServiceException("Incoming parameters are: null");
+        }
+
         Integer userId = Integer.parseInt(stringUserId);
         String stringRate = requestContext.getRequestParameter(RATE_PARAMETER);
 
@@ -43,10 +47,10 @@ public class ChangeUserRateCommand implements Command {
             }
             if (newRate > 0) {
                 user = getNewRateUser(user, newRate);
-                userService.blockUnblockUser(user);
+                userService.save(user);
                 return CommandResult.redirect(USERS_PAGE_COMMAND);
             } else {
-                requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, NEGATIVE_RATE);
+                requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_NEGATIVE_RATE);
                 requestContext.setRequestAttribute(USER_PARAMETER, user);
                 return CommandResult.forward(USER_EDIT_PAGE);
             }

@@ -26,8 +26,8 @@ public class GetUserByIdCommand implements Command {
         if (stringUserId == null) {
             throw new ServiceException("Incoming parameters are: null");
         }
-        int userId = Integer.parseInt(stringUserId);
 
+        int userId = Integer.parseInt(stringUserId);
         Optional<User> optionalUser = userService.getUserById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();

@@ -46,7 +46,6 @@ public class EditFilmCommand implements Command {
         int filmId = film.getId();
         String currentPoster = film.getPoster();
         double defaultAvgRate = film.getDefaultRate();
-
         String title = requestContext.getRequestParameter(TITLE_PARAMETER);
         String director = requestContext.getRequestParameter(DIRECTOR_PARAMETER);
         HttpServletRequest req = (HttpServletRequest) requestContext.getRequestAttribute(REQUEST_ATTRIBUTE);

@@ -21,6 +21,10 @@ public class DeleteCommentCommand implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringCommentId = requestContext.getRequestParameter(ID_PARAMETER);
+        if (stringCommentId == null) {
+            throw new ServiceException("Incoming parameters are: null");
+        }
+
         int commentId = Integer.parseInt(stringCommentId);
         Optional<UserComment> optionalUserComment = userCommentService.findCommentById(commentId);
         if (optionalUserComment.isPresent()) {

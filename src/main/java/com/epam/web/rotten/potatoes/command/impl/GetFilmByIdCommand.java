@@ -30,6 +30,9 @@ public class GetFilmByIdCommand implements Command {
     @Override
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringFilmId = requestContext.getRequestParameter(ID_PARAMETER);
+        if (stringFilmId == null) {
+            throw new ServiceException("Incoming parameters are: null");
+        }
         int filmId = Integer.parseInt(stringFilmId);
         Optional<Film> optionalFilm = filmService.getFilmById(filmId);
         if (optionalFilm.isPresent()) {

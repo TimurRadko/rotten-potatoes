@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface UserService {
     Optional<User> login(String login, String password) throws ServiceException;
     Optional<User> getUserById(Integer id) throws ServiceException;
-    void blockUnblockUser(User user) throws ServiceException;
+    Optional<Integer> save(User user) throws ServiceException;
     List<User> getTopUsers() throws ServiceException;
 }
