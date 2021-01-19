@@ -25,12 +25,12 @@ public class UserActionDaoImpl extends AbstractDao<UserAction> implements UserAc
     }
 
     @Override
-    public List<UserAction> getReviewsByFilmId(Integer id) throws DaoException {
-        return executeQuery(GET_REVIEWS_BY_FILMS_ID, id);
+    public List<UserAction> getReviewsByFilmId(Integer filmId) throws DaoException {
+        return executeQuery(GET_REVIEWS_BY_FILMS_ID, filmId);
     }
 
     @Override
-    public List<UserAction> getReviewsByUserId(Integer id) throws DaoException {
-        return executeQuery(GET_REVIEWS_BY_USER_ID, id);
+    public List<UserAction> getReviewsByUserId(Integer userId) throws DaoException {
+        return executeQuery(GET_REVIEWS_BY_USER_ID, userId);
     }
 }

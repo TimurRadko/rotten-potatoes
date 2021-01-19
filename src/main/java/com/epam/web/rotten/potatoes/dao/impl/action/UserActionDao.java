@@ -7,6 +7,17 @@ import com.epam.web.rotten.potatoes.model.UserAction;
 import java.util.List;
 
 public interface UserActionDao extends Dao<UserAction> {
-    List<UserAction> getReviewsByFilmId(Integer id) throws DaoException;
-    List<UserAction> getReviewsByUserId(Integer id) throws DaoException;
+    /**
+     * @param filmId - passed into the method filmId parameter that is contained in the table 'films'
+     * @return List<UserAction> - List of UserActions contained in the table 'user-actions'
+     * @throws DaoException
+     */
+    List<UserAction> getReviewsByFilmId(Integer filmId) throws DaoException;
+
+    /**
+     * @param userId - passed into the method userId parameter that is contained in the table 'users'
+     * @return List<UserAction> - List of UserActions contained in the table 'user-actions'
+     * @throws DaoException
+     */
+    List<UserAction> getReviewsByUserId(Integer userId) throws DaoException;
 }

@@ -3,6 +3,7 @@ package com.epam.web.rotten.potatoes.command.impl;
 import com.epam.web.rotten.potatoes.command.CommandResult;
 import com.epam.web.rotten.potatoes.controller.context.RequestContext;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
+import com.epam.web.rotten.potatoes.service.action.UserActionService;
 import com.epam.web.rotten.potatoes.service.film.FilmService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,10 +20,11 @@ public class GetFilmsByDirectorCommandTest {
     @Test
     public void testExecuteReturnForwardDirectorsPageWhenDirectorParameterNotNull() throws ServiceException {
         FilmService filmService = Mockito.mock(FilmService.class);
+        UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(DIRECTOR_PARAMETER, DIRECTOR_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
-        GetFilmsByDirectorCommand getFilmsByDirector = new GetFilmsByDirectorCommand(filmService);
+        GetFilmsByDirectorCommand getFilmsByDirector = new GetFilmsByDirectorCommand(filmService, userActionService);
         CommandResult actual = getFilmsByDirector.execute(context);
 
         CommandResult expected = CommandResult.forward(DIRECTORS_PAGE);

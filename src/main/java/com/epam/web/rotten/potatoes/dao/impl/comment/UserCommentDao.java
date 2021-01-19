@@ -7,6 +7,17 @@ import com.epam.web.rotten.potatoes.model.UserComment;
 import java.util.List;
 
 public interface UserCommentDao extends Dao<UserComment> {
-    List<UserComment> getCommentsByFilmId(Integer id) throws DaoException;
-    List<UserComment> getCommentsByUserId(Integer id) throws DaoException;
+    /**
+     * @param filmId - passed into the method filmId parameter that is contained in the table 'films'
+     * @return List<UserComment> - UserComment's List contained in the DB
+     * @throws DaoException
+     */
+    List<UserComment> getCommentsByFilmId(Integer filmId) throws DaoException;
+
+    /**
+     * @param userId - passed into the method userId parameter that is contained in the table 'users'
+     * @return List<UserComment> - UserComment's List contained in the DB
+     * @throws DaoException
+     */
+    List<UserComment> getCommentsByUserId(Integer userId) throws DaoException;
 }

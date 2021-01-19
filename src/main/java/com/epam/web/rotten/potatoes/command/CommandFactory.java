@@ -3,6 +3,8 @@ package com.epam.web.rotten.potatoes.command;
 import com.epam.web.rotten.potatoes.command.impl.*;
 import com.epam.web.rotten.potatoes.command.impl.admin.*;
 import com.epam.web.rotten.potatoes.command.impl.both.GetUserByIdCommand;
+import com.epam.web.rotten.potatoes.command.impl.LoginCommand;
+import com.epam.web.rotten.potatoes.command.impl.both.LogoutCommand;
 import com.epam.web.rotten.potatoes.command.impl.user.AddFilmCommentCommand;
 import com.epam.web.rotten.potatoes.command.impl.user.AddFilmRateAndReviewCommand;
 import com.epam.web.rotten.potatoes.command.impl.both.ShowFilmCommentCommand;
@@ -90,7 +92,8 @@ public class CommandFactory {
                 return new GetFilmByIdCommand(new FilmServiceImpl(new DaoHelperFactory()),
                         new UserActionServiceImpl(new DaoHelperFactory()));
             case GET_FILM_BY_DIRECTOR:
-                return new GetFilmsByDirectorCommand(new FilmServiceImpl(new DaoHelperFactory()));
+                return new GetFilmsByDirectorCommand(new FilmServiceImpl(new DaoHelperFactory()),
+                        new UserActionServiceImpl(new DaoHelperFactory()));
             case GET_FILMS_LIST:
                 return new GetFilmListCommand(new FilmServiceImpl(new DaoHelperFactory()),
                         new UserActionServiceImpl(new DaoHelperFactory()));

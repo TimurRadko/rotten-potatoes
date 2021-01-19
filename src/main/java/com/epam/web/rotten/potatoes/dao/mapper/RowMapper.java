@@ -7,8 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface RowMapper<T extends Serializable & Cloneable> {
+    /**
+     * @param resultSet - passed into the method resultSet
+     * @return T - The one of all entities in the DB
+     * @throws SQLException
+     */
     T map(ResultSet resultSet) throws SQLException;
 
+    /**
+     * @param table - passed into the method the table Name
+     * @return RowMapper<? extends Entity> - returns the corresponding RowMapper
+     */
     static RowMapper<? extends Entity> create(String table) {
         switch (table) {
             case User.TABLE:
