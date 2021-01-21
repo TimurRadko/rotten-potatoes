@@ -52,6 +52,7 @@ public class AddFilmCommentCommandTest {
 
     @Test
     public void testExecuteShouldReturnRedirectWhenUserCommentIsValid() throws ServiceException {
+        //given
         UserCommentService userCommentService = Mockito.mock(UserCommentService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(COMMENT_PARAMETER, COMMENT_VALUE);
@@ -59,38 +60,40 @@ public class AddFilmCommentCommandTest {
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, sessionAttribute);
         AddFilmCommentCommand addFilmComment = new AddFilmCommentCommand(userCommentService);
         Optional<UserComment> optionalUserComment = Optional.of(USER_COMMENT);
-        when(userCommentService.findCommentById(anyInt())).thenReturn(optionalUserComment);
-
+        //when
+        when(userCommentService.getCommentById(anyInt())).thenReturn(optionalUserComment);
         CommandResult actual = addFilmComment.execute(context);
-
+        //then
         CommandResult expected = CommandResult.redirect(FILM_HOME_PAGE_COMMAND);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testExecuteShouldPutToContextErrorMessageWhenCommentEmpty() throws ServiceException {
+        //given
         UserCommentService userCommentService = Mockito.mock(UserCommentService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(COMMENT_PARAMETER, EMPTY_COMMENT_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         AddFilmCommentCommand addFilmComment = new AddFilmCommentCommand(userCommentService);
-
+        //when
         addFilmComment.execute(context);
-
+        //then
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
         Assert.assertEquals(ERROR_EMPTY_COMMENT, actualError);
     }
 
     @Test
     public void testExecuteShouldPutToContextErrorMessageWhenUserWroteLongComment() throws ServiceException {
+        //given
         UserCommentService userCommentService = Mockito.mock(UserCommentService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(COMMENT_PARAMETER, LONG_COMMENT);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         AddFilmCommentCommand addFilmComment = new AddFilmCommentCommand(userCommentService);
-
+        //when
         addFilmComment.execute(context);
-
+        //then
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
         Assert.assertEquals(ERROR_LONG_COMMENT, actualError);
     }

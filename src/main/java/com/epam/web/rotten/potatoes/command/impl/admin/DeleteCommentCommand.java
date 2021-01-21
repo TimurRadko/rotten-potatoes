@@ -26,7 +26,7 @@ public class DeleteCommentCommand implements Command {
         }
 
         int commentId = Integer.parseInt(stringCommentId);
-        Optional<UserComment> optionalUserComment = userCommentService.findCommentById(commentId);
+        Optional<UserComment> optionalUserComment = userCommentService.getCommentById(commentId);
         if (optionalUserComment.isPresent()) {
             userCommentService.remove(commentId);
         }

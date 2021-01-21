@@ -26,7 +26,7 @@ public class DeleteReviewCommand implements Command {
         }
 
         int reviewId = Integer.parseInt(stringReviewId);
-        Optional<UserAction> optionalUserAction = userActionService.findReviewById(reviewId);
+        Optional<UserAction> optionalUserAction = userActionService.getReviewById(reviewId);
         if (optionalUserAction.isPresent()) {
             userActionService.remove(reviewId);
         }

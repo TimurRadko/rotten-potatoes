@@ -30,25 +30,29 @@ public class GetUserByIdCommandTest {
 
     @Test
     public void testExecuteShouldReturnForwardWhenUserIsExists() throws ServiceException {
+        //given
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, ID_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         GetUserByIdCommand getUserById = new GetUserByIdCommand(userService);
+        //when
         when(userService.getUserById(anyInt())).thenReturn(Optional.of(USER));
         CommandResult actual = getUserById.execute(context);
-
+        //then
         CommandResult expected = CommandResult.forward(USER_EDIT_PAGE);
         Assert.assertEquals(expected, actual);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ServiceException.class)//then
     public void testExecuteShouldThrowServiceExceptionWhenIdParameterEqualsNull() throws ServiceException {
+        //given
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, null);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         GetUserByIdCommand getUserById = new GetUserByIdCommand(userService);
+        //when
         getUserById.execute(context);
     }
 }

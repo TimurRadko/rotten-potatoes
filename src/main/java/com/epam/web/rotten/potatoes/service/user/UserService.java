@@ -6,36 +6,45 @@ import com.epam.web.rotten.potatoes.model.User;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface describes a logic class for operations with Users
+ */
 public interface UserService {
     /**
+     * Checks for the presence of registered users in the system by login and password.
+     * Returns result as Optional of User found, or empty Optional if found nothing.
      *
-     * @param login - User's login on the web-application
+     * @param login    - User's login on the web-application
      * @param password - User's password on the web-application
      * @return Optional<User> - container that is contained User
-     * @throws ServiceException
+     * @throws ServiceException in case of errors
      */
     Optional<User> login(String login, String password) throws ServiceException;
 
     /**
+     * Gets and returns a User with the specified id.
+     * Returns result as Optional of User found, or empty Optional if found nothing.
      *
      * @param id - userId in the table users
      * @return Optional<User> - container that is contained User
-     * @throws ServiceException
+     * @throws ServiceException in case of errors
      */
     Optional<User> getUserById(Integer id) throws ServiceException;
 
     /**
+     * Saves a user
      *
      * @param user -  passed into the method User appropriate Entity
      * @return - Optional<Integer> - container that is contained userId
-     * @throws ServiceException
+     * @throws ServiceException in case of errors
      */
     Optional<Integer> save(User user) throws ServiceException;
 
     /**
+     * Gets a list of users
      *
      * @return List<User> - get Users List int the table 'users' and sorting their by Rate
-     * @throws ServiceException
+     * @throws ServiceException in case of errors
      */
     List<User> getTopUsers() throws ServiceException;
 }

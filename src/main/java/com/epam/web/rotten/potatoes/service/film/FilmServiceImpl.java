@@ -32,7 +32,7 @@ public class FilmServiceImpl implements FilmService {
     public Optional<Film> getFilmById(Integer id) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             FilmDao filmDao = daoHelper.createFilmDao();
-            return filmDao.getById(id);
+            return filmDao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

@@ -26,23 +26,27 @@ public class DeleteFilmCommandTest {
 
     @Test
     public void testExecuteShouldReturnRedirectWhenDeletingIsSuccessful() throws ServiceException {
+        //given
+        //when
         FilmService filmService = Mockito.mock(FilmService.class);
         Map<String, Object> sessionAttribute = putFilmAttributeToSession();
         RequestContext context = new RequestContext(new HashMap<>(), new HashMap<>(), sessionAttribute);
         DeleteFilmCommand deleteFilm = new DeleteFilmCommand(filmService);
         CommandResult actual = deleteFilm.execute(context);
-
+        //then
         CommandResult expected = CommandResult.redirect(INDEX_PAGE);
         Assert.assertEquals(expected, actual);
     }
 
     @Test(expected = ServiceException.class)
     public void testExecuteShouldThrowServiceExceptionWhenFilmParameterEqualsNull() throws ServiceException {
+        //given
         FilmService filmService = Mockito.mock(FilmService.class);
         Map<String, String> requestParameters = new HashMap<>();
-        requestParameters.put(FILM_PARAMETER, null);
+        //when
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         DeleteFilmCommand deleteFilm = new DeleteFilmCommand(filmService);
+        //then
         deleteFilm.execute(context);
     }
 

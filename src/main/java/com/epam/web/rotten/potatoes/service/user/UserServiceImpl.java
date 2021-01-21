@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserById(Integer id) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserDao userDao = daoHelper.createUserDao();
-            return userDao.getById(id);
+            return userDao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getTopUsers() throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserDao userDao = daoHelper.createUserDao();
-            return userDao.getTopUsers();
+            return userDao.findTopUsers();
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

@@ -11,13 +11,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@MultipartConfig
 public class FilmController extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(FilmController.class);
     private static final String COMMAND_PARAMETER = "command";

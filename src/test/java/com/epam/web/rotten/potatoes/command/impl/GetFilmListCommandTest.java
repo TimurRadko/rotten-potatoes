@@ -26,6 +26,7 @@ public class GetFilmListCommandTest {
 
     @Test
     public void testExecuteShouldReturnForwardFilmsPageWhenCurrentPageIntoBorders() throws ServiceException {
+        //given
         FilmService filmService = Mockito.mock(FilmService.class);
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
@@ -33,17 +34,17 @@ public class GetFilmListCommandTest {
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         filmService.getPage(CURRENT_PAGE, FILMS_PER_PAGE);
         GetFilmListCommand getFilmList = new GetFilmListCommand(filmService, userActionService);
-
+        //when
         when(filmService.getCountRows(FILMS_PER_PAGE)).thenReturn(VALID_COUNT_ROWS);
-
         CommandResult expected = CommandResult.forward(FILMS_PAGE);
-
+        //then
         CommandResult actual = getFilmList.execute(context);
         Assert.assertEquals(expected, actual);
     }
 
-    @Test(expected = PageNotFoundException.class)
+    @Test(expected = PageNotFoundException.class)//then
     public void testExecuteShouldThrowExceptionWhenCurrentPageNotInBorders() throws ServiceException {
+        //given
         FilmService filmService = Mockito.mock(FilmService.class);
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
@@ -51,7 +52,7 @@ public class GetFilmListCommandTest {
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         filmService.getPage(CURRENT_PAGE, FILMS_PER_PAGE);
         GetFilmListCommand getFilmList = new GetFilmListCommand(filmService, userActionService);
-
+        //when
         when(filmService.getCountRows(FILMS_PER_PAGE)).thenReturn(INVALID_COUNT_ROWS);
         getFilmList.execute(context);
     }

@@ -8,16 +8,20 @@ import java.util.List;
 
 public interface UserCommentDao extends Dao<UserComment> {
     /**
+     * Finds a a list of UserComment by filmId column id in the table films.
+     *
      * @param filmId - passed into the method filmId parameter that is contained in the table 'films'
      * @return List<UserComment> - UserComment's List contained in the DB
-     * @throws DaoException
+     * @throws DaoException in case of errors
      */
-    List<UserComment> getCommentsByFilmId(Integer filmId) throws DaoException;
+    List<UserComment> findCommentsByFilmId(Integer filmId) throws DaoException;
 
     /**
+     * Finds a a list of UserComment by userId column id in the table users.
+     *
      * @param userId - passed into the method userId parameter that is contained in the table 'users'
      * @return List<UserComment> - UserComment's List contained in the DB
-     * @throws DaoException
+     * @throws DaoException in case of errors
      */
-    List<UserComment> getCommentsByUserId(Integer userId) throws DaoException;
+    List<UserComment> findCommentsByUserId(Integer userId) throws DaoException;
 }

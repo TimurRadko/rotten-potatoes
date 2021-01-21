@@ -24,12 +24,12 @@ public class UserCommentDaoImpl extends AbstractDao<UserComment> implements User
     }
 
     @Override
-    public List<UserComment> getCommentsByFilmId(Integer filmId) throws DaoException {
+    public List<UserComment> findCommentsByFilmId(Integer filmId) throws DaoException {
         return executeQuery(GET_COMMENTS_BY_FILM_ID, filmId);
     }
 
     @Override
-    public List<UserComment> getCommentsByUserId(Integer userId) throws DaoException {
+    public List<UserComment> findCommentsByUserId(Integer userId) throws DaoException {
         return executeQuery(GET_COMMENTS_BY_USER_ID, userId);
     }
 }

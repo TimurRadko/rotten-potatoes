@@ -71,13 +71,13 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     }
 
     @Override
-    public Optional<T> getById(Integer id) throws DaoException {
+    public Optional<T> findById(Integer id) throws DaoException {
         String query = String.format(GET_BY_ID, tableName);
         return executeForSingleResult(query, id);
     }
 
     @Override
-    public List<T> getAll() throws DaoException {
+    public List<T> findAll() throws DaoException {
         String query = String.format(GET_ALL, tableName);
         return executeQuery(query);
     }

@@ -32,25 +32,29 @@ public class DeleteReviewCommandTest {
 
     @Test
     public void testExecute() throws ServiceException {
+        //given
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, ID_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         DeleteReviewCommand deleteReview = new DeleteReviewCommand(userActionService);
-        when(userActionService.findReviewById(anyInt())).thenReturn(Optional.of(USER_ACTION));
+        //when
+        when(userActionService.getReviewById(anyInt())).thenReturn(Optional.of(USER_ACTION));
         CommandResult actual = deleteReview.execute(context);
-
+        //then
         CommandResult expected = CommandResult.redirect(INDEX_PAGE);
         Assert.assertEquals(expected, actual);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ServiceException.class)//then
     public void testExecuteShouldThrowServiceExceptionWhenIdParameterEqualsNull() throws ServiceException {
+        //given
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, null);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         DeleteReviewCommand deleteReview = new DeleteReviewCommand(userActionService);
+        //when
         deleteReview.execute(context);
     }
 }

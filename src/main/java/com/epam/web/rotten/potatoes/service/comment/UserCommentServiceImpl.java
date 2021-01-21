@@ -28,30 +28,30 @@ public class UserCommentServiceImpl implements UserCommentService {
     }
 
     @Override
-    public List<UserComment> findCommentsByFilmId(Integer filmId) throws ServiceException {
+    public List<UserComment> getCommentsByFilmId(Integer filmId) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserCommentDao userCommentDao = daoHelper.createUserCommentDao();
-            return userCommentDao.getCommentsByFilmId(filmId);
+            return userCommentDao.findCommentsByFilmId(filmId);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<UserComment> findCommentsByUserId(Integer userId) throws ServiceException {
+    public List<UserComment> getCommentsByUserId(Integer userId) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserCommentDao userCommentDao = daoHelper.createUserCommentDao();
-            return userCommentDao.getCommentsByUserId(userId);
+            return userCommentDao.findCommentsByUserId(userId);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Optional<UserComment> findCommentById(Integer commentId) throws ServiceException {
+    public Optional<UserComment> getCommentById(Integer commentId) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserCommentDao userCommentDao = daoHelper.createUserCommentDao();
-            return userCommentDao.getById(commentId);
+            return userCommentDao.findById(commentId);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

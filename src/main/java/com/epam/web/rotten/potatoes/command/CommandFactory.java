@@ -42,11 +42,11 @@ public class CommandFactory {
     private static final String GET_FILM_BY_DIRECTOR = "director";
 
     //For Users Only
-    private static final String LOGOUT = "logout";
     private static final String ADD_REVIEW_AND_RATE = "review-rate";
     private static final String ADD_COMMENT = "comment";
 
     //For Users and Admin
+    private static final String LOGOUT = "logout";
     private static final String SHOW_REVIEWS = "show-reviews";
     private static final String SHOW_COMMENTS = "show-comments";
 

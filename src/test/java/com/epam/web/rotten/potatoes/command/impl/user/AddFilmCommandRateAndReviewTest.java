@@ -66,51 +66,55 @@ public class AddFilmCommandRateAndReviewTest {
 
     @Test
     public void testExecuteShouldPutToContextErrorMessageWhenReviewEmpty() throws ServiceException {
+        //given
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(REVIEW_PARAMETER, EMPTY_REVIEW_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         AddFilmRateAndReviewCommand addFilmRateAndReview = new AddFilmRateAndReviewCommand(userActionService);
-
+        //when
         addFilmRateAndReview.execute(context);
-
+        //then
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
         Assert.assertEquals(ERROR_EMPTY_REVIEW, actualError);
     }
 
     @Test
     public void testExecuteShouldPutToContextErrorMessageWhenUserHasAlreadyWrittenReview() throws ServiceException {
+        //given
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(REVIEW_PARAMETER, REVIEW_VALUE);
         requestParameters.put(FILM_RATE_PARAMETER, FILM_RATE);
         Map<String, Object> sessionAttribute = putUserAttributeToSession();
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, sessionAttribute);
-        when(userActionService.findReviewsByUserId(anyInt())).thenReturn(USER_ACTIONS);
+        //when
+        when(userActionService.getReviewsByUserId(anyInt())).thenReturn(USER_ACTIONS);
         AddFilmRateAndReviewCommand addFilmRateAndReview = new AddFilmRateAndReviewCommand(userActionService);
-
         addFilmRateAndReview.execute(context);
-
+        //then
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
         Assert.assertEquals(ERROR_REPEATED_REVIEW, actualError);
     }
 
     @Test
     public void testExecuteShouldPutToContextErrorMessageWhenUserWroteLongReview() throws ServiceException {
+        //given
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(REVIEW_PARAMETER, LONG_REVIEW_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         AddFilmRateAndReviewCommand addFilmRateAndReview = new AddFilmRateAndReviewCommand(userActionService);
-
+        //when
         addFilmRateAndReview.execute(context);
-
+        //then
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
         Assert.assertEquals(ERROR_LONG_REVIEW, actualError);
     }
 
     @Test
     public void testExecuteShouldPutToContextErrorMessageWhenUserSendInvalidRate() throws ServiceException {
+        //given
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(REVIEW_PARAMETER, REVIEW_VALUE);
@@ -118,15 +122,16 @@ public class AddFilmCommandRateAndReviewTest {
         Map<String, Object> sessionAttribute = putUserAttributeToSession();
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, sessionAttribute);
         AddFilmRateAndReviewCommand addFilmRateAndReview = new AddFilmRateAndReviewCommand(userActionService);
-
+        //when
         addFilmRateAndReview.execute(context);
-
+        //then
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
         Assert.assertEquals(ERROR_RATE, actualError);
     }
 
     @Test
     public void testExecuteShouldReturnRedirectWhenUserActionIsValid() throws ServiceException {
+        //given
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(REVIEW_PARAMETER, REVIEW_VALUE);
@@ -135,10 +140,10 @@ public class AddFilmCommandRateAndReviewTest {
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, sessionAttribute);
         AddFilmRateAndReviewCommand addFilmRateAndReview = new AddFilmRateAndReviewCommand(userActionService);
         Optional<UserAction> optionalUserAction = Optional.of(USER_ACTION);
-        when(userActionService.findReviewById(anyInt())).thenReturn(optionalUserAction);
-
+        //when
+        when(userActionService.getReviewById(anyInt())).thenReturn(optionalUserAction);
         CommandResult actual = addFilmRateAndReview.execute(context);
-
+        //then
         CommandResult expected = CommandResult.redirect(FILM_HOME_PAGE_COMMAND);
         Assert.assertEquals(expected, actual);
     }

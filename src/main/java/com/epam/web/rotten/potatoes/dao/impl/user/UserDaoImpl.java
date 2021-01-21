@@ -30,7 +30,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public List<User> getTopUsers() throws DaoException {
+    public List<User> findTopUsers() throws DaoException {
         return executeQuery(GET_TOP_USERS);
     }
 }

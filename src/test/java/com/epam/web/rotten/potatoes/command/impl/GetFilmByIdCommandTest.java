@@ -38,6 +38,7 @@ public class GetFilmByIdCommandTest {
 
     @Test
     public void testExecuteShouldReturnForwardFilmHomePageWhenFilmFound() throws ServiceException {
+        //given
         FilmService filmService = Mockito.mock(FilmService.class);
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
@@ -45,38 +46,41 @@ public class GetFilmByIdCommandTest {
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         GetFilmByIdCommand getFilmById = new GetFilmByIdCommand(filmService, userActionService);
         Optional<Film> optionalFilm = Optional.of(FILM);
+        //when
         when(filmService.getFilmById(anyInt())).thenReturn(optionalFilm);
-
         CommandResult actual = getFilmById.execute(context);
-
+        //then
         CommandResult expected = CommandResult.forward(FILM_HOME_PAGE);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testExecuteShouldReturnForwardFilmsPageWhenFilmNotFound() throws ServiceException {
+        //given
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, INVALID_ID_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         GetUserByIdCommand getUserById = new GetUserByIdCommand(userService);
         Optional<User> userOptional = Optional.empty();
+        //when
         when(userService.getUserById(anyInt())).thenReturn(userOptional);
-
         CommandResult actual = getUserById.execute(context);
-
+        //then
         CommandResult expected = CommandResult.forward(FILMS_PAGE);
         Assert.assertEquals(expected, actual);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ServiceException.class)//then
     public void testExecuteShouldThrowServiceExceptionWhenFilmParameterEqualsNull() throws ServiceException {
+        //given
         FilmService filmService = Mockito.mock(FilmService.class);
         UserActionService userActionService = Mockito.mock(UserActionService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, null);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         GetFilmByIdCommand getFilmById = new GetFilmByIdCommand(filmService, userActionService);
+        //when
         getFilmById.execute(context);
     }
 }

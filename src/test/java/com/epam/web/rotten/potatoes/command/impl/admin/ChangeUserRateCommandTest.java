@@ -36,59 +36,65 @@ public class ChangeUserRateCommandTest {
 
     @Test
     public void testExecuteShouldReturnRedirectWhenUserRateWillChange() throws ServiceException {
+        //given
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, ID_VALUE);
         requestParameters.put(RATE_PARAMETER, String.valueOf(RATE_VALUE));
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         ChangeUserRateCommand changeUserRate = new ChangeUserRateCommand(userService);
+        //when
         when(userService.getUserById(anyObject())).thenReturn(Optional.of(USER));
         when(userService.save(USER)).thenReturn(Optional.of(USER_ID_VALUE));
         CommandResult actual = changeUserRate.execute(context);
-
+        //then
         CommandResult expected = CommandResult.redirect(USERS_PAGE_COMMAND);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testExecuteShouldPutToContextErrorMessageWhenRateIsNotNumber() throws ServiceException {
+        //given
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, ID_VALUE);
         requestParameters.put(RATE_PARAMETER, NOT_NUMBER_RATE_PARAMETER);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
+        //when
         when(userService.getUserById(anyObject())).thenReturn(Optional.of(USER));
         ChangeUserRateCommand changeUserRate = new ChangeUserRateCommand(userService);
-
         changeUserRate.execute(context);
-
+        //then
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
         Assert.assertEquals(ERROR_ENTER_RATE, actualError);
     }
 
     @Test
     public void testExecuteShouldPutToContextErrorMessageWhenRateIsNegative() throws ServiceException {
+        //given
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, ID_VALUE);
         requestParameters.put(RATE_PARAMETER, NEGATIVE_RATE_PARAMETER);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
+        //when
         when(userService.getUserById(anyObject())).thenReturn(Optional.of(USER));
         ChangeUserRateCommand changeUserRate = new ChangeUserRateCommand(userService);
-
         changeUserRate.execute(context);
-
+        //then
         String actualError = (String) context.getRequestAttribute(ERROR_MESSAGE_ATTRIBUTE);
         Assert.assertEquals(ERROR_NEGATIVE_RATE, actualError);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ServiceException.class)//then
     public void testExecuteShouldThrowServiceExceptionWhenIdParameterEqualsNull() throws ServiceException {
+        //given
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, null);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         ChangeUserRateCommand changeUserRate = new ChangeUserRateCommand(userService);
+        //when
         changeUserRate.execute(context);
     }
 }

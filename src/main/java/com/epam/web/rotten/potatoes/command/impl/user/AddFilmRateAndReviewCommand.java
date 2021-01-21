@@ -65,7 +65,7 @@ public class AddFilmRateAndReviewCommand implements Command {
     }
 
     private boolean isUserWroteReview(Integer userId, Integer filmId) throws ServiceException {
-        List<UserAction> userActions = userActionService.findReviewsByUserId(userId);
+        List<UserAction> userActions = userActionService.getReviewsByUserId(userId);
         List<Integer> findingFilmIds = new ArrayList<>();
         for (UserAction userAction : userActions) {
             Integer findingFilmId = userAction.getFilmId();

@@ -29,25 +29,29 @@ public class DeleteCommentCommandTest {
 
     @Test
     public void testExecuteShouldReturnRedirectWhenDeletingIsSuccessful() throws ServiceException {
+        //given
         UserCommentService userCommentService = Mockito.mock(UserCommentService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, ID_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         DeleteCommentCommand deleteComment = new DeleteCommentCommand(userCommentService);
-        when(userCommentService.findCommentById(anyInt())).thenReturn(Optional.of(USER_COMMENT));
+        //when
+        when(userCommentService.getCommentById(anyInt())).thenReturn(Optional.of(USER_COMMENT));
         CommandResult actual = deleteComment.execute(context);
-
+        //then
         CommandResult expected = CommandResult.redirect(INDEX_PAGE);
         Assert.assertEquals(expected, actual);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ServiceException.class)//then
     public void testExecuteShouldThrowServiceExceptionWhenIdParameterEqualsNull() throws ServiceException {
+        //given
         UserCommentService userCommentService = Mockito.mock(UserCommentService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, null);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         DeleteCommentCommand deleteComment = new DeleteCommentCommand(userCommentService);
+        //then
         deleteComment.execute(context);
     }
 }

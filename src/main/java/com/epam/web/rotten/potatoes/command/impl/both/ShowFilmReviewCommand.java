@@ -33,7 +33,7 @@ public class ShowFilmReviewCommand implements Command {
             throw new ServiceException("Incoming parameters are: null");
         }
         int filmId = film.getId();
-        List<UserAction> actions = userActionService.findReviewsByFilmId(filmId);
+        List<UserAction> actions = userActionService.getReviewsByFilmId(filmId);
         List<UserReviewDto> usersAndReviews = getAllReviewsAndLogin(actions);
         requestContext.setRequestAttribute(USER_REVIEWS, usersAndReviews);
         return CommandResult.forward(FILM_HOME_PAGE);

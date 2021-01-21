@@ -45,28 +45,32 @@ public class ShowFilmCommentCommandTest {
 
     @Test
     public void testExecuteShouldReturnForwardFilmHomePage() throws ServiceException {
+        //given
         UserCommentService userCommentService = Mockito.mock(UserCommentService.class);
         UserService userService = Mockito.mock(UserService.class);
         Map<String, Object> sessionParameters = new HashMap<>();
         sessionParameters.put(FILM_PARAMETER, FILM);
         RequestContext context = new RequestContext(new HashMap<>(), new HashMap<>(), sessionParameters);
         ShowFilmCommentCommand showFilmComment = new ShowFilmCommentCommand(userCommentService, userService);
-        when(userCommentService.findCommentsByFilmId(anyInt())).thenReturn(USER_COMMENTS);
+        //when
+        when(userCommentService.getCommentsByFilmId(anyInt())).thenReturn(USER_COMMENTS);
         when(userService.getUserById(USER_ID_VALUE)).thenReturn(Optional.of(USER));
         CommandResult actual = showFilmComment.execute(context);
-
+        //then
         CommandResult expected = CommandResult.forward(FILM_HOME_PAGE);
         Assert.assertEquals(expected, actual);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ServiceException.class)//then
     public void testExecuteShouldThrowServiceExceptionWhenIdParameterEqualsNull() throws ServiceException {
+        //given
         UserCommentService userCommentService = Mockito.mock(UserCommentService.class);
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(FILM_PARAMETER, null);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         ShowFilmCommentCommand showFilmCommentCommand = new ShowFilmCommentCommand(userCommentService, userService);
+        //when
         showFilmCommentCommand.execute(context);
     }
 }

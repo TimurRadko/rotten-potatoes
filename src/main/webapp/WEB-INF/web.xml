@@ -11,6 +11,9 @@
     <servlet>
         <servlet-name>controller</servlet-name>
         <servlet-class>com.epam.web.rotten.potatoes.controller.FilmController</servlet-class>
+        <multipart-config>
+            <max-request-size>6291456</max-request-size><!--512 * 512 * 24 = 12MB-->
+        </multipart-config>
     </servlet>
     <servlet-mapping>
         <servlet-name>controller</servlet-name>

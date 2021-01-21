@@ -33,13 +33,13 @@ public class UserActionServiceImpl implements UserActionService {
     }
 
     private void changeUserRate(DaoHelper daoHelper, int id) throws ServiceException {
-        Optional<UserAction> optionalReview = findReviewById(id);
+        Optional<UserAction> optionalReview = getReviewById(id);
         if (optionalReview.isPresent()) {
             UserAction action = optionalReview.get();
             int filmId = action.getFilmId();
             int userRate = action.getFilmRate();
             int userId = action.getUserId();
-            List<UserAction> reviews = findReviewsByFilmId(filmId);
+            List<UserAction> reviews = getReviewsByFilmId(filmId);
             if (reviews.size() > 3) {
                 double avgRate = getAvgRate(reviews, id);
                 int filmRate = (int) Math.round(avgRate);
@@ -62,7 +62,7 @@ public class UserActionServiceImpl implements UserActionService {
     private void getUserWithNewRate(DaoHelper daoHelper, int userId, int adjustNumberRate) throws ServiceException {
         try {
             UserDao userDao = daoHelper.createUserDao();
-            Optional<User> optionalUser = userDao.getById(userId);
+            Optional<User> optionalUser = userDao.findById(userId);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 String login = user.getLogin();
@@ -82,20 +82,20 @@ public class UserActionServiceImpl implements UserActionService {
     }
 
     @Override
-    public List<UserAction> findReviewsByFilmId(Integer filmId) throws ServiceException {
+    public List<UserAction> getReviewsByFilmId(Integer filmId) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserActionDao userActionDao = daoHelper.createUserActionDao();
-            return userActionDao.getReviewsByFilmId(filmId);
+            return userActionDao.findReviewsByFilmId(filmId);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<UserAction> findReviewsByUserId(Integer userId) throws ServiceException {
+    public List<UserAction> getReviewsByUserId(Integer userId) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserActionDao userActionDao = daoHelper.createUserActionDao();
-            return userActionDao.getReviewsByUserId(userId);
+            return userActionDao.findReviewsByUserId(userId);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
@@ -112,10 +112,10 @@ public class UserActionServiceImpl implements UserActionService {
     }
 
     @Override
-    public Optional<UserAction> findReviewById(Integer reviewId) throws ServiceException {
+    public Optional<UserAction> getReviewById(Integer reviewId) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserActionDao userActionDao = daoHelper.createUserActionDao();
-            return userActionDao.getById(reviewId);
+            return userActionDao.findById(reviewId);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }

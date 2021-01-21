@@ -35,7 +35,7 @@ public class ShowFilmCommentCommand implements Command {
             throw new ServiceException("Incoming parameters are: null");
         }
         int filmId = film.getId();
-        List<UserComment> comments = userCommentService.findCommentsByFilmId(filmId);
+        List<UserComment> comments = userCommentService.getCommentsByFilmId(filmId);
         List<UserCommentDto> usersAndReviews = getAllComments(comments);
         requestContext.setRequestAttribute(USER_COMMENTS, usersAndReviews);
         return CommandResult.forward(FILM_HOME_PAGE);

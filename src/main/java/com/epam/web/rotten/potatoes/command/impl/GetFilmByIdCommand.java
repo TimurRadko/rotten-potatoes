@@ -63,7 +63,7 @@ public class GetFilmByIdCommand implements Command {
     }
 
     private double getCurrentAvgRate(int id, double defaultAvgRate) throws ServiceException {
-        List<UserAction> userActions = userActionService.findReviewsByFilmId(id);
+        List<UserAction> userActions = userActionService.getReviewsByFilmId(id);
         double sumAvgRate = 0;
         for (UserAction userAction : userActions) {
             sumAvgRate += userAction.getFilmRate();

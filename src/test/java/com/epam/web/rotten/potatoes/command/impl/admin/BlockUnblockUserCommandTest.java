@@ -30,26 +30,30 @@ public class BlockUnblockUserCommandTest {
 
     @Test
     public void testExecuteShouldReturnRedirectWhenBlockUnblockUser() throws ServiceException {
+        //given
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, ID_VALUE);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         BlockUnblockUserCommand blockUnblockUser = new BlockUnblockUserCommand(userService);
+        //when
         when(userService.getUserById(anyInt())).thenReturn(Optional.of(UNBLOCKED_USER));
         when(userService.save(UNBLOCKED_USER)).thenReturn(Optional.of(USER_ID_VALUE));
         CommandResult actual = blockUnblockUser.execute(context);
-
+        //then
         CommandResult expected = CommandResult.redirect(USERS_PAGE_COMMAND);
         Assert.assertEquals(expected, actual);
     }
 
-    @Test(expected = ServiceException.class)
+    @Test(expected = ServiceException.class)//then
     public void testExecuteShouldThrowServiceExceptionWhenIdParameterEqualsNull() throws ServiceException {
+        //given
         UserService userService = Mockito.mock(UserService.class);
         Map<String, String> requestParameters = new HashMap<>();
         requestParameters.put(ID_PARAMETER, null);
         RequestContext context = new RequestContext(new HashMap<>(), requestParameters, new HashMap<>());
         BlockUnblockUserCommand blockUnblockUser = new BlockUnblockUserCommand(userService);
+        //when
         blockUnblockUser.execute(context);
     }
 }
