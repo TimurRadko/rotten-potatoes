@@ -12,6 +12,8 @@ import com.epam.web.rotten.potatoes.model.UserAction;
 import java.util.*;
 
 public class UserActionServiceImpl implements UserActionService {
+    private static final int COUNT_USER_ACTION_CHANGING = 2;
+    private static final int HALF_MAX_RATE_FILM = 5;
     private DaoHelperFactory daoHelperFactory;
 
     public UserActionServiceImpl(DaoHelperFactory daoHelperFactory) {
@@ -22,63 +24,44 @@ public class UserActionServiceImpl implements UserActionService {
     public void addReviewAndRate(UserAction userAction) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()) {
             UserActionDao userActionDao = daoHelper.createUserActionDao();
-            Optional<Integer> optionalId = userActionDao.save(userAction);
-            if (optionalId.isPresent()) {
-                int id = optionalId.get();
-                changeUserRate(daoHelper, id);
-            }
+            daoHelper.startTransaction();
+            userActionDao.save(userAction);
+            changeUserRate(userAction, daoHelper);
+            daoHelper.endTransaction();
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    private void changeUserRate(DaoHelper daoHelper, int id) throws ServiceException {
-        Optional<UserAction> optionalReview = getReviewById(id);
-        if (optionalReview.isPresent()) {
-            UserAction action = optionalReview.get();
-            int filmId = action.getFilmId();
-            int userRate = action.getFilmRate();
-            int userId = action.getUserId();
-            List<UserAction> reviews = getReviewsByFilmId(filmId);
-            if (reviews.size() > 3) {
-                double avgRate = getAvgRate(reviews, id);
-                int filmRate = (int) Math.round(avgRate);
-                int adjustNumberRate = 5 - Math.abs(userRate - filmRate);
-                getUserWithNewRate(daoHelper, userId, adjustNumberRate);
-            }
-        }
-    }
+    private void changeUserRate(UserAction userAction, DaoHelper daoHelper) throws ServiceException, DaoException {
+        int filmId = userAction.getFilmId();
+        List<UserAction> reviews = getReviewsByFilmId(filmId);
+        if (reviews.size() > COUNT_USER_ACTION_CHANGING) {
+            int userRate = userAction.getFilmRate();
+            int adjustNumberRate = HALF_MAX_RATE_FILM - Math.abs(userRate - getRoundAvgRate(reviews));
 
-    private double getAvgRate(List<UserAction> reviews, int id) {
-        double sumFilmRate = 0;
-        for (UserAction review : reviews) {
-            if (review.getId() != id) {
-                sumFilmRate += review.getFilmRate();
-            }
-        }
-        return sumFilmRate / (reviews.size() - 1);
-    }
-
-    private void getUserWithNewRate(DaoHelper daoHelper, int userId, int adjustNumberRate) throws ServiceException {
-        try {
             UserDao userDao = daoHelper.createUserDao();
+            int userId = userAction.getUserId();
             Optional<User> optionalUser = userDao.findById(userId);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                String login = user.getLogin();
-                String rights = user.getRights();
-                boolean blocked = user.isBlocked();
-                int currentUserRate = user.getRate();
-                int newUserRate = currentUserRate + adjustNumberRate;
+                int newUserRate = user.getRate() + adjustNumberRate;
                 if (newUserRate < 0) {
                     userDao.save(user);
                 } else {
-                    userDao.save(new User(userId, login, rights, newUserRate, blocked));
+                    userDao.save(new User(user, newUserRate));
                 }
             }
-        } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e);
         }
+    }
+
+    private int getRoundAvgRate(List<UserAction> reviews) {
+        double sumFilmRate = 0;
+        for (UserAction review : reviews) {
+            sumFilmRate += review.getFilmRate();
+        }
+        double avgRate = sumFilmRate / reviews.size();
+        return (int) Math.round(avgRate);
     }
 
     @Override

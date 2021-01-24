@@ -19,10 +19,8 @@
     <section id="main">
 
         <div class="user-description">
+            <p><img src="<c:url value="/static/images/default/user.jpg"/>" alt="no avatar"></p>
             <p><fmt:message key="home.user.login"/> <c:out value="${sessionScope.user.login}"/></p>
-            <p><fmt:message key="home.user.rate"/> <c:out value="${sessionScope.user.rate}"/> <fmt:message
-                    key="home.user.rate.description"/></p>
-            <p><fmt:message key="home.user.rights"/> <c:out value="${sessionScope.user.rights}"/></p>
         </div>
 
     </section>

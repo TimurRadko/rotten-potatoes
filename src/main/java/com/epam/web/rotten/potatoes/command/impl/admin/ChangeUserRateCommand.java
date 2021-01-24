@@ -46,7 +46,7 @@ public class ChangeUserRateCommand implements Command {
                 return CommandResult.forward(USER_EDIT_PAGE);
             }
             if (newRate > 0) {
-                user = getNewRateUser(user, newRate);
+                user = new User(user, newRate);
                 userService.save(user);
                 return CommandResult.redirect(USERS_PAGE_COMMAND);
             } else {
@@ -57,13 +57,4 @@ public class ChangeUserRateCommand implements Command {
         }
         return CommandResult.forward(USER_EDIT_PAGE);
     }
-
-    private User getNewRateUser(User user, int newRate) {
-        int userId = user.getId();
-        String login = user.getLogin();
-        String rights = user.getRights();
-        boolean isBlocked = user.isBlocked();
-        return new User(userId, login, rights, newRate, isBlocked);
-    }
-
 }

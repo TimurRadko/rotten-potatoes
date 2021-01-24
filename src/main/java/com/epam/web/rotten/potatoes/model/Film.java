@@ -16,6 +16,14 @@ public class Film implements Entity {
         this.defaultRate = defaultRate;
     }
 
+    public Film(Film film, double defaultRate) {
+        this.id = film.getId();
+        this.title = film.getTitle();
+        this.director = film.getDirector();
+        this.poster = film.getPoster();
+        this.defaultRate = defaultRate;
+    }
+
     @Override
     public Integer getId() {
         return id;

@@ -37,7 +37,7 @@ public class CommandFactory {
     //Command For Unregistered Users And Others Type of Users
     private static final String LOGIN = "login";
     private static final String GET_FILMS_LIST = "films";
-    private static final String GET_USER_LIST = "users";
+    private static final String GET_USERS_LIST = "users";
     private static final String GET_FILM_BY_ID = "film-home";
     private static final String GET_FILM_BY_DIRECTOR = "director";
 
@@ -97,7 +97,7 @@ public class CommandFactory {
             case GET_FILMS_LIST:
                 return new GetFilmListCommand(new FilmServiceImpl(new DaoHelperFactory()),
                         new UserActionServiceImpl(new DaoHelperFactory()));
-            case GET_USER_LIST:
+            case GET_USERS_LIST:
                 return new GetUserListCommand(new UserServiceImpl(new DaoHelperFactory()));
 
             case ADD_REVIEW_AND_RATE:

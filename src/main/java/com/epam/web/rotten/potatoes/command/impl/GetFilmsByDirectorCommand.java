@@ -11,16 +11,15 @@ import com.epam.web.rotten.potatoes.service.film.FilmService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetFilmsByDirectorCommand implements Command {
+public class GetFilmsByDirectorCommand extends AbstractFilmCommand implements Command {
     private final FilmService filmService;
-    private final UserActionService userActionService;
     private static final String DIRECTOR_PARAMETER = "director";
     private static final String FILMS = "films";
     private static final String DIRECTORS_PAGE = "WEB-INF/views/director.jsp";
 
     public GetFilmsByDirectorCommand(FilmService filmServiceImpl, UserActionService userActionService) {
+        super(userActionService);
         this.filmService = filmServiceImpl;
-        this.userActionService = userActionService;
     }
 
     @Override
@@ -34,11 +33,12 @@ public class GetFilmsByDirectorCommand implements Command {
     }
 
     private List<Film> getFilmsWithNewAvgRate(List<Film> films) throws ServiceException {
-        GetFilmByIdCommand getFilmById = new GetFilmByIdCommand(filmService, userActionService);
         List<Film> newAvgRateFilms = new ArrayList<>();
         for (Film film : films) {
-            Film newAvgRateFilm = getFilmById.getFilmWithCurrentAvgRate(film);
-            newAvgRateFilms.add(newAvgRateFilm);
+            double currentAvgRate = getCurrentAvgRate(film);
+            currentAvgRate = round(currentAvgRate);
+            Film newFilm = new Film(film, currentAvgRate);
+            newAvgRateFilms.add(newFilm);
         }
         return  newAvgRateFilms;
     }

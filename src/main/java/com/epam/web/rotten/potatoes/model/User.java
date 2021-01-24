@@ -16,6 +16,22 @@ public class User implements Entity {
         this.blocked = blocked;
     }
 
+    public User(User user, boolean blocked) {
+        this.id = user.getId();
+        this.login = user.getLogin();
+        this.rights = user.getRights();
+        this.rate = user.getRate();
+        this.blocked = !blocked;
+    }
+
+    public User(User user, int rate) {
+        this.id = user.getId();
+        this.login = user.getLogin();
+        this.rights = user.getRights();
+        this.rate = rate;
+        this.blocked = user.isBlocked();
+    }
+
     @Override
     public Integer getId() {
         return id;

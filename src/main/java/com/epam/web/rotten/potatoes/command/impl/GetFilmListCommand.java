@@ -12,11 +12,10 @@ import com.epam.web.rotten.potatoes.command.CommandResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetFilmListCommand implements Command {
+public class GetFilmListCommand extends AbstractFilmCommand implements Command {
     private static final String FILMS = "films";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
     private final FilmService filmService;
-    private final UserActionService userActionService;
 
     private static final int FIRST_PAGE = 1;
     private static final int FILMS_PER_PAGE = 5;
@@ -24,8 +23,8 @@ public class GetFilmListCommand implements Command {
     private static final String EXCEPTION = "Current Page doesn't Exist";
 
     public GetFilmListCommand(FilmService filmService, UserActionService userActionService) {
+        super(userActionService);
         this.filmService = filmService;
-        this.userActionService = userActionService;
     }
 
     @Override
@@ -50,11 +49,12 @@ public class GetFilmListCommand implements Command {
     }
 
     private List<Film> getFilmsWithNewAvgRate(List<Film> films) throws ServiceException {
-        GetFilmByIdCommand getFilmById = new GetFilmByIdCommand(filmService, userActionService);
         List<Film> newAvgRateFilms = new ArrayList<>();
         for (Film film : films) {
-            Film newAvgRateFilm = getFilmById.getFilmWithCurrentAvgRate(film);
-            newAvgRateFilms.add(newAvgRateFilm);
+            double currentAvgRate = getCurrentAvgRate(film);
+            currentAvgRate = round(currentAvgRate);
+            Film newFilm = new Film(film, currentAvgRate);
+            newAvgRateFilms.add(newFilm);
         }
         return  newAvgRateFilms;
     }
