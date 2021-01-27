@@ -16,6 +16,7 @@ import java.sql.SQLException;
 
 public class DaoHelper implements AutoCloseable {
     private static final String TRANSACTION_ERROR = "Transaction error";
+    private static final String ROLLBACK_ERROR = "Rollback error";
     private ProxyConnection connection;
 
     public DaoHelper(ConnectionPool pool) {
@@ -46,15 +47,27 @@ public class DaoHelper implements AutoCloseable {
         }
     }
 
+    public void setAutoCommit(boolean autoCommit) throws DaoException {
+        try {
+            connection.setAutoCommit(autoCommit);
+        } catch (SQLException e) {
+            throw new DaoException(TRANSACTION_ERROR, e);
+        }
+    }
+
+    public void rollback() throws DaoException {
+        try {
+            connection.rollback();
+        } catch (SQLException e) {
+            throw new DaoException(ROLLBACK_ERROR, e);
+        }
+    }
+
     public void endTransaction() throws DaoException {
         try {
             connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException rollbackException) {
-                throw new DaoException(rollbackException);
-            }
+            throw new DaoException(TRANSACTION_ERROR, e);
         }
     }
 

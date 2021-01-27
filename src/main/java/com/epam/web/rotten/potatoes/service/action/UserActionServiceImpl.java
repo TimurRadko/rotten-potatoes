@@ -8,10 +8,13 @@ import com.epam.web.rotten.potatoes.exceptions.DaoException;
 import com.epam.web.rotten.potatoes.exceptions.ServiceException;
 import com.epam.web.rotten.potatoes.model.User;
 import com.epam.web.rotten.potatoes.model.UserAction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
 public class UserActionServiceImpl implements UserActionService {
+    private static final Logger LOGGER = LogManager.getLogger(DaoHelper.class);
     private static final int COUNT_USER_ACTION_CHANGING = 2;
     private static final int HALF_MAX_RATE_FILM = 5;
     private DaoHelperFactory daoHelperFactory;
@@ -22,14 +25,30 @@ public class UserActionServiceImpl implements UserActionService {
 
     @Override
     public void addReviewAndRate(UserAction userAction) throws ServiceException {
-        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+        DaoHelper daoHelper = null;
+        try {
+            daoHelper = daoHelperFactory.create();
             UserActionDao userActionDao = daoHelper.createUserActionDao();
             daoHelper.startTransaction();
             userActionDao.save(userAction);
             changeUserRate(userAction, daoHelper);
             daoHelper.endTransaction();
         } catch (DaoException e) {
-            throw new ServiceException(e.getMessage(), e);
+            try {
+                daoHelper.rollback();
+            } catch (DaoException rollbackException) {
+                throw new ServiceException(rollbackException);
+            }
+            throw new ServiceException(e);
+        } finally {
+            if (daoHelper != null) {
+                try {
+                    daoHelper.setAutoCommit(true);
+                    daoHelper.close();
+                } catch (DaoException e) {
+                    LOGGER.error(e.getMessage(), e);
+                }
+            }
         }
     }
 
