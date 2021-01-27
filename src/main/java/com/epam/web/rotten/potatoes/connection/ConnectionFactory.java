@@ -10,11 +10,11 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /*package-private*/ class ConnectionFactory {
-    private final static String DB_PROPERTIES = "database.properties";
-    private final static String DB_DRIVER = "driver";
-    private final static String DB_URL = "url";
-    private final static String DB_USER = "user";
-    private final static String DB_PASSWORD = "password";
+    private static final String DB_PROPERTIES = "database.properties";
+    private static final String DB_DRIVER = "driver";
+    private static final String DB_URL = "url";
+    private static final String DB_USER = "user";
+    private static final String DB_PASSWORD = "password";
     private static final String CAN_T_CREATE_CONNECTION = "Can't create connection";
     private static final String PROPERTIES_NOT_FOUND = "DB properties not found";
 

@@ -15,6 +15,7 @@ import com.epam.web.rotten.potatoes.exceptions.DaoException;
 import java.sql.SQLException;
 
 public class DaoHelper implements AutoCloseable {
+    private static final String TRANSACTION_ERROR = "Transaction error";
     private ProxyConnection connection;
 
     public DaoHelper(ConnectionPool pool) {
@@ -41,7 +42,7 @@ public class DaoHelper implements AutoCloseable {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-            throw new DaoException("Transaction error", e);
+            throw new DaoException(TRANSACTION_ERROR, e);
         }
     }
 

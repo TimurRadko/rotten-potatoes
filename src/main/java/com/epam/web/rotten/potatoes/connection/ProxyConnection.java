@@ -9,7 +9,6 @@ public class ProxyConnection implements Connection {
     private Connection connection;
     private ConnectionPool connectionPool;
 
-
     /*package-private*/ProxyConnection(Connection connection, ConnectionPool connectionPool) {
         this.connection = connection;
         this.connectionPool = connectionPool;

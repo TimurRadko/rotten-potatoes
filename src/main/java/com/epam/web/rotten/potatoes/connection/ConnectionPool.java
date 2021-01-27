@@ -12,8 +12,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
-    private final static int POOL_SIZE = 5;
-    private final static Semaphore SEMAPHORE = new Semaphore(POOL_SIZE, true);
+    private static final int POOL_SIZE = 5;
+    private static final Semaphore SEMAPHORE = new Semaphore(POOL_SIZE, true);
     private static final AtomicBoolean IS_CREATED = new AtomicBoolean(false);
     private static ConnectionPool instance = null;
     private final Queue<ProxyConnection> availableConnections;
