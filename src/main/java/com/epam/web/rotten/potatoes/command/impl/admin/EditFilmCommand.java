@@ -8,8 +8,6 @@ import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.service.film.FilmService;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,9 +22,9 @@ public class EditFilmCommand implements Command {
     private static final String FILM = "film";
     private static final String TITLE_PARAMETER = "title";
     private static final String POSTER_PATH = "static/images/";
-    private static final String POSTER_PATH_PARAMETER = "poster-path";
     private static final String DIRECTOR_PARAMETER = "director";
-    private static final String REQUEST_ATTRIBUTE = "req";
+    private static final String SERVLET_CONTEXT_ATTRIBUTE = "servletContext";
+    private static final String PART_ATTRIBUTE = "part";
     private static final String EMPTY_PARAMETER = "";
     private static final int MAX_LENGTH = 100;
 
@@ -48,14 +46,9 @@ public class EditFilmCommand implements Command {
         double defaultAvgRate = film.getDefaultRate();
         String title = requestContext.getRequestParameter(TITLE_PARAMETER);
         String director = requestContext.getRequestParameter(DIRECTOR_PARAMETER);
-        HttpServletRequest req = (HttpServletRequest) requestContext.getRequestAttribute(REQUEST_ATTRIBUTE);
-        ServletContext servletContext = req.getServletContext();
-        Part newPoster;
-        try {
-            newPoster = req.getPart(POSTER_PATH_PARAMETER);
-        } catch (IOException | ServletException e) {
-            throw new ServiceException(e);
-        }
+        ServletContext servletContext = (ServletContext) requestContext.getRequestAttribute(SERVLET_CONTEXT_ATTRIBUTE);
+
+        Part newPoster = (Part) requestContext.getRequestAttribute(PART_ATTRIBUTE);
         if (title.equals(EMPTY_PARAMETER) || director.equals(EMPTY_PARAMETER) || newPoster == null) {
             requestContext.setRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_EMPTY_DATA);
             return CommandResult.forward(FILM_HOME_PAGE_COMMAND + filmId);

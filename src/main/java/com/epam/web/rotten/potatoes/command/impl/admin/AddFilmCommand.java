@@ -8,8 +8,6 @@ import com.epam.web.rotten.potatoes.model.Film;
 import com.epam.web.rotten.potatoes.service.film.FilmService;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,9 +22,9 @@ public class AddFilmCommand implements Command {
     private final FilmService filmService;
     private static final String TITLE_PARAMETER = "title";
     private static final String POSTER_PATH = "static/images/";
-    private static final String POSTER_PARAMETER = "poster-path";
     private static final String DIRECTOR_PARAMETER = "director";
-    private static final String REQUEST_ATTRIBUTE = "req";
+    private static final String SERVLET_CONTEXT_ATTRIBUTE = "servletContext";
+    private static final String PART_ATTRIBUTE = "part";
     private static final double DEFAULT_RATE = 0;
     private static final String EMPTY_PARAMETER = "";
     private static final int MAX_LENGTH = 100;
@@ -45,14 +43,9 @@ public class AddFilmCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String title = requestContext.getRequestParameter(TITLE_PARAMETER);
         String director = requestContext.getRequestParameter(DIRECTOR_PARAMETER);
-        HttpServletRequest req = (HttpServletRequest) requestContext.getRequestAttribute(REQUEST_ATTRIBUTE);
-        ServletContext servletContext = req.getServletContext();
-        Part newPoster;
-        try {
-            newPoster = req.getPart(POSTER_PARAMETER);
-        } catch (IOException | ServletException e) {
-            throw new ServiceException(e);
-        }
+        ServletContext servletContext = (ServletContext) requestContext.getRequestAttribute(SERVLET_CONTEXT_ATTRIBUTE);
+
+        Part newPoster = (Part) requestContext.getRequestAttribute(PART_ATTRIBUTE);
         String newPosterName = newPoster.getSubmittedFileName();
         if (title.equals(EMPTY_PARAMETER) || director.equals(EMPTY_PARAMETER)
                 || newPosterName.equals(EMPTY_PARAMETER) || newPoster.getSize() == 0) {

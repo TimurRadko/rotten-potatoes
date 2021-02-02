@@ -1,14 +1,28 @@
 package com.epam.web.rotten.potatoes.controller.context;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestContextHelper {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-    public RequestContext create(HttpServletRequest req) {
+public class RequestContextHelper {
+    private static final Logger LOGGER = LogManager.getLogger(RequestContextHelper.class);
+    private static final String COMMAND_PARAMETER = "command";
+    private static final String ADMIN_ADD_FILM_COMMAND = "admin-add-film";
+    private static final String ADMIN_EDIT_FILM_COMMAND = "admin-edit-film";
+    private static final String POSTER_PARAMETER = "poster-path";
+    private static final String PART_ATTRIBUTE = "part";
+    private static final String SERVLET_CONTEXT_ATTRIBUTE = "servletContext";
+
+    public RequestContext create(HttpServletRequest req) throws ServletException {
         HttpSession session = req.getSession();
 
         Enumeration<String> attributesName = req.getAttributeNames();
@@ -23,15 +37,29 @@ public class RequestContextHelper {
         return new RequestContext(requestAttributes, requestParameters, sessionAttributes);
     }
 
-    private Map<String, Object> putAttributes(Enumeration<String> attributesName, HttpServletRequest req) {
+    private Map<String, Object> putAttributes(Enumeration<String> attributesName, HttpServletRequest req) throws ServletException {
         Map<String, Object> requestAttributes = new HashMap<>();
         while (attributesName.hasMoreElements()) {
             String name = attributesName.nextElement();
             Object attribute = req.getAttribute(name);
             requestAttributes.put(name, attribute);
         }
-        requestAttributes.put("req", req);
+        putPartAndServletContextIntoRequestAttribute(req, requestAttributes);
         return requestAttributes;
+    }
+
+    private void putPartAndServletContextIntoRequestAttribute(HttpServletRequest req, Map<String, Object> requestAttributes) throws ServletException {
+        String command = req.getParameter(COMMAND_PARAMETER);
+        try {
+            if (command.equalsIgnoreCase(ADMIN_ADD_FILM_COMMAND) || command.equalsIgnoreCase(ADMIN_EDIT_FILM_COMMAND)) {
+                Part part = req.getPart(POSTER_PARAMETER);
+                requestAttributes.put(PART_ATTRIBUTE, part);
+                ServletContext servletContext = req.getServletContext();
+                requestAttributes.put(SERVLET_CONTEXT_ATTRIBUTE, servletContext);
+            }
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 
     private Map<String, String> putParameters(Enumeration<String> parametersName, HttpServletRequest req) {
