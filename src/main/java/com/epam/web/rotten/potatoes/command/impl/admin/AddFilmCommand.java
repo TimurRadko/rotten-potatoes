@@ -67,7 +67,7 @@ public class AddFilmCommand implements Command {
 
         if (newPoster.getSize() > 0) {
             UUID uuid = UUID.randomUUID();
-            String posterPath = POSTER_PATH + uuid;
+            String posterPath = POSTER_PATH + uuid + newPoster.getSubmittedFileName();
             String applicationPath = servletContext.getRealPath("");
             Path path = Paths.get(applicationPath, posterPath);
             try (InputStream inputStream = newPoster.getInputStream()) {

@@ -70,7 +70,7 @@ public class EditFilmCommand implements Command {
             String newPosterName = newPoster.getSubmittedFileName();
             if (!currentPoster.equals(newPosterName)) {
                 UUID uuid = UUID.randomUUID();
-                currentPoster = POSTER_PATH + uuid;
+                currentPoster = POSTER_PATH + uuid + newPoster.getSubmittedFileName();
             }
 
             String applicationPath = servletContext.getRealPath("");
