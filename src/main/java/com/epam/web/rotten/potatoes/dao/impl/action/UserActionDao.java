@@ -6,6 +6,9 @@ import com.epam.web.rotten.potatoes.model.UserAction;
 
 import java.util.List;
 
+/**
+ * Extending DAO interface for managing UserActions
+ */
 public interface UserActionDao extends Dao<UserAction> {
     /**
      * Finds a a list of UserAction by filmId column id in the table films.

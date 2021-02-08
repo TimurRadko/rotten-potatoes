@@ -7,6 +7,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Common interface for accessing application entity data. Contains CRUD methods for a specific entity.
+ *
+ * @param <T> type of handling instances
+ */
 public interface Dao<T extends Serializable & Cloneable> {
     /**
      * Finds a Entity with the specified id.

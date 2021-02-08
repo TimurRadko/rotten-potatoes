@@ -16,6 +16,7 @@ public class GetFilmByIdCommand extends AbstractFilmCommand implements Command {
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
     private static final String FILM = "film";
+    private static final String INCOMING_PARAMETER_ARE_NULL = "Incoming parameters are: null";
 
     public GetFilmByIdCommand(FilmService filmService, UserActionService userActionService) {
         super(userActionService);
@@ -26,7 +27,7 @@ public class GetFilmByIdCommand extends AbstractFilmCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringFilmId = requestContext.getRequestParameter(ID_PARAMETER);
         if (stringFilmId == null) {
-            throw new ServiceException("Incoming parameters are: null");
+            throw new ServiceException(INCOMING_PARAMETER_ARE_NULL);
         }
         int filmId = Integer.parseInt(stringFilmId);
         Optional<Film> optionalFilm = filmService.getFilmById(filmId);

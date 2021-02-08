@@ -21,6 +21,7 @@ public class RequestContextHelper {
     private static final String POSTER_PARAMETER = "poster-path";
     private static final String PART_ATTRIBUTE = "part";
     private static final String SERVLET_CONTEXT_ATTRIBUTE = "servletContext";
+    private static final String INVALIDATE = "invalidate";
 
     public RequestContext create(HttpServletRequest req) throws ServletException {
         HttpSession session = req.getSession();
@@ -111,6 +112,6 @@ public class RequestContextHelper {
     }
 
     private boolean isInvalidateSession(Map<String, Object> sessionAttributes) {
-        return sessionAttributes.get("invalidate") != null;
+        return sessionAttributes.get(INVALIDATE) != null;
     }
 }

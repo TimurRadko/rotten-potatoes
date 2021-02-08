@@ -14,6 +14,7 @@ public class SecurityFilter implements Filter {
     private static final String COMMAND_PARAMETER = "command";
     private static final String ADMIN_PARAMETER = "admin";
     private static final String USER_PARAMETER = "user";
+    private static final String GUEST_PARAMETER = "guest";
     private static final int FORBIDDEN = 403;
 
     @Override
@@ -49,7 +50,7 @@ public class SecurityFilter implements Filter {
 
     private String getUserRights(User user) {
         if (user == null) {
-            return "guest";
+            return GUEST_PARAMETER;
         } else {
             return user.getRights();
         }

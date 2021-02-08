@@ -22,6 +22,7 @@ public class ShowFilmCommentCommand implements Command {
     private static final String USER_COMMENTS = "user_comments";
     private static final String FILM = "film";
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
+    private static final String INCOMING_PARAMETER_ARE_NULL = "Incoming parameters are: null";
 
     public ShowFilmCommentCommand(UserCommentService userCommentService, UserService userService) {
         this.userCommentService = userCommentService;
@@ -32,7 +33,7 @@ public class ShowFilmCommentCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         Film film = (Film) requestContext.getSessionAttribute(FILM);
         if (film == null) {
-            throw new ServiceException("Incoming parameters are: null");
+            throw new ServiceException(INCOMING_PARAMETER_ARE_NULL);
         }
         int filmId = film.getId();
         List<UserComment> comments = userCommentService.getCommentsByFilmId(filmId);

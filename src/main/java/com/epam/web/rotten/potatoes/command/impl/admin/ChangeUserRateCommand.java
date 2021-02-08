@@ -19,6 +19,7 @@ public class ChangeUserRateCommand implements Command {
     private static final String ERROR_ENTER_RATE = "errorRate";
     private static final String ERROR_NEGATIVE_RATE = "negativeRate";
     private static final String USER_PARAMETER = "user";
+    private static final String INCOMING_PARAMETERS_ARE_NULL = "Incoming parameters are: null";
 
     public ChangeUserRateCommand(UserService userService) {
         this.userService = userService;
@@ -28,7 +29,7 @@ public class ChangeUserRateCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringUserId = requestContext.getRequestParameter(ID_PARAMETER);
         if (stringUserId == null) {
-            throw new ServiceException("Incoming parameters are: null");
+            throw new ServiceException(INCOMING_PARAMETERS_ARE_NULL);
         }
 
         Integer userId = Integer.parseInt(stringUserId);

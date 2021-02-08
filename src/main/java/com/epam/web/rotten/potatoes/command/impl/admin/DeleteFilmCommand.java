@@ -11,6 +11,7 @@ public class DeleteFilmCommand implements Command {
     private final FilmService filmService;
     private static final String FILM = "film";
     private static final String INDEX_PAGE = "index.jsp";
+    private static final String INCOMING_PARAMETER_ARE_NULL = "Incoming parameters are: null";
 
     public DeleteFilmCommand(FilmService filmService) {
         this.filmService = filmService;
@@ -20,7 +21,7 @@ public class DeleteFilmCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         Film film  = (Film) requestContext.getSessionAttribute(FILM);
         if (film == null) {
-            throw new ServiceException("Incoming parameters are: null");
+            throw new ServiceException(INCOMING_PARAMETER_ARE_NULL);
         }
         int filmId = film.getId();
         filmService.remove(filmId);

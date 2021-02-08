@@ -7,6 +7,9 @@ import com.epam.web.rotten.potatoes.model.User;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Extending DAO interface for managing Users
+ */
 public interface UserDao extends Dao<User> {
     /**
      * Finds a user by login and password.

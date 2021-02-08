@@ -13,6 +13,7 @@ public class DeleteCommentCommand implements Command {
     private final UserCommentService userCommentService;
     private static final String ID_PARAMETER = "id";
     private static final String INDEX_PAGE = "index.jsp";
+    private static final String INCOMING_PARAMETER_ARE_NULL = "Incoming parameters are: null";
 
     public DeleteCommentCommand(UserCommentService userCommentService) {
         this.userCommentService = userCommentService;
@@ -22,7 +23,7 @@ public class DeleteCommentCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringCommentId = requestContext.getRequestParameter(ID_PARAMETER);
         if (stringCommentId == null) {
-            throw new ServiceException("Incoming parameters are: null");
+            throw new ServiceException(INCOMING_PARAMETER_ARE_NULL);
         }
 
         int commentId = Integer.parseInt(stringCommentId);

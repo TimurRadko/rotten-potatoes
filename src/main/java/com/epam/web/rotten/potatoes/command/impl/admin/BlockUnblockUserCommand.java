@@ -13,6 +13,7 @@ public class BlockUnblockUserCommand implements Command {
     private final UserService userService;
     private static final String ID_PARAMETER = "id";
     private static final String USERS_PAGE_COMMAND = "/rotten-potatoes/controller?command=users";
+    private static final String INCOMING_PARAMETERS_ARE_NULL = "Incoming parameters are: null";
 
     public BlockUnblockUserCommand(UserService userService) {
         this.userService = userService;
@@ -22,7 +23,7 @@ public class BlockUnblockUserCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringUserId = requestContext.getRequestParameter(ID_PARAMETER);
         if (stringUserId == null) {
-            throw new ServiceException("Incoming parameters are: null");
+            throw new ServiceException(INCOMING_PARAMETERS_ARE_NULL);
         }
 
         Integer userId = Integer.parseInt(stringUserId);

@@ -13,6 +13,7 @@ public class DeleteReviewCommand implements Command {
     private final UserActionService userActionService;
     private static final String ID_PARAMETER = "id";
     private static final String INDEX_PAGE = "index.jsp";
+    private static final String INCOMING_PARAMETER_ARE_NULL = "Incoming parameters are: null";
 
     public DeleteReviewCommand(UserActionService userActionService) {
         this.userActionService = userActionService;
@@ -22,7 +23,7 @@ public class DeleteReviewCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringReviewId = requestContext.getRequestParameter(ID_PARAMETER);
         if (stringReviewId == null) {
-            throw new ServiceException("Incoming parameters are: null");
+            throw new ServiceException(INCOMING_PARAMETER_ARE_NULL);
         }
 
         int reviewId = Integer.parseInt(stringReviewId);

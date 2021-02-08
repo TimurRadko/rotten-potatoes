@@ -15,6 +15,7 @@ public class GetUserByIdCommand implements Command {
     private static final String USER_PARAMETER = "user";
     private static final String USER_EDIT_PAGE = "WEB-INF/views/user-edit.jsp";
     private static final String FILMS_PAGE = "WEB-INF/views/films.jsp";
+    private static final String INCOMING_PARAMETER_ARE_NULL = "Incoming parameters are: null";
 
     public GetUserByIdCommand(UserService userService) {
         this.userService = userService;
@@ -24,7 +25,7 @@ public class GetUserByIdCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         String stringUserId = requestContext.getRequestParameter(ID_PARAMETER);
         if (stringUserId == null) {
-            throw new ServiceException("Incoming parameters are: null");
+            throw new ServiceException(INCOMING_PARAMETER_ARE_NULL);
         }
 
         int userId = Integer.parseInt(stringUserId);

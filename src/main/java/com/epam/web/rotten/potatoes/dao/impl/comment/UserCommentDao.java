@@ -6,6 +6,9 @@ import com.epam.web.rotten.potatoes.model.UserComment;
 
 import java.util.List;
 
+/**
+ * Extending DAO interface for managing UserComments
+ */
 public interface UserCommentDao extends Dao<UserComment> {
     /**
      * Finds a a list of UserComment by filmId column id in the table films.

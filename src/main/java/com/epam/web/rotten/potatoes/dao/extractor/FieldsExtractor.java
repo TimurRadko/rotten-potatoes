@@ -2,6 +2,11 @@ package com.epam.web.rotten.potatoes.dao.extractor;
 
 import java.util.Map;
 
+/**
+ * Describes a class that extracts entities fields
+ *
+ * @param <T>
+ */
 public interface FieldsExtractor<T> {
     /**
      * Extracts fields of Entity.

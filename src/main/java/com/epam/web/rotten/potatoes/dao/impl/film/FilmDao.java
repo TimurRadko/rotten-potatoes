@@ -6,6 +6,9 @@ import com.epam.web.rotten.potatoes.model.Film;
 
 import java.util.List;
 
+/**
+ * Extending DAO interface for managing Films
+ */
 public interface FilmDao extends Dao<Film> {
     /**
      * Finds a a list of Film by director column in the films table of using DB.

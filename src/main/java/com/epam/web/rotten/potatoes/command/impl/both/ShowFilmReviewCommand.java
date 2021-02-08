@@ -20,6 +20,7 @@ public class ShowFilmReviewCommand implements Command {
     private static final String USER_REVIEWS = "user_reviews";
     private static final String FILM = "film";
     private static final String FILM_HOME_PAGE = "WEB-INF/views/film-home.jsp";
+    private static final String INCOMING_PARAMETER_ARE_NULL = "Incoming parameters are: null";
 
     public ShowFilmReviewCommand(UserActionService userActionService, UserService userService) {
         this.userActionService = userActionService;
@@ -30,7 +31,7 @@ public class ShowFilmReviewCommand implements Command {
     public CommandResult execute(RequestContext requestContext) throws ServiceException {
         Film film = (Film) requestContext.getSessionAttribute(FILM);
         if (film == null) {
-            throw new ServiceException("Incoming parameters are: null");
+            throw new ServiceException(INCOMING_PARAMETER_ARE_NULL);
         }
         int filmId = film.getId();
         List<UserAction> actions = userActionService.getReviewsByFilmId(filmId);
