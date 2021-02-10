@@ -12,23 +12,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
-    private static final int POOL_SIZE = 5;
-    private static final Semaphore SEMAPHORE = new Semaphore(POOL_SIZE, true);
+    private static Semaphore semaphore;
     private static final AtomicBoolean IS_CREATED = new AtomicBoolean(false);
     private static ConnectionPool instance = null;
-    private final Queue<ProxyConnection> availableConnections;
-    private final Queue<ProxyConnection> usingConnections;
+    private final Queue<ProxyConnection> availableConnections = new ArrayDeque<>();
+    private final Queue<ProxyConnection> usingConnections = new ArrayDeque<>();
     private static final ReentrantLock CONNECTIONS_LOCKER = new ReentrantLock();
     private static final ReentrantLock INSTANCE_LOCKER = new ReentrantLock();
     private final ConnectionFactory connectionFactory = new ConnectionFactory();
 
-    private ConnectionPool() {
-        availableConnections = new ArrayDeque<>();
-        usingConnections = new ArrayDeque<>();
-    }
-
     private void init() {
-        for (int i = 0; i < POOL_SIZE; i++) {
+        int poolSize = connectionFactory.getPoolSize();
+        semaphore = new Semaphore(poolSize, true);
+        for (int i = 0; i < poolSize; i++) {
             Connection connection = connectionFactory.create();
             ProxyConnection proxyConnection = new ProxyConnection(connection, this);
             availableConnections.add(proxyConnection);
@@ -59,7 +55,7 @@ public class ConnectionPool {
             if (usingConnections.contains(proxyConnection)) {
                 availableConnections.offer(proxyConnection);
                 usingConnections.poll();
-                SEMAPHORE.release();
+                semaphore.release();
             }
         } finally {
             CONNECTIONS_LOCKER.unlock();
@@ -68,7 +64,7 @@ public class ConnectionPool {
 
     public ProxyConnection getConnection() {
         try {
-            SEMAPHORE.acquire();
+            semaphore.acquire();
             CONNECTIONS_LOCKER.lock();
             ProxyConnection proxyConnection = availableConnections.poll();
             usingConnections.offer(proxyConnection);

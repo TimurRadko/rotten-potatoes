@@ -23,6 +23,13 @@ public class RequestContextHelper {
     private static final String SERVLET_CONTEXT_ATTRIBUTE = "servletContext";
     private static final String INVALIDATE = "invalidate";
 
+    private static final String AMPERSAND = "&";
+    private static final String AMPERSAND_REPLACEMENT = "&amp;";
+    private static final String LESS_THAN = "<";
+    private static final String LESS_THAN_REPLACEMENT = "&lt;";
+    private static final String GREATER_THAN = ">";
+    private static final String GREATER_THAN_REPLACEMENT = "&gt;";
+
     public RequestContext create(HttpServletRequest req) throws ServletException {
         HttpSession session = req.getSession();
 
@@ -68,9 +75,20 @@ public class RequestContextHelper {
         while (parametersName.hasMoreElements()) {
             String name = parametersName.nextElement();
             String parameter = req.getParameter(name);
+            parameter = changeJsInjectionCharacters(parameter);
             requestParameters.put(name, parameter);
         }
         return requestParameters;
+    }
+
+    private String changeJsInjectionCharacters(String value) {
+        if (value == null) {
+            return null;
+        }
+        return value
+                .replace(AMPERSAND, AMPERSAND_REPLACEMENT)
+                .replace(LESS_THAN, LESS_THAN_REPLACEMENT)
+                .replace(GREATER_THAN, GREATER_THAN_REPLACEMENT);
     }
 
     private Map<String, Object> putSessionAttributes(Enumeration<String> sessionAttributesName, HttpSession session) {

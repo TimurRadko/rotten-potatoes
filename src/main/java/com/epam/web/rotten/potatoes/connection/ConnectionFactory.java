@@ -15,6 +15,7 @@ import java.util.Properties;
     private static final String DB_URL = "url";
     private static final String DB_USER = "user";
     private static final String DB_PASSWORD = "password";
+    private static final String DB_POOL_SIZE = "poolSize";
     private static final String CAN_T_CREATE_CONNECTION = "Can't create connection";
     private static final String PROPERTIES_NOT_FOUND = "DB properties not found";
 
@@ -46,5 +47,9 @@ import java.util.Properties;
         } catch (IOException e) {
             throw new ConnectionPoolException(PROPERTIES_NOT_FOUND, e);
         }
+    }
+
+    /*package-private*/ int getPoolSize() {
+        return Integer.parseInt(properties.getProperty(DB_POOL_SIZE));
     }
 }

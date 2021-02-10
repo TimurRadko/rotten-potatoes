@@ -26,7 +26,11 @@ public abstract class AbstractFilmCommand {
         }
         if (sumAvgRate > 0) {
             double resultAvgRate = sumAvgRate / userActions.size();
-            return (resultAvgRate + defaultAvgRate) / 2;
+            if (defaultAvgRate != 0) {
+                return (resultAvgRate + defaultAvgRate) / 2;
+            } else {
+                return resultAvgRate;
+            }
         } else {
             return defaultAvgRate;
         }
