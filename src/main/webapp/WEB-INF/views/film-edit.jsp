@@ -39,12 +39,12 @@
 
                 <p><fmt:message key="film.avgRate"/> ${sessionScope.film.defaultRate}</p>
 
-                <button class="signupbtn" type="submit">
-                    <fmt:message key="film.admin.action.saveEditingFilm"/>
+                <button class="cancel" onclick="history.back();" type="button">
+                    <fmt:message key="film.admin.action.cancelEditingSave"/><
                 </button>
 
-                <button class="signupbtn" onclick="history.back();">
-                    <fmt:message key="film.admin.action.cancelEditingSave"/>
+                <button class="signupbtn" type="submit">
+                    <fmt:message key="film.admin.action.saveEditingFilm"/>
                 </button>
 
                 <div class="error-message">

@@ -40,12 +40,12 @@
                 <input type="text" id="director" name="director"
                        placeholder="<fmt:message key="film.edit.input.director.placeholder"/>" maxlength="45">
 
-                <button class="signupbtn" type="submit">
-                    <fmt:message key="film.edit.saveFilm"/>
+                <button class="cancel" onclick="history.back();" type="button">
+                    <fmt:message key="film.edit.cancelSave"/>
                 </button>
 
-                <button class="signupbtn" onclick="history.back();">
-                    <fmt:message key="film.edit.cancelSave"/>
+                <button class="signupbtn" type="submit">
+                    <fmt:message key="film.edit.saveFilm"/>
                 </button>
 
                 <div class="error-message">
